@@ -1,3 +1,4 @@
+
 """oms URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -15,7 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home, name='Home-page'),
+    path('login/', views.login, name='Login-page'),
+    path('register/', views.register, name='Register-page'),
 ]
