@@ -18,8 +18,10 @@ class Movies extends Component {
     constructor(props) 
     {
         super(props)
+        // TODO: Populate via API call to backend
         this.state = 
         {
+            // Potential API v1
             movies: 
             {
                 popular: 
@@ -36,8 +38,46 @@ class Movies extends Component {
                         name: "24",
                         image: movie3
                     }
+                ],
+                action: 
+                [
+                    {
+                        name: "The Exorcist",
+                        image: movie1
+                    },
+                    {
+                        name: "xXx",
+                        image: movie2
+                    },
+                    {
+                        name: "24",
+                        image: movie3
+                    }
                 ]
             }
+            // Potential API v2 (More descriptive)
+            // movies: 
+            // [
+            //     {
+            //         name: "popular",
+            //         displayName: "Popular Today",
+            //         movies:
+            //             [
+            //                 {
+            //                     name: "The Exorcist",
+            //                     image: movie1
+            //                 },
+            //                 {
+            //                     name: "xXx",
+            //                     image: movie2
+            //                 },
+            //                 {
+            //                     name: "24",
+            //                     image: movie3
+            //                 }
+            //             ]
+            //     }
+            // ]
         }
     }
 
@@ -50,176 +90,32 @@ class Movies extends Component {
             <div id="moviesContainer">
                 <img src={bg} className="moviesBackground"/>
                 <div className="row movies-list">
-                    <div className="col s12 category">
-                        <div className="movieTitle">Popular Today</div>
-                        <ul className="categoryRow clearfix">
-                            <div style={{display: "flex", justifyContent: "space-around", flexWrap: "wrap"}}>
-                                {
-                                    this.state.movies.popular.map((item, index) => {
+                    <div> 
+                    {
+                        Object.entries(this.state.movies).map(([key, value]) => {
+                            return (
+                                <div className="col s12 category">
+                                <div className="movieTitle">{key}</div>
+                                    <ul className="categoryRow clearfix">
+                                        <div style={{display: "flex", justifyContent: "space-around", flexWrap: "wrap"}}>
+                                            {
+                                                this.state.movies.popular.map((item, index) => {
+                                                    // TODO: Make a Movie Card component
 
-                                        return (
-                                            <li className="movie">
-                                                <span><img src={item.image}/></span>
-                                            </li>
-                                        )
-                                    })
-                                
-                                }
+                                                    return (
+                                                        <li className="movie">
+                                                            <span><img src={item.image}/></span>
+                                                        </li>
+                                                    )
+                                                })
+                                            
+                                            }
 
-                            </div>
-                        </ul>
-                    </div>
-
-                    <div className="col s12 category">
-                        <div className="movieTitle">Action Movies</div>
-                        <ul className="categoryRow clearfix">
-                            <li class="movie">
-                                <span><img src={movie1}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie1}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li className="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li><li class="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div className="col s12 category">
-                        <div className="movieTitle">Drama Movies</div>
-                        <ul className="categoryRow clearfix">
-                            <li class="movie">
-                                <span><img src={movie1}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie1}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie1}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div className="col s12 category">
-                        <div className="movieTitle">Horror Movies</div>
-                        <ul className="categoryRow clearfix">
-                            <li class="movie">
-                                <span><img src={movie1}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie1}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie1}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div className="col s12 category">
-                        <div className="movieTitle">Romantic Movies</div>
-                        <ul className="categoryRow clearfix">
-                            <li class="movie">
-                                <span><img src={movie1}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie1}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie1}/></span>                                    
-                            </li>
-                        </ul>
+                                        </div>
+                                    </ul>
+                                </div>
+                            ) })
+                    }
                     </div>
                 </div>
             </div>
