@@ -15,6 +15,31 @@ import movie3 from '../images/movies/70011274.jpg'
 //import { getCurrentProfile } from "../actions/profileActions";
 
 class Movies extends Component {
+    constructor(props) 
+    {
+        super(props)
+        this.state = 
+        {
+            movies: 
+            {
+                popular: 
+                [
+                    {
+                        name: "The Exorcist",
+                        image: movie1
+                    },
+                    {
+                        name: "xXx",
+                        image: movie2
+                    },
+                    {
+                        name: "24",
+                        image: movie3
+                    }
+                ]
+            }
+        }
+    }
 
     componentDidMount() {
         //this.props.getCurrentProfile();
@@ -28,36 +53,20 @@ class Movies extends Component {
                     <div className="col s12 category">
                         <div className="movieTitle">Popular Today</div>
                         <ul className="categoryRow clearfix">
-                            <li className="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie1}/></span>                                    
-                            </li>
-                            <li className="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li className="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
-                            <li class="movie">
-                                <span><img src={movie2}/></span>                                    
-                            </li>
-                            <li className="movie">
-                                <span><img src={movie3}/></span>                                    
-                            </li>
+                            <div style={{display: "flex", justifyContent: "space-around", flexWrap: "wrap"}}>
+                                {
+                                    this.state.movies.popular.map((item, index) => {
+
+                                        return (
+                                            <li className="movie">
+                                                <span><img src={item.image}/></span>
+                                            </li>
+                                        )
+                                    })
+                                
+                                }
+
+                            </div>
                         </ul>
                     </div>
 
