@@ -21,63 +21,129 @@ class Movies extends Component {
         // TODO: Populate via API call to backend
         this.state = 
         {
-            // Potential API v1
-            movies: 
-            {
-                popular: 
-                [
-                    {
-                        name: "The Exorcist",
-                        image: movie1
-                    },
-                    {
-                        name: "xXx",
-                        image: movie2
-                    },
-                    {
-                        name: "24",
-                        image: movie3
-                    }
-                ],
-                action: 
-                [
-                    {
-                        name: "The Exorcist",
-                        image: movie1
-                    },
-                    {
-                        name: "xXx",
-                        image: movie2
-                    },
-                    {
-                        name: "24",
-                        image: movie3
-                    }
-                ]
-            }
             // Potential API v2 (More descriptive)
-            // movies: 
-            // [
-            //     {
-            //         name: "popular",
-            //         displayName: "Popular Today",
-            //         movies:
-            //             [
-            //                 {
-            //                     name: "The Exorcist",
-            //                     image: movie1
-            //                 },
-            //                 {
-            //                     name: "xXx",
-            //                     image: movie2
-            //                 },
-            //                 {
-            //                     name: "24",
-            //                     image: movie3
-            //                 }
-            //             ]
-            //     }
-            // ]
+            movies: 
+            [
+                {
+                    name: "popular",
+                    displayName: "Popular Today",
+                    movies:
+                        [
+                            {
+                                name: "The Exorcist",
+                                image: movie1
+                            },
+                            {
+                                name: "xXx",
+                                image: movie2
+                            },
+                            {
+                                name: "24",
+                                image: movie3
+                            }
+                        ]
+                },
+                {
+                    name: "action",
+                    displayName: "Action Movies",
+                    movies:
+                        [
+                            {
+                                name: "The Exorcist",
+                                image: movie1
+                            },
+                            {
+                                name: "xXx",
+                                image: movie2
+                            },
+                            {
+                                name: "24",
+                                image: movie3
+                            }
+                        ]
+                },
+                {
+                    name: "drama",
+                    displayName: "Drama Movies",
+                    movies:
+                        [
+                            {
+                                name: "The Exorcist",
+                                image: movie1
+                            },
+                            {
+                                name: "xXx",
+                                image: movie2
+                            },
+                            {
+                                name: "24",
+                                image: movie3
+                            }
+                        ]
+                },
+                {
+                    name: "horror",
+                    displayName: "Horror Movies",
+                    movies:
+                        [
+                            {
+                                name: "The Exorcist",
+                                image: movie1
+                            },
+                            {
+                                name: "xXx",
+                                image: movie2
+                            },
+                            {
+                                name: "24",
+                                image: movie3
+                            }
+                        ]
+                },
+                {
+                    name: "romantic",
+                    displayName: "Romantic Movies",
+                    movies:
+                        [
+                            {
+                                name: "The Exorcist",
+                                image: movie1
+                            },
+                            {
+                                name: "xXx",
+                                image: movie2
+                            },
+                            {
+                                name: "24",
+                                image: movie3
+                            },
+                            {
+                                name: "The Exorcist",
+                                image: movie1
+                            },
+                            {
+                                name: "xXx",
+                                image: movie2
+                            },
+                            {
+                                name: "24",
+                                image: movie3
+                            },
+                            {
+                                name: "The Exorcist",
+                                image: movie1
+                            },
+                            {
+                                name: "xXx",
+                                image: movie2
+                            },
+                            {
+                                name: "24",
+                                image: movie3
+                            }
+                        ]
+                }
+            ]
         }
     }
 
@@ -92,25 +158,22 @@ class Movies extends Component {
                 <div className="row movies-list">
                     <div> 
                     {
-                        Object.entries(this.state.movies).map(([key, value]) => {
+                        this.state.movies.map((item, index) => {
                             return (
                                 <div className="col s12 category">
-                                <div className="movieTitle">{key}</div>
+                                <div className="movieTitle">{item.displayName}</div>
                                     <ul className="categoryRow clearfix">
-                                        <div style={{display: "flex", justifyContent: "space-around", flexWrap: "wrap"}}>
+                                        <div style={{display: "flex", justifyContent: "normal", flexWrap: "wrap"}}>
                                             {
-                                                this.state.movies.popular.map((item, index) => {
+                                                this.state.movies[index].movies.map((item, index) => {
                                                     // TODO: Make a Movie Card component
-
                                                     return (
                                                         <li className="movie">
                                                             <span><img src={item.image}/></span>
                                                         </li>
                                                     )
                                                 })
-                                            
                                             }
-
                                         </div>
                                     </ul>
                                 </div>
