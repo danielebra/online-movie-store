@@ -13,7 +13,7 @@ class Info extends Component {
 
         return (
             <div className="info">
-                <div className="video-meta">
+                <div className="video-meta center">
                     <p>{movie.genre} | {movie.maturityRating}</p>
                 </div>
 

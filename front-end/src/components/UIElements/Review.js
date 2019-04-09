@@ -19,6 +19,7 @@ class Review extends Component {
                 </div>
 
                 <div class="card-stacked">
+                    <p className="authorName"> {review.author}</p>
                     <div class="card-content">
                         <p>{review.description}</p>
                     </div>

@@ -23,7 +23,6 @@ class Movie extends Component {
             // This should call an api from redux to get the movie
             // this.props.getMovieByName(this.props.match.params.name);
         }
-
     }
 
     constructor() {
@@ -33,7 +32,7 @@ class Movie extends Component {
             movie: {
                 name: "The Exorcist",
                 image: movie1,
-                genre: "action",
+                genre: "Action, comedy",
                 year: 1973,
                 price: 23.99,
                 maturityRating: 'MA',
@@ -84,11 +83,9 @@ class Movie extends Component {
                                 <span className="year">({movie.year})</span> <br/> 
                                 <span className="price">${movie.price}</span>
                             </h2>
-                            <div className="container">
-                                <div className="row">
-                                    <a class="waves-effect waves-light btn movieBuy">Buy now</a>
-                                    <a class="waves-effect waves-light btn movieBuy">+ Add to WishList</a>
-                                </div>
+                            <div className="row movieButtons">
+                                <a class="waves-effect waves-light btn movieBuy">Buy now</a>
+                                <a class="waves-effect waves-light btn movieBuy">+ Add to WishList</a>
                             </div>
                             <div className="row details">
                                 <div className="col s12">

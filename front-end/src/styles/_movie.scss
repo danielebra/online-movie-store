@@ -14,7 +14,7 @@
 }
 
 .movies-list {
-    padding: 100px 150px;
+    padding: 150px 150px;
 }
 
 .category {
@@ -107,7 +107,7 @@ img.moviesBackground {
 }
 
 #movieDetails {
-    padding-top: 100px;
+    padding-top: 150px;
 }
 
 .movieDetailsImg {
@@ -177,12 +177,19 @@ img.moviesBackground {
 }
 
 .description {
-    margin-top: 40px;
+    margin-top: 35px;
     color: #999;
 }
 
 .card {
-    height: 125px;
+    height: 160px;
+}
+
+.authorName {
+    font-size: 20px;
+    color: black;
+    margin-left: 20px;
+    font-weight: 500;
 }
 
 .card-image {
@@ -193,6 +200,7 @@ img.moviesBackground {
 
 .card-content {
     color: rgb(88, 88, 88);
+    margin-top: -35px;
 }
 
 .review-stars {
