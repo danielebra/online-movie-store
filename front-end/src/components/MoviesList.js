@@ -11,9 +11,10 @@ import movie1 from '../images/movies/14546619.jpg'
 import movie2 from '../images/movies/60023619.jpg'
 import movie3 from '../images/movies/70011274.jpg'
 
+import MovieCard from './UIElements/MovieCard'
+
 // Import actions here...
 //import { getCurrentProfile } from "../actions/profileActions";
-
 class Movies extends Component {
     constructor(props) 
     {
@@ -168,9 +169,7 @@ class Movies extends Component {
                                                 this.state.movies[index].movies.map((item, index) => {
                                                     // TODO: Make a Movie Card component
                                                     return (
-                                                        <li className="movie">
-                                                            <span><img src={item.image}/></span>
-                                                        </li>
+                                                        <MovieCard key={index} movie={item}></MovieCard>
                                                     )
                                                 })
                                             }

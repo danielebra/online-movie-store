@@ -23,7 +23,9 @@ import Footer from './Templates/Footer'
 import Login from './Auth/Login';
 import Register from './Auth/Register';
 
-import Movies from './Movies';
+import Movies from './MoviesList';
+import Movie from './Movie';
+import 'materialize-css/dist/css/materialize.min.css';
 
 class App extends Component {
   render() {
@@ -34,6 +36,7 @@ class App extends Component {
           <Route exact path="/" component={Movies} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
+          <Route exact path="/movie/:name" component={Movie} />
           <Footer/>
         </div>
       </Router>
