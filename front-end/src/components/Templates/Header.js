@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import M from "materialize-css";
 
 class Movies extends Component {
 
@@ -9,6 +10,10 @@ class Movies extends Component {
         this.state = {
             loggedIn: true
         }
+    }
+
+    componentDidMount() {
+        M.AutoInit();
     }
 
     render() {

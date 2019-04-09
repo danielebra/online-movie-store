@@ -32,14 +32,14 @@ class Movie extends Component {
             movie: {
                 name: "The Exorcist",
                 image: movie1,
-                genre: "Action, comedy",
+                genre: "Action, Comedy, Sc-Fi",
                 year: 1973,
                 price: 23.99,
                 maturityRating: 'MA',
                 reviews: [
                     {
                         author: "John",
-                        ratings: 3,
+                        ratings: 3.5,
                         description: "This movie sucks!!" 
                     },
                     {
@@ -54,7 +54,7 @@ class Movie extends Component {
                     },
                     {
                         author: "Daniel",
-                        ratings: 7,
+                        ratings: 7.5,
                         description: "i run out of popcorn in 10 mins."
                     },
                     {
@@ -74,19 +74,25 @@ class Movie extends Component {
         return (
             <div id="movieDetails">
                 <div className="container">
-                    <div class="row">
+                    <div className="row">
                         <div class="col s5">
                             <img className="movieDetailsImg" src={movie.image}/>
                         </div>
                         <div class="col s7 mov">
+
                             <h2 className="movieTitleDetail">{movie.name} 
-                                <span className="year">({movie.year})</span> <br/> 
+                                <span className="year">({movie.year})</span>
+                                <i className="small material-icons right favIcon">favorite</i>
+                                <br/> 
                                 <span className="price">${movie.price}</span>
                             </h2>
-                            <div className="row movieButtons">
-                                <a class="waves-effect waves-light btn movieBuy">Buy now</a>
-                                <a class="waves-effect waves-light btn movieBuy">+ Add to WishList</a>
+
+                            <div className="row">
+                                <a className="waves-effect waves-light btn-large movieButton">  
+                                    <i className="material-icons">shop</i> {' '} <span>Buy Now</span>
+                                </a>
                             </div>
+
                             <div className="row details">
                                 <div className="col s12">
                                     <ul className="tabs">
