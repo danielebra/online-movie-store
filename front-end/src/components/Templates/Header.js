@@ -1,14 +1,19 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import M from "materialize-css";
 
 class Movies extends Component {
 
     constructor() {
         super();
         this.state = {
-            loggedIn: false
+            loggedIn: true
         }
+    }
+
+    componentDidMount() {
+        M.AutoInit();
     }
 
     render() {
@@ -20,7 +25,6 @@ class Movies extends Component {
                         <div>
                             <ul id="nav-mobile" className="hide-on-med-and-down">
                                 <li><Link className="current first" to="/">Home</Link></li>
-                                <li><Link to="/catalogues">Catalogues</Link></li>
                                 <li>
                                     <nav className="search">
                                         <div className="nav-wrapper">
