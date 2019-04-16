@@ -16,139 +16,37 @@ import axios from "axios";
 class Movies extends Component {
   constructor(props) {
     super(props);
-    // TODO: Populate via API call to backend
     this.state = {
-      // Potential API v2 (More descriptive)
-      movies: [
-        {
-          name: "popular",
-          displayName: "Popular Today",
-          movies: [
-            {
-              name: "The Exorcist",
-              image: movie1
-            },
-            {
-              name: "xXx",
-              image: movie2
-            },
-            {
-              name: "24",
-              image: movie3
-            }
-          ]
-        },
-        {
-          name: "action",
-          displayName: "Action Movies",
-          movies: [
-            {
-              name: "The Exorcist",
-              image: movie1
-            },
-            {
-              name: "xXx",
-              image: movie2
-            },
-            {
-              name: "24",
-              image: movie3
-            }
-          ]
-        },
-        {
-          name: "drama",
-          displayName: "Drama Movies",
-          movies: [
-            {
-              name: "The Exorcist",
-              image: movie1
-            },
-            {
-              name: "xXx",
-              image: movie2
-            },
-            {
-              name: "24",
-              image: movie3
-            }
-          ]
-        },
-        {
-          name: "horror",
-          displayName: "Horror Movies",
-          movies: [
-            {
-              name: "The Exorcist",
-              image: movie1
-            },
-            {
-              name: "xXx",
-              image: movie2
-            },
-            {
-              name: "24",
-              image: movie3
-            }
-          ]
-        },
-        {
-          name: "romantic",
-          displayName: "Romantic Movies",
-          movies: [
-            {
-              name: "The Exorcist",
-              image: movie1
-            },
-            {
-              name: "xXx",
-              image: movie2
-            },
-            {
-              name: "24",
-              image: movie3
-            },
-            {
-              name: "The Exorcist",
-              image: movie1
-            },
-            {
-              name: "xXx",
-              image: movie2
-            },
-            {
-              name: "24",
-              image: movie3
-            },
-            {
-              name: "The Exorcist",
-              image: movie1
-            },
-            {
-              name: "xXx",
-              image: movie2
-            },
-            {
-              name: "24",
-              image: movie3
-            }
-          ]
-        }
-      ]
+      movies: []
     };
   }
   componentWillMount() {
+    var tempState = {
+      movies: []
+    };
+    // TODO: Get all genres from API
+    // TODO: Change database to handle multiple genres instead of a string (introduce a new entity)
     var genres = ["Drama, Western", "Action, Adventure, F"];
     api.get("movie/").then(res => {
       var movies = res.data;
-      var drama = movies.filter((value, index, array) => {
-        return this.byGenre(value, genres[0]);
+      genres.forEach(function(genre) {
+        var currentGenre = {
+          name: genre,
+          displayName: genre,
+          movies: movies.filter((value, index, array) => {
+            return value.genre === genre;
+          })
+        };
+        tempState.movies.push(currentGenre);
       });
-      console.log("Drama:", drama);
 
-      console.log(movies);
+      this.setState({
+        movies: tempState.movies
+      });
+      console.log("Current State:", this.state);
     });
   }
+
   byGenre(item, genre) {
     return item.genre === genre;
   }
@@ -160,7 +58,7 @@ class Movies extends Component {
     return (
       <div id="moviesContainer">
         <img src={bg} className="moviesBackground" />
-        {/* <div className="row movies-list">
+        <div className="row movies-list">
           <div>
             {this.state.movies.map((item, index) => {
               return (
@@ -175,7 +73,6 @@ class Movies extends Component {
                       }}
                     >
                       {this.state.movies[index].movies.map((item, index) => {
-                        // TODO: Make a Movie Card component
                         return <MovieCard key={index} movie={item} />;
                       })}
                     </div>
@@ -184,7 +81,7 @@ class Movies extends Component {
               );
             })}
           </div>
-        </div> */}
+        </div>
       </div>
     );
   }
