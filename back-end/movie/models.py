@@ -31,7 +31,7 @@ class Movie(models.Model):
     stock = models.IntegerField()
 
     def __str__(self):
-        return title + ' ' + year
+        return self.title + ' ' + str(self.year)
 
 class MovieReviews (models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
