@@ -10,26 +10,27 @@ Support:
 */
 
 // React and redux modules
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Link, withRouter } from "react-router-dom";
 
 class MovieCard extends Component {
-    render() {
+  render() {
+    const { movie } = this.props;
 
-        const { movie } = this.props;
-
-        return (
-            <div>
-                <Link to={`/movie/${movie.name}`}>
-                    <li className="movie">
-                        <span><img src={movie.image}/></span>
-                    </li>
-                </Link>
-            </div>
-        )
-    }
+    return (
+      <div>
+        <Link to={`/movie/${movie.title}`}>
+          <li className="movie">
+            <span>
+              <img src={movie.thumbnail} />
+            </span>
+          </li>
+        </Link>
+      </div>
+    );
+  }
 }
 
 export default MovieCard;
