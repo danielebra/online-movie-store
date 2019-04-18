@@ -39,7 +39,6 @@ class Movie(models.Model):
     thumbnail = models.TextField()
     trailer_link = models.TextField()
     reviews = models.ManyToManyField(Review, through='MovieReview')
-    # models.CharField(max_length=20)
     genre = models.ManyToManyField(Genre, through='MovieGenre')
     price = models.FloatField()
     maturity_rating = models.CharField(max_length=6)

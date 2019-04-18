@@ -1,18 +1,9 @@
 // React and redux modules
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Link, withRouter } from "react-router-dom";
 import api from "../api";
-import movie1 from "../images/movies/14546619.jpg";
-import movie2 from "../images/movies/60023619.jpg";
-import movie3 from "../images/movies/70011274.jpg";
-
-import bg from "../images/bg4.jpg";
+import background from "../images/bg4.jpg";
 import MovieCard from "./UIElements/MovieCard";
-import axios from "axios";
-// Import actions here...
-//import { getCurrentProfile } from "../actions/profileActions";
+
 class Movies extends Component {
   constructor(props) {
     super(props);
@@ -22,8 +13,7 @@ class Movies extends Component {
     };
   }
   componentWillMount() {
-    // TODO: Get all genres from API
-    // TODO: Change database to handle multiple genres instead of a string (introduce a new entity)
+    // Get all genres from api and then get the movies
     this.getGenres();
   }
 
@@ -38,6 +28,7 @@ class Movies extends Component {
       this.getMovies();
     });
   }
+
   getMovies() {
     var tempState = {
       movies: []
@@ -70,6 +61,7 @@ class Movies extends Component {
   byGenre(item, genre) {
     return item.genre === genre;
   }
+
   componentDidMount() {
     //this.props.getCurrentProfile();
   }
@@ -77,7 +69,7 @@ class Movies extends Component {
   render() {
     return (
       <div id="moviesContainer">
-        <img src={bg} className="moviesBackground" />
+        <img src={background} className="moviesBackground" />
         <div className="row movies-list">
           <div>
             {this.state.movies.map((item, index) => {
