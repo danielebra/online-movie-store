@@ -32,7 +32,3 @@
 - Get all users: User.objects.all()
 - Get user by id: User.objects.filter(id=1)
 - Get user by name: User.objects.filter(name='John')
-
-# Create ERD
-
-https://wadewilliams.com/technology-software/generating-erd-for-django-applications/
