@@ -24,8 +24,10 @@ class Movie extends Component {
     }
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    // Dummy data
 
     this.state = {
       movie: {

@@ -1,17 +1,15 @@
-
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
 
 class Movies extends Component {
-    render() {
-        return (
-            <section id="footer">
-                <div className="ele center">
-                    <div className="logo"> &copy; MovieSpot.com 2019 </div>
-                </div>
-            </section>
-        )
-    }
+  render() {
+    return (
+      <section id="footer">
+        <div className="ele center">
+          <div className="logo"> &copy; MovieSpot.com 2019 </div>
+        </div>
+      </section>
+    );
+  }
 }
 
 export default Movies;
