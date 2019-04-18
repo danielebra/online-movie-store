@@ -17,27 +17,47 @@ class Movies extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      movies: []
+      movies: [],
+      genres: []
     };
   }
   componentWillMount() {
+    // TODO: Get all genres from API
+    // TODO: Change database to handle multiple genres instead of a string (introduce a new entity)
+    this.getGenres();
+  }
+
+  getGenres() {
+    api.get("genre/").then(res => {
+      var apiGenres = res.data;
+      var myGenres = [];
+      for (var i = 0; i != apiGenres.length; i++) {
+        myGenres.push(apiGenres[i].name);
+      }
+      this.setState({ genres: myGenres });
+      this.getMovies();
+    });
+  }
+  getMovies() {
     var tempState = {
       movies: []
     };
-    // TODO: Get all genres from API
-    // TODO: Change database to handle multiple genres instead of a string (introduce a new entity)
-    var genres = ["Drama, Western", "Action, Adventure, F"];
     api.get("movie/").then(res => {
       var movies = res.data;
-      genres.forEach(function(genre) {
+      console.log(movies);
+
+      this.state.genres.forEach(function(genre) {
         var currentGenre = {
           name: genre,
           displayName: genre,
           movies: movies.filter((value, index, array) => {
-            return value.genre === genre;
+            return value.genre.includes(genre);
           })
         };
-        tempState.movies.push(currentGenre);
+        // Only display results for that genre if there are movies in it
+        if (currentGenre.movies.length > 0) {
+          tempState.movies.push(currentGenre);
+        }
       });
 
       this.setState({
