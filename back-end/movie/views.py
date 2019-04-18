@@ -33,6 +33,16 @@ class MoviePopulator(APIView):
 
         counter = 0
         for movie in query:
+            # Review
+            # Rating, Text, Date
+            resp.data[counter]['reviews'] = []
+            reviews = movie.reviews.all()
+            for review in reviews:
+                resp.data[counter]['reviews'].append({'rating': review.rating,
+                                                      'text': review.text,
+                                                      'date': review.date})
+
+            # Genre
             resp.data[counter]['genre'] = []
             genres = movie.genre.all()
             for genre in genres:
