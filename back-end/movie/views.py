@@ -5,8 +5,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 
-from .models import User, Movie
-from .serializers import UsersSerializer, MovieSerializer
+from .models import User, Movie, Genre
+from .serializers import UsersSerializer, MovieSerializer, GenreSerializer
+
+
+class Genre(viewsets.ModelViewSet):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
 
 
 class User(viewsets.ModelViewSet):
