@@ -1,0 +1,8 @@
+Django==2.2
+django-cors-headers==2.5.2
+django-extensions==2.1.6
+djangorestframework==3.9.2
+graphviz==0.10.1
+pytz==2019.1
+six==1.12.0
+sqlparse==0.3.0
