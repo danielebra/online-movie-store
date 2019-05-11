@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
+import { getMovies } from '../actions/movieActions';
+import movie1 from "../images/movie.jpg";
 
-import movie1 from "../images/movies/14546619.jpg";
-import movie2 from "../images/movies/60023619.jpg";
-import movie3 from "../images/movies/70011274.jpg";
 
 import M from "materialize-css";
 

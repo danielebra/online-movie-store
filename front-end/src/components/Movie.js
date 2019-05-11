@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import { connect } from "react-redux";
 // import PropTypes from "prop-types";
-// import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import movie1 from "../images/movie.jpg";
 
