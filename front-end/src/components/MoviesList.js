@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import { getMovies } from '../actions/movieActions';
 
 class MoviesList extends Component {
-
   componentWillMount() {
     this.props.getMovies();
   }
