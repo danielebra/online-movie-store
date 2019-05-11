@@ -6,6 +6,7 @@ import { isLocalhost } from "./serviceWorker";
 const initialState = {};
 const middleware = [thunk];
 var store = createStore(rootReducer, initialState);
+
 // Localhost machines assumes Redux Dev Tools is available
 if (isLocalhost) {
   store = createStore(
@@ -16,6 +17,12 @@ if (isLocalhost) {
       window.__REDUX_DEVTOOLS_EXTENSION__ &&
         window.__REDUX_DEVTOOLS_EXTENSION__()
     )
+  );
+} else {
+  store = createStore(
+    rootReducer,
+    initialState,
+    applyMiddleware(...middleware)
   );
 }
 
