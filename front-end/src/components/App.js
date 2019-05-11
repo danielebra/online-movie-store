@@ -25,6 +25,7 @@ import Register from './Auth/Register';
 
 import Movies from './MoviesList';
 import Movie from './Movie';
+import PlaceOrder from './PlaceOrder';
 import 'materialize-css/dist/css/materialize.min.css';
 
 class App extends Component {
@@ -37,6 +38,8 @@ class App extends Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/movie/:name" component={Movie} />
+          <Route exact path="/placeOrder" component={PlaceOrder} />
+
           <Footer/>
         </div>
       </Router>

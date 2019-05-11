@@ -90,9 +90,9 @@ class Movie extends Component {
               </h2>
 
               <div className="row">
-                <a className="waves-effect waves-light btn-large movieButton">
+                <Link to = "/placeOrder"><a className="waves-effect waves-light btn-large movieButton">
                   <i className="material-icons">shop</i> <span>Buy Now</span>
-                </a>
+                </a></Link>
               </div>
 
               <div className="row details">
