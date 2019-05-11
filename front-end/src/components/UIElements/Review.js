@@ -1,8 +1,4 @@
-// React and redux modules
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Link, withRouter } from "react-router-dom";
 
 class Review extends Component {
   render() {
