@@ -31,18 +31,21 @@ import 'materialize-css/dist/css/materialize.min.css';
 class App extends Component {
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Header/>
-          <Route exact path="/" component={Movies} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/movie/:name" component={Movie} />
-          <Route exact path="/placeOrder" component={PlaceOrder} />
 
-          <Footer/>
-        </div>
-      </Router>
+
+      <Provider store={store}>
+        <Router>
+          <div className="App">
+            <Header/>
+            <Route exact path="/" component={Movies} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/movie/:name" component={Movie} />
+            <Footer/>
+          </div>
+        </Router>
+      </Provider>
+
     );
   }
 }
