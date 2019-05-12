@@ -24,9 +24,7 @@ class Movie extends Component {
   }
 
   render() {
-    const { movies } = this.props;
-    const { loading } = movies;
-    let movie = movies.movie;
+    const { movie, loading } = this.props.movies;
     let pageContent;
     let hasReviews = false;
 
@@ -34,7 +32,6 @@ class Movie extends Component {
       pageContent = <Loading/>
 
     } else {
-      movie = movie[0]
       if (movie.reviews.length > 0)
         hasReviews = true;
 
@@ -87,11 +84,9 @@ class Movie extends Component {
           <div className="row details">
             <div className="col s12">
               <ul className="tabs">
-                
                 <li className="tab col s6">
-                  <a href="#trailer">Trailer</a>
+                  <a className="active" href="#trailer">Trailer</a>
                 </li>
-
                 <li className="tab col s6">
                   <a href="#reviews">Reviews</a>
                 </li>

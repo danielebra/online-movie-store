@@ -47,7 +47,7 @@ export const getMovieById = (id) => dispatch => {
 
         dispatch({
             type: GET_MOVIE,
-            payload: movie
+            payload: movie[0]
         })
     })
 };
