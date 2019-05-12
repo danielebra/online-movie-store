@@ -56,7 +56,7 @@ class Movie extends Component {
               </h2>
 
               <div className="row">
-                <Link to="/placeOrder" className="waves-effect waves-light btn-large movieButton">
+                <Link to={`/order/${movie.id}`} className="waves-effect waves-light btn-large movieButton">
                   <i className="material-icons">shop</i> <span>Buy Now</span>
                 </Link>
               </div>

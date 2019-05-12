@@ -41,7 +41,7 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/movie/:id" component={Movie} />
-            <Route exact path="/placeOrder" component={PlaceOrder}/>
+            <Route exact path="/order/:id" component={PlaceOrder}/>
             <Footer/>
           </div>
         </Router>
