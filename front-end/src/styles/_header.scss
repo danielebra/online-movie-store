@@ -10,14 +10,16 @@
     box-shadow: 0 2px 0px 0 rgba(99, 99, 99, 0.59), 0 3px 0px 0px black, 0 1px 0px 0px rgba(27, 27, 27, 0.72);
 
     .search {
-        background: transparent;
-        width: 200px;
+        background: #222;
+        width: 400px;
         margin-left: 10px;
+    }
+    .input-field input[type=search] {
+        color: $text_color;
     }
 
     .input-field input[type=search]:focus:not(.browser-default) {
-        background:transparent;
-        color: $text-color
+        background-color: #222;
     }
 
     .brand-logo {
