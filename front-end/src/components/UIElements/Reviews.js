@@ -6,7 +6,7 @@ class Reviews extends Component {
   render() {
     const { movie } = this.props;
     return (
-      <div className="row">
+      <div className="row movie-tabs">
         {movie.reviews.map((review, index) => {
           return <Review key={index} review={review} />;
         })}

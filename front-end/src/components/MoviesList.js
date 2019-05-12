@@ -17,17 +17,23 @@ class MoviesList extends Component {
 
   render() {
     // If loading is true or there are no movies then show loading, otherwise iterate through each movie and display it.
-    const { movies, loading } = this.props.movies;
+    let { collections, searchList, loading } = this.props.movies;
     let pageContent;
-
-    if (movies == null || loading) {
+    
+    if (collections == null || loading) {
       pageContent = <Loading/>
 
     } else {
+      if (searchList != null) {
+        if (searchList.length > 0) {
+          collections = searchList;
+        }
+      }
+      
       pageContent = (
-        movies.map((item, index) => {
+        collections.map((item, index) => {
           return (
-            <div className="col s12 category">
+            <div className="col s12 category" key={index}>
               <div className="movieTitle">{item.genre}</div>
               <ul className="categoryRow clearfix">
                 <div
@@ -37,7 +43,7 @@ class MoviesList extends Component {
                     flexWrap: "wrap"
                   }}
                 >
-                  {movies[index].movies.map((item, index) => {
+                  {collections[index].movies.map((item, index) => {
                     return <MovieCard key={index} movie={item}/>
                   })}
                 </div>

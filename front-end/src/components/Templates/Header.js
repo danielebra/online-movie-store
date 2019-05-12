@@ -2,16 +2,30 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import M from "materialize-css";
 
-class Movies extends Component {
+import { connect } from 'react-redux';
+import { searchMovies } from '../../actions/movieActions';
+import $ from 'jquery';
+class Header extends Component {
   constructor() {
     super();
     this.state = {
-      loggedIn: false
+      loggedIn: true,
+      search: ''
     };
   }
 
   componentDidMount() {
     M.AutoInit();
+    $('#search-form').submit(false);
+  }
+
+  search = event => {
+    event.preventDefault();
+
+    this.setState({ search: event.target.value}, () => {
+      let query = this.state.search;
+      this.props.searchMovies(query.toLowerCase().trim());
+    });
   }
 
   render() {
@@ -33,9 +47,9 @@ class Movies extends Component {
                 <li>
                   <nav className="search">
                     <div className="nav-wrapper">
-                      <form>
+                      <form id="search-form">
                         <div className="input-field">
-                          <input id="search" type="search" />
+                          <input id="search" type="search" onChange={this.search}/>
                           <label className="label-icon" for="search">
                             <i className="material-icons">search</i>
                           </label>
@@ -76,4 +90,4 @@ class Movies extends Component {
   }
 }
 
-export default Movies;
+export default connect(null, { searchMovies })(Header);

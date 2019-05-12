@@ -40,7 +40,7 @@ class App extends Component {
             <Route exact path="/" component={Movies} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
-            <Route exact path="/movie/:name" component={Movie} />
+            <Route exact path="/movie/:id" component={Movie} />
             <Route exact path="/placeOrder" component={PlaceOrder}/>
             <Route exact path="/orderSuccess" component={OrderSuccess}/>
             <Footer/>

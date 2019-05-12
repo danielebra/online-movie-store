@@ -35,7 +35,7 @@
 }
 
 .category li {
-    margin: 10px 15px;
+    margin: 10px 5px;
     float: left;
     border: none;
     position: relative;
@@ -53,11 +53,13 @@
 }
 
 .movie {
-    height: 214px; 
-    width: 150px;
-    -webkit-transition: all 0.3s ease;
-    transition: all 0.3s ease;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
     cursor: pointer;
+}
+
+.movie-home-image {
+    width: 150px;
 }
 
 .movie:hover {
@@ -91,6 +93,9 @@
 .clearfix:after {
     clear: both;
 }
+.mov {
+    margin-top: 75px;
+}
 
 
 img.moviesBackground {
@@ -111,7 +116,7 @@ img.moviesBackground {
 }
 
 .movieDetailsImg {
-    height: 350px;
+    height: 450px;
     margin: 50px;
 }
 
@@ -137,6 +142,7 @@ img.moviesBackground {
 }
 
 .info {
+    margin-top: 50px;
     .video-meta {
         p {
             font-weight: bold;
@@ -153,6 +159,13 @@ img.moviesBackground {
     }
 }
 
+.movie-tabs {
+    margin-top: 50px;
+}
+
+.tabs .indicator {
+    background-color: #dc000a !important;
+}
 .description {
     margin-top: 35px;
     color: rgb(126, 126, 126);
@@ -191,7 +204,24 @@ img.moviesBackground {
 .trailer {
     border: none;
     width: 100%;
-    height: 400px;
+    height: 500px;
+}
+
+.videoWrapper {
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+    overflow:hidden;
+    pointer-events: none;
+}
+
+.videoWrapper iframe {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    height: calc(100% + 50px);
 }
 
 .movieButton {

@@ -8,10 +8,10 @@ class MovieCard extends Component {
 
     return (
       <div>
-        <Link to={`/movie/${movie.title}`}>
+        <Link to={`/movie/${movie.id}`}>
           <li className="movie">
             <span>
-              <img src={movie.thumbnail} />
+              <img className="movie-home-image" src={movie.thumbnail} />
             </span>
           </li>
         </Link>
