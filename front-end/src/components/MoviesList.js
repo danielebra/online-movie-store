@@ -19,7 +19,7 @@ class MoviesList extends Component {
     // If loading is true or there are no movies then show loading, otherwise iterate through each movie and display it.
     const { movies, loading } = this.props.movies;
     let pageContent;
-
+    
     if (movies == null || loading) {
       pageContent = <Loading/>
 
@@ -27,7 +27,7 @@ class MoviesList extends Component {
       pageContent = (
         movies.map((item, index) => {
           return (
-            <div className="col s12 category">
+            <div className="col s12 category" key={index}>
               <div className="movieTitle">{item.genre}</div>
               <ul className="categoryRow clearfix">
                 <div

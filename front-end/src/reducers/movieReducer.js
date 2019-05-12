@@ -1,8 +1,9 @@
-import { GET_MOVIES, MOVIES_LOADING } from '../actions/types';
+import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND } from '../actions/types';
 
 // Create a state for the reducer when the application starts up
 const initialState = {
     movies: null,
+    movie: null,
     loading: true
 };
 
@@ -11,19 +12,35 @@ const initialState = {
 export default function (state = initialState, action) {
 
     switch (action.type) {
+        
+        case GET_MOVIES:
+            return {
+                ...state,
+                movies: action.payload,
+                movie: null,
+                loading: false
+            };
 
+        case GET_MOVIE:
+            return {
+                ...state,
+                movie: action.payload,
+                loading: false
+            }
+        
         case MOVIES_LOADING:
             return {
                 ...state,
                 loading: true
             };
 
-        case GET_MOVIES:
+        case NO_MOVIES_FOUND:
             return {
                 ...state,
-                movies: action.payload,
+                movies: null,
+                movie: null,
                 loading: false
-            };
+            }
 
         default:
             return state;
