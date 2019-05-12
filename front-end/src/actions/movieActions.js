@@ -1,4 +1,4 @@
-import { GET_MOVIES, MOVIES_LOADING } from './types';
+import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND } from './types';
 import api from "../api";
 
 // Will call this from the view later
@@ -8,10 +8,10 @@ export const getMovies = () => dispatch => {
     // Here we make an API call or whatever that you need to do
     api.get("movie/").then(res =>  {
         let movies = res.data;
+        let payload = [];
 
         api.get("genre/").then(res => {
             let genres = res.data;
-            let payload = [];
             
             genres.forEach(genre => {
                 var collection = {
@@ -29,13 +29,28 @@ export const getMovies = () => dispatch => {
                 })
             else
                 dispatch({
-                    type: GET_MOVIES,
-                    payload: null
+                    type: NO_MOVIES_FOUND
                 })
             
         })
     })
-}
+};
+
+
+// Get profile by handle
+export const getMovieById = (id) => dispatch => {
+    dispatch(setLoading());
+    
+    api.get("movie/").then(res =>  {
+
+        let movie = res.data.filter(movie => movie.id == id);
+
+        dispatch({
+            type: GET_MOVIE,
+            payload: movie
+        })
+    })
+};
 
 // Set profile loading
 export const setLoading = () => {
