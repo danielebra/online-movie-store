@@ -16,6 +16,17 @@ class  PlaceOrder extends Component {
 
 
 
+
+
+  
+  componentDidMount() {
+    
+    M.AutoInit();
+    if (this.props.match.params.name) {
+     
+    }
+  }
+
   constructor(props) {
     super(props);
     
@@ -94,12 +105,12 @@ class  PlaceOrder extends Component {
                 <h5 className="right-align"><font size="+5">Total: ${totalPrice.toFixed(2)}</font></h5>
               </div>
               <div className="col s4">
-              <Link to="/"><button className="waves-effect waves-light red darken-3 btn tooltipped" data-position="buttom" data-tooltip="Back to home page">Cancel</button></Link>
+              <Link to="/"><a className="waves-effect waves-light red darken-3 btn tooltipped" data-position="buttom" data-tooltip="Back to home page">Cancel</a></Link>
               </div>
               <div className="col s4">
               </div>
               <div className="col s4">
-              <Link to="/orderSuccess"><button className="waves-effect waves-light red darken-3 btn tooltipped" data-position="buttom" data-tooltip="Place this Order">Place</button></Link>
+              <a className="waves-effect waves-light red darken-3 btn tooltipped" data-position="buttom" data-tooltip="Place this Order">Place</a>
               </div>
             </div>
             
