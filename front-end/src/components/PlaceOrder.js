@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { getMovieById } from '../actions/movieActions';
-import movie1 from "../images/movie.jpg";
+
 import Loading from '../components/Templates/loading';
 import M from "materialize-css";
 import Info from "./UIElements/Info";
@@ -60,33 +60,42 @@ class  PlaceOrder extends Component {
             <div className="col s5">
               <img className="movieDetailsImg" src={movie.thumbnail} />
             </div>
-
             <div className="col s7">
               <h2 className="movieTitleDetail">
                 {movie.title}
                 <span className="year"> ({movie.year})</span>
-                <br />
-                <span className="price">${movie.price}</span>
               </h2>
               <div id="info" className="col s12">
                   <Info movie={movie} />
-                </div>
+              </div>
+               
+              <div>
+              <div className="col s5">
+              <span className="price"><font size="+3">${movie.price}</font></span>
+              </div>
               <div className="col s5 offset-s2"> 
               <button type="button" className="col s4 waves-effect btn red darken-3" onClick={this.reduceQuantity}>-</button>
               <input id="quantity" className="col s4 white center-align" type="text" name="quantity" value={this.state.quantity} readOnly/>
               <button className="col s4 waves-effect btn red darken-3" onClick={this.addQuantity}>+</button>
               </div>
-              <label>Shipping Address<div class="white">
-                <select >
+              </div>
+               <div className="col s12">
+               <label>Shipping Address</label>
+    
+                 <select>
                   <option value="enterAddress" disabled selected>Choose your address</option>
-                  <option value="address1">address1</option>
-                  <option value="address2">address2</option>
+                  <option value="address1">32/2 Jone Street, Hurstville, Sydney, NSW</option>
+                  <option value="address2">2/3 Chiler Street, Wolli Creek, Sydney, NSW</option>
                 </select>
-              </div></label>
-              <div className="col s12">
+             
+                
+              
+               </div>
+              
+              <div >
               <label><font size="+1">Shipping fee: ${shippingFee}</font></label>
               </div>
-              <div className="col s7 offset-s5"> 
+              <div> 
                 <h5 className="right-align"><font size="+5">Total: ${totalPrice.toFixed(2)}</font></h5>
               </div>
               <div className="col s4">

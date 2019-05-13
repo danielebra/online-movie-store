@@ -25,14 +25,16 @@ class OrderSuccess extends Component {
             <img  src={success} width="85" height="60" />
             </div>
             <div className="col s11">
-            <h5>Your Order is successfully placed, go to 'your orders' to check orders</h5>
+            <h5>Your Order is successfully placed, go to 'My Orders' to check orders</h5>
             </div>
+            
             <div className="col 3s offset-s2">
             <Link to="/"><button className="waves-effect waves-light red darken-3 btn">Home</button></Link>
             </div>
+            
             <div className="col 3s offset-s2">
-            <button className="waves-effect waves-light red darken-3 btn">Your Orders</button>
-
+            <button className="waves-effect waves-light red darken-3 btn">My Orders</button>
+            
             </div>
            </div>
             </div>

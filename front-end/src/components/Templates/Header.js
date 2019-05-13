@@ -61,9 +61,10 @@ class Header extends Component {
               </ul>
 
               <ul id="nav-mobile" className="right hide-on-med-and-down">
+          
                 <li>
-                  <Link to="/cart">Cart</Link>
-                </li>
+                <Link to="/myOrders">My Orders</Link>
+              </li>
                 <li>
                   <Link to="/wishlist">Wishlist</Link>
                 </li>
@@ -82,6 +83,7 @@ class Header extends Component {
               <li>
                 <Link to="/register">Register</Link>
               </li>
+              
             </ul>
           )}
         </div>
