@@ -38,7 +38,7 @@ class App extends Component {
             <Header/>
             <Route exact path="/" component={Movies} />
             <Route exact path="/login" component={Login} />
-            <Route exact path="/login:email" component={Login} />
+            <Route exact path="/login/:email" component={Login} />
 
             <Route exact path="/register" component={Register} />
 
