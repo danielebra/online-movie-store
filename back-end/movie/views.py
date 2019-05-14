@@ -2,14 +2,16 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login
 from django.views.generic import View
+from django.contrib.auth.models import User as UserAuthModel
 
 from rest_framework.views import APIView
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 
 from .models import Movie, Genre
 from .models import User as UserModel
-from .serializers import UsersSerializer, MovieSerializer, GenreSerializer
+from .serializers import UsersSerializer, MovieSerializer, GenreSerializer, PasswordSerializer
 from .forms import UserForm
 
 
@@ -46,6 +48,18 @@ class Genre(viewsets.ModelViewSet):
 class User(viewsets.ModelViewSet):
     queryset = UserModel.objects.all()
     serializer_class = UsersSerializer
+
+    @action(methods=['get', 'post'], detail=True)
+    def change_password(self, request, pk=None):
+        user = self.get_object()
+        serializer = PasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            # set_password(serializer.data['password']) This requires use of the User auth model
+            user.password = serializer.data['password']
+            user.save()
+            return Response({"status": 'password changed'})
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class MovieDefault(viewsets.ModelViewSet):
