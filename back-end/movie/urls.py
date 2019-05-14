@@ -10,10 +10,16 @@ router = routers.DefaultRouter()
 router.register('api/users', views.User)
 router.register('api/deprecated/movie', views.MovieDefault)
 router.register('api/genre', views.Genre)
+# router.register('api/register', views.RegisterView)
+# Base name prevents the error: `basename` argument not specified, and could not automatically determine the name from the viewset, as it does not have a `.queryset` attribute (https://stackoverflow.com/a/55780877)
+# , base_name='santohusntah')
+# router.register('api/register', views.RegisterView)
 
 urlpatterns = [
     path('', include(router.urls)),
+    # path('api/register/', views.RegisterView.as_view()),
     path('api/movie/', views.MoviePopulator.as_view()),
+    path('api/register/', views.RegisterView.as_view())
     #path('', views.home, name='Home-page'),
     # path('login/', views.Users.as_view()),
     # path('register/', views.register, name='Register-page'),
