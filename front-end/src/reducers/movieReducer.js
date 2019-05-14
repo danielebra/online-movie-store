@@ -1,6 +1,12 @@
 import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST } from '../actions/types';
 
-// Create a state for the reducer when the application starts up
+/* The movies state contains the following:
+    - collections: an array  containing a genre and a list of movies in that genre
+    - movie: contains a single movie when a user click on the home page.
+    - searchList: returns a search results from the search query
+    - moviesList: contains a list of all movies
+    - loading: will be activated when fetching the database or performing some action.
+*/
 const initialState = {
     collections: null,
     movie: null,
@@ -9,8 +15,8 @@ const initialState = {
     loading: true
 };
 
-// The state parameter is the profile state that comes from the store
-// The action is the object containing a type and payload we dispatched in our action creator above
+// The state parameter is the movies state that comes from the store
+// The action is the object containing a type and payload we dispatched in the action creator
 export default function (state = initialState, action) {
 
     switch (action.type) {
