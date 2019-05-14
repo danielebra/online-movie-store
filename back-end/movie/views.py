@@ -62,11 +62,6 @@ class User(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class MovieDefault(viewsets.ModelViewSet):
-    queryset = Movie.objects.all()
-    serializer_class = MovieSerializer
-
-
 class RegisterView(APIView):
 
     queryset = UserModel.objects.all()
@@ -94,8 +89,8 @@ class RegisterView(APIView):
 
 
 class MoviePopulator(APIView):
+    
     def get(self, request):
-        print("hello there was a get request")
         query = Movie.objects.all()
         serializer = MovieSerializer(query, many=True)
         resp = Response(serializer.data)
@@ -118,29 +113,3 @@ class MoviePopulator(APIView):
                 resp.data[counter]['genre'].append(genre.name)
             counter += 1
         return resp
-
-    # print("Hello")
-    # queryset = Movie.objects.all()
-
-    # genres = []
-    # for movie in queryset:
-    #     # import pdb
-    #     # pdb.set_trace()
-    #     for x in movie.genre.all():
-    #         print(x.name)
-    #     print(type(movie.genre))
-    #     genres.append(movie.genre.all())
-    #     # movie.genre.set(movie.genre.all())
-    #     # print(movie.genre)
-    # serializer_class = MovieSerializer
-    # print(genres)
-
-
-# class oldusersapi(APIView):
-#     def get(self, request):
-#         query = User.objects.all()
-#         serializerJSON = UsersSerializer(query, many=True)
-#         return Response(serializerJSON.data)
-
-#     def post(self):
-#         pass

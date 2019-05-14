@@ -8,7 +8,7 @@ class User(models.Model):
     last_name = models.CharField(max_length=16)
     date_of_birth = models.DateField()
     mobile_number = models.TextField()
-    shipping_address = models.TextField()
+    shipping_address = models.TextField(blank=True)
     email = models.TextField(unique=True)
     password = models.TextField()
 

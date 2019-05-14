@@ -2,10 +2,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-
-// Import actions here...
+import isEmpty from '../../isEmpty';
 import { registerUser } from "../../actions/authActions";
-
 import bg from "../../images/bg2.jpg";
 
 // Custom react component/class
@@ -19,21 +17,52 @@ class Register extends Component {
       mobile_number: "",
       date_of_birth: Date,
       password: "",
-      passwordconfirm: "",
-      shipping_address: "test",
+      passwordConfirm: "",
       errors: {}
     };
   }
 
-  componentDidMount() {
-    // if (this.props.auth.isAuthenticated) {
-    //     this.props.history.push('/dashboard');
-    // }
-  }
+  componentWillReceiveProps(nextProps) {
+    
+    if(nextProps.errors){
+      let errors = {};
+
+      Object.keys(nextProps.errors) 
+        .forEach(function eachKey(key) { 
+          errors[key] = nextProps.errors[key][0];
+        });
+      
+        this.setState({ errors });
+    }
+
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/");
+    }
+}
 
   onSubmit = event => {
     event.preventDefault();
 
+    let password = this.state.password, 
+    passwordConfirm = this.state.passwordConfirm, 
+    errors = {};
+
+    if (!isEmpty(password) || !isEmpty(passwordConfirm)) {
+      password = password.trim();
+
+      if (password.length < 6)
+        errors.password = 'Password must be atleast 6 characters';
+
+      if (password !== passwordConfirm.trim())
+        errors.passwordConfirm = 'Password must match';
+
+      if (errors.password || errors.passwordConfirm) {
+        this.setState({ errors });
+        console.log("state", this.state.errors);
+        return;
+      }
+    }
+    
     let d = new Date(this.state.date_of_birth);
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();
@@ -51,13 +80,10 @@ class Register extends Component {
       last_name: this.state.last_name,
       email: this.state.email,
       mobile_number: this.state.mobile_number,
-      shipping_address: this.state.shipping_address,
       date_of_birth: this.state.date_of_birth,
-      password: this.state.password,
-      passwordconfirm: this.state.passwordconfirm
+      password: this.state.password
     };
 
-    console.log(userData);
     this.props.registerUser(userData, this.props.history);
   };
 
@@ -74,8 +100,11 @@ class Register extends Component {
   }
 
   render() {
+    
+    const { errors } = this.state;
+
     return (
-      <section class="auth">
+      <section className="auth">
         <img className="backgroundImage" src={bg} />
         <div className="container box">
           <div className="row">
@@ -99,7 +128,8 @@ class Register extends Component {
                         required
                         aria-required=""
                       />
-                      <label for="first_name">First Name</label>
+                      { errors.first_name ? <span className="helper-text error"> { errors.first_name } </span> : null}
+                      <label htmlFor="first_name">First Name</label>
                     </div>
 
                     <div className="input-field col s6">
@@ -114,7 +144,8 @@ class Register extends Component {
                         required
                         aria-required=""
                       />
-                      <label for="last_name">Last Name</label>
+                      { errors.last_name ? <span className="helper-text error"> { errors.last_name } </span> : null}
+                      <label htmlFor="last_name">Last Name</label>
                     </div>
                   </div>
 
@@ -129,8 +160,9 @@ class Register extends Component {
                       className="validate"
                       required
                       aria-required=""
-                    />
-                    <label for="email">Email</label>
+                      />
+                      { errors.email ? <span className="helper-text error"> { errors.email } </span> : null}
+                    <label htmlFor="email">Email</label>
                   </div>
 
                   <div className="col-2">
@@ -146,14 +178,14 @@ class Register extends Component {
                         required
                         aria-required=""
                       />
-                      <label for="mobile">Mobile</label>
+                      { errors.mobile_number ? <span className="helper-text error"> { errors.mobile_number } </span> : null}
+                      <label htmlFor="mobile">Mobile</label>
                     </div>
 
                     <div className="input-field col s6">
                       <input
                         type="date"
                         id="dob"
-                        value={this.state.date_of_birth}
                         onChange={event =>
                           this.setState({ date_of_birth: event.target.value })
                         }
@@ -161,7 +193,8 @@ class Register extends Component {
                         required
                         aria-required=""
                       />
-                      <label for="dob">Date of Birth</label>
+                      { errors.date_of_birth ? <span className="helper-text error"> { errors.date_of_birth } </span> : null}
+                      <label htmlFor="dob">Date of Birth</label>
                     </div>
                   </div>
 
@@ -175,20 +208,22 @@ class Register extends Component {
                       }
                       className="validate"
                     />
-                    <label for="password">Password</label>
+                    { errors.password ? <span className="helper-text error"> { errors.password } </span> : null}
+                    <label htmlFor="password">Password</label>
                   </div>
 
                   <div className="input-field col s12">
                     <input
                       type="password"
                       id="password_confirm"
-                      value={this.state.passwordconfirm}
+                      value={this.state.passwordConfirm}
                       onChange={event =>
-                        this.setState({ passwordconfirm: event.target.value })
+                        this.setState({ passwordConfirm: event.target.value })
                       }
                       className="validate"
                     />
-                    <label for="password_confirm">Confirm Password</label>
+                    { errors.passwordConfirm ? <span className="helper-text error"> { errors.passwordConfirm } </span> : null}
+                    <label htmlFor="password_confirm">Confirm Password</label>
                   </div>
 
                   <div className="input-field col s12">
@@ -210,4 +245,9 @@ class Register extends Component {
   }
 }
 
-export default connect(null, { registerUser })(withRouter(Register));
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));

@@ -50,7 +50,7 @@ class Header extends Component {
                       <form id="search-form">
                         <div className="input-field">
                           <input id="search" type="search" onChange={this.search}/>
-                          <label className="label-icon" for="search">
+                          <label className="label-icon" htmlFor="search">
                             <i className="material-icons">search</i>
                           </label>
                         </div>

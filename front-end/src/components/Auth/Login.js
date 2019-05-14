@@ -1,9 +1,9 @@
 // React and redux modules
 import React, { Component } from "react";
- import { connect } from "react-redux";
+import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-//import { loginUser } from "../actions/authActions";
+import { loginUser } from "../../actions/authActions";
 import bg from "../../images/bg2.jpg";
 
 // Custom react component/class
@@ -13,12 +13,34 @@ class Login extends Component {
 
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      errors: {}
     };
+  }
+
+  componentWillMount() {
+    if (this.props.match.params.email) {
+      this.setState({ email: this.props.match.params.email});
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     
+    if(nextProps.errors){
+      let errors = {};
+      console.log(nextProps.errors);
+
+      Object.keys(nextProps.errors) 
+        .forEach(function eachKey(key) { 
+          errors[key] = nextProps.errors[key][0];
+        });
+      
+        this.setState({ errors });
+    }
+
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/");
+    }
   }
 
   onSubmit = event => {
@@ -29,13 +51,15 @@ class Login extends Component {
       password: this.state.password
     };
 
-    console.log(userData);
-    //this.props.loginUser(userData);
+    this.props.loginUser(userData);
   };
 
   render() {
+
+    const { errors } = this.state;
+
     return (
-      <section class="auth">
+      <section className="auth">
         <img className="backgroundImage" src={bg} />
         <div className="container box">
           <div className="row">
@@ -58,7 +82,8 @@ class Login extends Component {
                       required
                       aria-required=""
                     />
-                    <label for="email">Email</label>
+                    { errors.email ? <span className="helper-text error"> { errors.email } </span> : null}
+                    <label htmlFor="email">Email</label>
                   </div>
 
                   <div className="input-field col s12">
@@ -71,7 +96,8 @@ class Login extends Component {
                       }
                       className="validate"
                     />
-                    <label for="password">Password</label>
+                    { errors.password ? <span className="helper-text error"> { errors.password } </span> : null}
+                    <label htmlFor="password">Password</label>
                   </div>
 
                   <div className="right no-account">
@@ -100,7 +126,8 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-    auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
-export default (withRouter(Login));
+export default connect(mapStateToProps, { loginUser })(withRouter(Login));

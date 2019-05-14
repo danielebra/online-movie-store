@@ -28,11 +28,9 @@ import PlaceOrder from './PlaceOrder';
 import OrderSuccess from './OrderSuccess';
 import 'materialize-css/dist/css/materialize.min.css';
 import UserOrders from './UserOrders';
-
 class App extends Component {
   render() {
     return (
-
 
       <Provider store={store}>
         <Router>
@@ -40,7 +38,10 @@ class App extends Component {
             <Header/>
             <Route exact path="/" component={Movies} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/login:email" component={Login} />
+
             <Route exact path="/register" component={Register} />
+
             <Route exact path="/movie/:id" component={Movie} />
             <Route exact path="/orderSuccess" component={OrderSuccess}/>
             <Route exact path="/myOrders" component={UserOrders}/>

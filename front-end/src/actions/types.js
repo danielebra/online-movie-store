@@ -5,7 +5,9 @@ export const NO_MOVIES_FOUND = 'NO_MOVIES_FOUND'
 export const SEARCH_MOVIES = 'SEARCH_MOVIES';
 export const CLEAR_SEARCH_LIST = 'CLEAR_SEARCH_LIST';
 
-export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const LOGIN_USER = 'LOGIN_USER';
+export const LOGOUT_USER = 'LOGOUT_USER';
+
 export const GET_ERRORS = 'GET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 

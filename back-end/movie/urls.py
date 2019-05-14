@@ -7,8 +7,7 @@ from . import views
 router = routers.DefaultRouter()
 
 # first argument is a the url path, second argument is where to handle the request
-router.register('api/users', views.User)
-router.register('api/deprecated/movie', views.MovieDefault)
+router.register('api/users', views.User) # returns all users
 router.register('api/genre', views.Genre)
 
 urlpatterns = [
