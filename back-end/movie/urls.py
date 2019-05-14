@@ -7,11 +7,10 @@ from . import views
 router = routers.DefaultRouter()
 
 # first argument is a the url path, second argument is where to handle the request
-router.register('api/users', views.User) # returns all users
+router.register('api/user', views.User)  # returns all users
 router.register('api/genre', views.Genre)
 
 urlpatterns = [
     path('', include(router.urls)),
     path('api/movie/', views.MoviePopulator.as_view()),
-    path('api/register/', views.RegisterView.as_view())
 ]
