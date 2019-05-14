@@ -1,13 +1,9 @@
 // React and redux modules
 import React, { Component } from "react";
-// import { connect } from "react-redux";
-// import PropTypes from "prop-types";
-
+ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-// Import actions here...
-//import { getCurrentProfile } from "../actions/profileActions";
-
+//import { loginUser } from "../actions/authActions";
 import bg from "../../images/bg2.jpg";
 
 // Custom react component/class
@@ -16,16 +12,13 @@ class Login extends Component {
     super();
 
     this.state = {
-      email: "",
-      password: "",
-      errors: {}
+      email: '',
+      password: ''
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
+    
   }
 
   onSubmit = event => {
@@ -41,8 +34,6 @@ class Login extends Component {
   };
 
   render() {
-    const { errors } = this.state;
-
     return (
       <section class="auth">
         <img className="backgroundImage" src={bg} />
@@ -108,23 +99,8 @@ class Login extends Component {
   }
 }
 
-// Assign prop types to props being used
-Login.propTypes = {
-  /*
-    getCurrentProfile: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired
-    */
-};
-
-// Map state to props so they can be used in this component
 const mapStateToProps = state => ({
-  /*
-    auth: state.auth,
-    profile: state.profile
-    */
+    auth: state.auth
 });
 
-// Connect actions to use within redux and export component
-//export default connect(mapStateToProps, { getCurrentProfile })(Login);
-export default withRouter(Login);
+export default (withRouter(Login));

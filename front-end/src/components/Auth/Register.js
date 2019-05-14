@@ -1,12 +1,10 @@
 // React and redux modules
 import React, { Component } from "react";
-// import { connect } from "react-redux";
-// import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-
 // Import actions here...
-//import { getCurrentProfile } from "../actions/profileActions";
+import { registerUser } from "../../actions/authActions";
 
 import bg from "../../images/bg2.jpg";
 
@@ -15,33 +13,65 @@ class Register extends Component {
   constructor() {
     super();
     this.state = {
-      firstname: "",
-      lastname: "",
+      first_name: "",
+      last_name: "",
       email: "",
-      mobile: "",
-      dob: "",
+      mobile_number: "",
+      date_of_birth: Date,
       password: "",
       passwordconfirm: "",
+      shipping_address: "test",
       errors: {}
     };
+  }
+
+  componentDidMount() {
+    // if (this.props.auth.isAuthenticated) {
+    //     this.props.history.push('/dashboard');
+    // }
   }
 
   onSubmit = event => {
     event.preventDefault();
 
+    let d = new Date(this.state.date_of_birth);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    let year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    let newDate = [year, month, day].join('-');
+
+    this.setState({ date_of_birth: newDate });
+
     const userData = {
-      firstname: this.state.firstname,
-      lastname: this.state.lastname,
+      first_name: this.state.first_name,
+      last_name: this.state.last_name,
       email: this.state.email,
-      mobile: this.state.mobile,
-      dob: this.state.dob,
+      mobile_number: this.state.mobile_number,
+      shipping_address: this.state.shipping_address,
+      date_of_birth: this.state.date_of_birth,
       password: this.state.password,
       passwordconfirm: this.state.passwordconfirm
     };
 
     console.log(userData);
-    //this.props.loginUser(userData);
+    this.props.registerUser(userData, this.props.history);
   };
+
+  formatDate(date) {
+    let d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    let year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
 
   render() {
     return (
@@ -61,9 +91,9 @@ class Register extends Component {
                       <input
                         type="text"
                         id="first_name"
-                        value={this.state.firstname}
+                        value={this.state.first_name}
                         onChange={event =>
-                          this.setState({ firstname: event.target.value })
+                          this.setState({ first_name: event.target.value })
                         }
                         className="validate"
                         required
@@ -76,9 +106,9 @@ class Register extends Component {
                       <input
                         type="text"
                         id="last_name"
-                        value={this.state.lastname}
+                        value={this.state.last_name}
                         onChange={event =>
-                          this.setState({ lastname: event.target.value })
+                          this.setState({ last_name: event.target.value })
                         }
                         className="validate"
                         required
@@ -108,9 +138,9 @@ class Register extends Component {
                       <input
                         type="text"
                         id="mobile"
-                        value={this.state.mobile}
+                        value={this.state.mobile_number}
                         onChange={event =>
-                          this.setState({ mobile: event.target.value })
+                          this.setState({ mobile_number: event.target.value })
                         }
                         className="validate"
                         required
@@ -121,11 +151,11 @@ class Register extends Component {
 
                     <div className="input-field col s6">
                       <input
-                        type="text"
+                        type="date"
                         id="dob"
-                        value={this.state.dob}
+                        value={this.state.date_of_birth}
                         onChange={event =>
-                          this.setState({ dob: event.target.value })
+                          this.setState({ date_of_birth: event.target.value })
                         }
                         className="validate"
                         required
@@ -180,23 +210,4 @@ class Register extends Component {
   }
 }
 
-// Assign prop types to props being used
-Register.propTypes = {
-  /*
-    getCurrentProfile: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired
-    */
-};
-
-// Map state to props so they can be used in this component
-const mapStateToProps = state => ({
-  /*
-    auth: state.auth,
-    profile: state.profile
-    */
-});
-
-// Connect actions to use within redux and export component
-//export default connect(mapStateToProps, { getCurrentProfile })(Register);
-export default withRouter(Register);
+export default connect(null, { registerUser })(withRouter(Register));
