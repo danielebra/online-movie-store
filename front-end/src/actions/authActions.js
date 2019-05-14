@@ -1,31 +1,36 @@
-// //import setAuthToken from "../utils/setAuthToken";
-// //import jwt_decode from 'jwt-decode';
+//import setAuthToken from "../utils/setAuthToken";
+//import jwt_decode from 'jwt-decode';
 
-// // Action types
-// import { SET_CURRENT_USER } from "./types";
-// import { GET_ERRORS } from "./types";
+// Action types
+import { SET_CURRENT_USER } from "./types";
+import { GET_ERRORS } from "./types";
+
+import api from "../api";
 
 
+// Register
+export const registerUser = (userData, history) => dispatch => {
 
-// // Register
-// export const registerUser = (userData, history) => dispatch => {
-
-//     api
-//         .post('users/register/', userData)
-//         .then(res => history.push('/login')) // if success, redirect to the account page
-//         .catch(err =>
-//             dispatch({
-//                 type: GET_ERRORS,
-//                 payload: err.response.data
-//             })
-//         );
-// };
+    // if success, redirect to the account page
+    api.post('register/', userData)
+        .then(res => {
+            console.log(res.data);
+            history.push('/login');
+        }) 
+        .catch(err => {
+            console.log(err.response.data);
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        });
+};
 
 
 // // Login - Get User Token
-// export const loginUser = (userData) => dispatch => {
+// export const loginUser = userData=> dispatch => {
 //     axios
-//         .post('users/login', userData)
+//         .post('login/', userData)
 //         .then(res => {
 
 //             // Once we get the response back, save to LocalStorage
