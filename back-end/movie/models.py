@@ -42,7 +42,7 @@ class Movie(models.Model):
     genre = models.ManyToManyField(Genre, through='MovieGenre')
     price = models.FloatField()
     maturity_rating = models.CharField(max_length=6)
-    pruchase_count = models.IntegerField()
+    purchase_count = models.IntegerField()
     stock = models.IntegerField()
 
     def __str__(self):
