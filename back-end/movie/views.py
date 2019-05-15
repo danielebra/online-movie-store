@@ -128,3 +128,12 @@ class MoviePopulator(APIView):
                 resp.data[counter]['genre'].append(genre.name)
             counter += 1
         return resp
+
+    def post(self, request):
+        # This doesn't handle genres
+        query = Movie.objects.all()
+        serializer = MovieSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
