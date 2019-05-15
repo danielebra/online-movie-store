@@ -9,9 +9,9 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 
-from .models import Movie, Genre
+from .models import Movie, Genre, MovieGenre
 from .models import User as UserModel
-from .serializers import UsersSerializer, MovieSerializer, GenreSerializer, PasswordSerializer
+from .serializers import UsersSerializer, MovieSerializer, GenreSerializer, PasswordSerializer, MovieGenreSerializer
 from .forms import UserForm
 
 
@@ -103,13 +103,15 @@ class User(viewsets.ModelViewSet):
     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class MoviePopulator(APIView):
+class MoviePopulator(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
 
     def get(self, request):
         query = Movie.objects.all()
         serializer = MovieSerializer(query, many=True)
         resp = Response(serializer.data)
-
+        # Populates all the genres in the movie and changes them to the name of genre, instead of the pk
         counter = 0
         for movie in query:
             # Review
@@ -133,6 +135,17 @@ class MoviePopulator(APIView):
         # This doesn't handle genres
         query = Movie.objects.all()
         serializer = MovieSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # Used for linking a genre to movie (done via primary keys)
+    @action(methods=['post'], detail=True)
+    def add_genre(self, request, pk=None):
+        query = MovieGenre.objects.all()
+        serializer = MovieGenreSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

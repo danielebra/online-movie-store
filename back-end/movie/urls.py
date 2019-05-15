@@ -9,8 +9,9 @@ router = routers.DefaultRouter()
 # first argument is a the url path, second argument is where to handle the request
 router.register('api/user', views.User)  # returns all users
 router.register('api/genre', views.Genre)
+router.register('api/movie', views.MoviePopulator)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('api/movie/', views.MoviePopulator.as_view()),
+    # path('api/movie/', views.MoviePopulator.as_view()),
 ]

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import User, Movie, MovieReview, Genre
+from .models import User, Movie, MovieReview, Genre, MovieGenre
 
 # convert models to json, each seralise has a model and fields to display
 
@@ -21,6 +21,13 @@ class MovieSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
+        fields = '__all__'
+
+
+class MovieGenreSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MovieGenre
         fields = '__all__'
 
 
