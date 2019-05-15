@@ -26,14 +26,12 @@ export const loginUser = userData=> dispatch => {
     api
         .post('user/auth/login/', userData)
         .then(res => {
-            console.log(res.data);
             dispatch({
                 type: LOGIN_USER,
                 payload: userData
             })
         })
         .catch(err => {
-            console.log(err.response.data);
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
