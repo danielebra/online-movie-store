@@ -83,7 +83,7 @@ class User(viewsets.ModelViewSet):
         if can_bypass_validation or serializer.is_valid():
             user = UserModel.objects.filter(email=request.data['email']).values().first()
             if user['password'] == request.data['password']:
-                return Response(True)
+                return Response({"isValid": "true"})
             else:
                 return Response({'email': 'Email or password dont match.'})
 

@@ -26,10 +26,19 @@ export const loginUser = userData=> dispatch => {
     api
         .post('user/auth/login/', userData)
         .then(res => {
-            dispatch({
-                type: LOGIN_USER,
-                payload: userData
-            })
+            if (res.data['isValid']) {
+                console.log("SUCCESS: ", res.data);
+                dispatch({
+                    type: LOGIN_USER,
+                    payload: userData
+                })
+            } else {
+                console.log("INVALID EMAIL/PASS: ", res.data);
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: res.data
+                })
+            }
         })
         .catch(err => {
             dispatch({

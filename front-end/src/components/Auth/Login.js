@@ -28,14 +28,10 @@ class Login extends Component {
   componentWillReceiveProps(nextProps) {
     
     if(nextProps.errors){
-      let errors = {};
-
-      Object.keys(nextProps.errors) 
-        .forEach(function eachKey(key) { 
-          errors[key] = nextProps.errors[key][0];
-        });
-      
-        this.setState({ errors });
+      console.log(nextProps.errors);
+      let errors = {}
+      errors['email'] = nextProps.errors['email'];
+      this.setState({ errors });
     }
 
     if (nextProps.auth.isAuthenticated) {
@@ -46,15 +42,24 @@ class Login extends Component {
   validation() {
     let errors = {};
 
-    if (isEmpty(this.state.email)) {
+    if (isEmpty(this.state.email))
       errors['email'] = 'You must enter an email'
+
+    if (isEmpty(this.state.password))
+      errors['password'] = 'You must enter a password'
+
+    if (errors['email'] || errors['password']) {
       this.setState({ errors });
       return false;
     }
+
+    return true;
   }
 
   onSubmit = event => {
     event.preventDefault();
+
+    this.setState({ errors: {} });
 
     if (!this.validation()){
       return false;

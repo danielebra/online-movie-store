@@ -30,7 +30,8 @@ import PlaceOrder from './PlaceOrder';
 import OrderSuccess from './OrderSuccess';
 import 'materialize-css/dist/css/materialize.min.css';
 import UserOrders from './UserOrders';
-import AddMovie from './Addmovie'
+import AddMovie from './AddMovie';
+
 class App extends Component {
   render() {
     return (
@@ -39,18 +40,16 @@ class App extends Component {
         <Router>
           <div className="App">
             <Header/>
-            <PrivateRoute exact path="/" component={Movies} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/login/:email" component={Login} />
-
             <Route exact path="/register" component={Register} />
 
+            <PrivateRoute exact path="/" component={Movies} />
             <PrivateRoute exact path="/movie/:id" component={Movie} />
             <PrivateRoute exact path="/orderSuccess" component={OrderSuccess}/>
             <PrivateRoute exact path="/myOrders" component={UserOrders}/>
             <PrivateRoute exact path="/order/:id" component={PlaceOrder}/>
-            <PrivateRoute exact path="/addMovie" component={AddMovie}/>
-
+            <PrivateRoute exact path="/add-movie" component={AddMovie}/>
             <Footer/>
           </div>
         </Router>
