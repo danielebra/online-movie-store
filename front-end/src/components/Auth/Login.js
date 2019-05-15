@@ -1,13 +1,9 @@
 // React and redux modules
 import React, { Component } from "react";
-// import { connect } from "react-redux";
-// import PropTypes from "prop-types";
-
+import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-// Import actions here...
-//import { getCurrentProfile } from "../actions/profileActions";
-
+import { loginUser } from "../../actions/authActions";
 import bg from "../../images/bg2.jpg";
 
 // Custom react component/class
@@ -16,15 +12,34 @@ class Login extends Component {
     super();
 
     this.state = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       errors: {}
     };
   }
 
+  componentWillMount() {
+    if (this.props.match.params.email) {
+      this.setState({ email: this.props.match.params.email});
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    
+    if(nextProps.errors){
+      let errors = {};
+      console.log(nextProps.errors);
+
+      Object.keys(nextProps.errors) 
+        .forEach(function eachKey(key) { 
+          errors[key] = nextProps.errors[key][0];
+        });
+      
+        this.setState({ errors });
+    }
+
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/");
     }
   }
 
@@ -36,15 +51,15 @@ class Login extends Component {
       password: this.state.password
     };
 
-    console.log(userData);
-    //this.props.loginUser(userData);
+    this.props.loginUser(userData);
   };
 
   render() {
+
     const { errors } = this.state;
 
     return (
-      <section class="auth">
+      <section className="auth">
         <img className="backgroundImage" src={bg} />
         <div className="container box">
           <div className="row">
@@ -67,7 +82,8 @@ class Login extends Component {
                       required
                       aria-required=""
                     />
-                    <label for="email">Email</label>
+                    { errors.email ? <span className="helper-text error"> { errors.email } </span> : null}
+                    <label htmlFor="email">Email</label>
                   </div>
 
                   <div className="input-field col s12">
@@ -80,7 +96,8 @@ class Login extends Component {
                       }
                       className="validate"
                     />
-                    <label for="password">Password</label>
+                    { errors.password ? <span className="helper-text error"> { errors.password } </span> : null}
+                    <label htmlFor="password">Password</label>
                   </div>
 
                   <div className="right no-account">
@@ -108,23 +125,9 @@ class Login extends Component {
   }
 }
 
-// Assign prop types to props being used
-Login.propTypes = {
-  /*
-    getCurrentProfile: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired
-    */
-};
-
-// Map state to props so they can be used in this component
 const mapStateToProps = state => ({
-  /*
-    auth: state.auth,
-    profile: state.profile
-    */
+  auth: state.auth,
+  errors: state.errors
 });
 
-// Connect actions to use within redux and export component
-//export default connect(mapStateToProps, { getCurrentProfile })(Login);
-export default withRouter(Login);
+export default connect(mapStateToProps, { loginUser })(withRouter(Login));

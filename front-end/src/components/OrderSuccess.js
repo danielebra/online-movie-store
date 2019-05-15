@@ -1,17 +1,6 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Link, withRouter } from "react-router-dom";
-import { getMovies } from '../actions/movieActions';
+import { Link } from "react-router-dom";
 import success from '../images/success.png';
-
-
-
-import M from "materialize-css";
-
-import Info from "./UIElements/Info";
-import Reviews from "./UIElements/Reviews";
-import Trailer from "./UIElements/Trailer";
 
 class OrderSuccess extends Component {
 
