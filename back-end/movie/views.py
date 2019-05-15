@@ -75,7 +75,7 @@ class User(viewsets.ModelViewSet):
         error = serializer.errors
         can_bypass_validation = False
         if 'email' in error.keys() and len(error.keys()) == 1:
-            if len(error['email']) > 0:
+            if len(error['email']) == 1:  # Only when there is one error
                 if error['email'][0].code == "unique":
                     can_bypass_validation = True
         if can_bypass_validation or serializer.is_valid():
