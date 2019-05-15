@@ -12,6 +12,5 @@ router.register('api/genre', views.Genre)
 router.register('api/movie', views.MoviePopulator)
 
 urlpatterns = [
-    path('', include(router.urls)),
-    # path('api/movie/', views.MoviePopulator.as_view()),
+    path('', include(router.urls))
 ]

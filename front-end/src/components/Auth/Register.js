@@ -38,14 +38,31 @@ class Register extends Component {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/");
     }
-}
+  }
 
   onSubmit = event => {
     event.preventDefault();
+    
+    if (!this.validatePassword(this.state.password, this.state.passwordConfirm))
+      return false;
 
-    let password = this.state.password, 
-    passwordConfirm = this.state.passwordConfirm, 
-    errors = {};
+    let dob = this.formatDOB(this.state.date_of_birth);
+    this.setState({ date_of_birth: dob });
+
+    const userData = {
+      first_name: this.state.first_name,
+      last_name: this.state.last_name,
+      email: this.state.email,
+      mobile_number: this.state.mobile_number,
+      date_of_birth: this.state.date_of_birth,
+      password: this.state.password
+    };
+
+    this.props.registerUser(userData, this.props.history);
+  }
+
+  validatePassword(password, passwordConfirm) {
+    let errors = {};
 
     if (!isEmpty(password) || !isEmpty(passwordConfirm)) {
       password = password.trim();
@@ -58,36 +75,13 @@ class Register extends Component {
 
       if (errors.password || errors.passwordConfirm) {
         this.setState({ errors });
-        console.log("state", this.state.errors);
-        return;
+        return false;
       }
     }
-    
-    let d = new Date(this.state.date_of_birth);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    let year = d.getFullYear();
+    return true;
+  }
 
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    let newDate = [year, month, day].join('-');
-
-    this.setState({ date_of_birth: newDate });
-
-    const userData = {
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-      email: this.state.email,
-      mobile_number: this.state.mobile_number,
-      date_of_birth: this.state.date_of_birth,
-      password: this.state.password
-    };
-
-    this.props.registerUser(userData, this.props.history);
-  };
-
-  formatDate(date) {
+  formatDOB(date) {
     let d = new Date(date);
     let month = '' + (d.getMonth() + 1);
     let day = '' + d.getDate();
@@ -98,7 +92,7 @@ class Register extends Component {
 
     return [year, month, day].join('-');
   }
-
+  
   render() {
     
     const { errors } = this.state;

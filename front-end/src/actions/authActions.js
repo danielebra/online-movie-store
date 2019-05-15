@@ -9,7 +9,7 @@ import api from "../api";
 export const registerUser = (userData, history) => dispatch => {
 
     // if success, redirect to the login page
-    api.post('register/', userData)
+    api.post('user/', userData)
         .then(res => {
             history.push(`/login/${userData.email}`)
         }) 
@@ -24,18 +24,21 @@ export const registerUser = (userData, history) => dispatch => {
 
 export const loginUser = userData=> dispatch => {
     api
-        .post('login/', userData)
+        .post('user/auth/login/', userData)
         .then(res => {
+            console.log(res.data);
             dispatch({
                 type: LOGIN_USER,
-                payload: res.data
+                payload: userData
             })
         })
-        .catch(err =>
+        .catch(err => {
+            console.log(err.response.data);
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
             })
+        }
         );
 };
 

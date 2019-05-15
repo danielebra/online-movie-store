@@ -5,6 +5,7 @@ import { Link, withRouter } from "react-router-dom";
 
 import { loginUser } from "../../actions/authActions";
 import bg from "../../images/bg2.jpg";
+import isEmpty from "../../isEmpty";
 
 // Custom react component/class
 class Login extends Component {
@@ -28,7 +29,6 @@ class Login extends Component {
     
     if(nextProps.errors){
       let errors = {};
-      console.log(nextProps.errors);
 
       Object.keys(nextProps.errors) 
         .forEach(function eachKey(key) { 
@@ -43,8 +43,22 @@ class Login extends Component {
     }
   }
 
+  validation() {
+    let errors = {};
+
+    if (isEmpty(this.state.email)) {
+      errors['email'] = 'You must enter an email'
+      this.setState({ errors });
+      return false;
+    }
+  }
+
   onSubmit = event => {
     event.preventDefault();
+
+    if (!this.validation()){
+      return false;
+    }
 
     const userData = {
       email: this.state.email,

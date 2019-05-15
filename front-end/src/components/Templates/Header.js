@@ -9,7 +9,6 @@ class Header extends Component {
   constructor() {
     super();
     this.state = {
-      loggedIn: true,
       search: ''
     };
   }
@@ -29,6 +28,9 @@ class Header extends Component {
   }
 
   render() {
+
+    const { isAuthenticated, user } = this.props.auth;
+
     return (
       <nav id="header">
         <div className="nav-wrapper">
@@ -36,7 +38,7 @@ class Header extends Component {
             {" "}
             MovieSpot{" "}
           </Link>
-          {this.state.loggedIn ? (
+          {isAuthenticated ? (
             <div>
               <ul id="nav-mobile" className="hide-on-med-and-down">
                 <li>
@@ -92,4 +94,8 @@ class Header extends Component {
   }
 }
 
-export default connect(null, { searchMovies })(Header);
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { searchMovies })(Header);

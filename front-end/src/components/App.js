@@ -20,6 +20,8 @@ import '../styles/materialize.min.css';
 import Header from './Templates/Header'
 import Footer from './Templates/Footer'
 
+import PrivateRoute from './Templates/PrivateRoute';
+
 import Login from './Auth/Login';
 import Register from './Auth/Register';
 import Movies from './MoviesList';
@@ -36,16 +38,16 @@ class App extends Component {
         <Router>
           <div className="App">
             <Header/>
-            <Route exact path="/" component={Movies} />
+            <PrivateRoute exact path="/" component={Movies} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/login/:email" component={Login} />
 
             <Route exact path="/register" component={Register} />
 
-            <Route exact path="/movie/:id" component={Movie} />
-            <Route exact path="/orderSuccess" component={OrderSuccess}/>
-            <Route exact path="/myOrders" component={UserOrders}/>
-            <Route exact path="/order/:id" component={PlaceOrder}/>
+            <PrivateRoute exact path="/movie/:id" component={Movie} />
+            <PrivateRoute exact path="/orderSuccess" component={OrderSuccess}/>
+            <PrivateRoute exact path="/myOrders" component={UserOrders}/>
+            <PrivateRoute exact path="/order/:id" component={PlaceOrder}/>
 
             <Footer/>
           </div>
