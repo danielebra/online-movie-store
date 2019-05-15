@@ -22,7 +22,8 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isAuthenticated: false,
-                user: null
+                user: null,
+                isAdmin: false
             };
         default:
             return state;

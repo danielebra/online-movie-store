@@ -18,6 +18,7 @@ class Register extends Component {
       date_of_birth: Date,
       password: "",
       passwordConfirm: "",
+      is_admin: false,
       errors: {}
     };
   }
@@ -48,18 +49,20 @@ class Register extends Component {
 
     let dob = this.formatDOB(this.state.date_of_birth);
     this.setState({ date_of_birth: dob });
-
+  
+    console.log(this.state.is_admin);
     const userData = {
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-      email: this.state.email,
-      mobile_number: this.state.mobile_number,
-      date_of_birth: this.state.date_of_birth,
-      password: this.state.password
-    };
+    first_name: this.state.first_name,
+    last_name: this.state.last_name,
+    email: this.state.email,
+    mobile_number: this.state.mobile_number,
+    date_of_birth: this.state.date_of_birth,
+    password: this.state.password,
+    is_admin: String(this.state.is_admin)
+  };
 
-    this.props.registerUser(userData, this.props.history);
-  }
+  this.props.registerUser(userData, this.props.history);
+}
 
   validatePassword(password, passwordConfirm) {
     let errors = {};
@@ -221,8 +224,17 @@ class Register extends Component {
                   </div>
 
                   <div className="input-field col s12">
+                    <label>
+                      <input type="checkbox" className="filled-in checkbox-red" onChange={event =>
+                          this.setState({ is_admin: !this.state.is_admin })
+                        }/>
+                      <span>Admin</span>
+                    </label>
+                  </div>
+
+                  <div className="input-field col s12">
                     <button
-                      className="button-primary waves-effect waves-light"
+                      className="button-primary waves-effect waves-light registerBtn"
                       type="submit"
                       id="register-btn-submit"
                     >

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-import { loginUser } from "../../actions/authActions";
+import { loginUser, superLoginForDevelopment } from "../../actions/authActions";
 import bg from "../../images/bg2.jpg";
 import isEmpty from "../../isEmpty";
 
@@ -28,7 +28,6 @@ class Login extends Component {
   componentWillReceiveProps(nextProps) {
     
     if(nextProps.errors){
-      console.log(nextProps.errors);
       let errors = {}
       errors['email'] = nextProps.errors['email'];
       this.setState({ errors });
@@ -135,6 +134,13 @@ class Login extends Component {
                     </button>
                   </div>
                 </form>
+
+                <div className="input-field col s12" onClick={this.props.superLoginForDevelopment}>
+                    <button className="button-primary">
+                      <span> Super Login for Development</span>
+                    </button>
+                  </div>
+                  
               </div>
             </div>
           </div>
@@ -149,4 +155,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { loginUser })(withRouter(Login));
+export default connect(mapStateToProps, { loginUser, superLoginForDevelopment })(withRouter(Login));

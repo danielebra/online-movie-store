@@ -11,6 +11,7 @@ export const registerUser = (userData, history) => dispatch => {
     // if success, redirect to the login page
     api.post('user/', userData)
         .then(res => {
+            console.log("REGISTERED: ", res.data);
             history.push(`/login/${userData.email}`)
         }) 
         .catch(err => {
@@ -22,7 +23,7 @@ export const registerUser = (userData, history) => dispatch => {
 };
 
 
-export const loginUser = userData=> dispatch => {
+export const loginUser = userData => dispatch => {
     api
         .post('user/auth/login/', userData)
         .then(res => {
@@ -48,6 +49,21 @@ export const loginUser = userData=> dispatch => {
         }
         );
 };
+
+export const superLoginForDevelopment = () => dispatch =>  {
+    dispatch({
+        type: LOGIN_USER,
+        payload: {
+            first_name: 'george',
+            last_name: 'boi',
+            email: 'george_is_god@uts.edu.au',
+            mobile_number: 989898989,
+            date_of_birth: 1999/99/99,
+            password: 'avengersendgamespoilers',
+            is_admin: 'true'
+        }
+    });
+}
 
 // Log user out
 export const logoutUser = () => dispatch => {

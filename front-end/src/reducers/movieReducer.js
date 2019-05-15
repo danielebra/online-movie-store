@@ -39,7 +39,13 @@ export default function (state = initialState, action) {
             };
 
         case SEARCH_MOVIES:
-            
+
+            if (state.collections == null)
+                return {
+                    ...state,
+                    loading: false
+                };
+
             let movies = state.collections.filter(movie => movie.genre.toLowerCase() == action.payload);
             
             if (movies.length == 0) {

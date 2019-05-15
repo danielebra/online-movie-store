@@ -20,8 +20,11 @@ class MoviesList extends Component {
     let { collections, searchList, loading } = this.props.movies;
     let pageContent;
     
-    if (collections == null || loading) {
+    if (loading) {
       pageContent = <Loading/>
+      
+    } else if (!loading && collections == null) {
+      pageContent = <p className="center"> No movies available.</p>
 
     } else {
       if (searchList != null) {
@@ -69,7 +72,8 @@ class MoviesList extends Component {
 
 // Map state to props so they can be used in this component
 const mapStateToProps = state => ({
-    movies: state.movies
+    movies: state.movies,
+    auth: state.auth
 });
 
 // Connect actions to use within react and export component
