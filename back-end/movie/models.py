@@ -19,7 +19,7 @@ class User(models.Model):
 class Review(models.Model):
     rating = IntegerRangeField(min_value=0, max_value=10)
     text = models.TextField()
-    date = models.DateField(default=timezone.now)
+    date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return str(self.rating) + ' | ' + self.text
