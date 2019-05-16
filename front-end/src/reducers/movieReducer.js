@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST } from '../actions/types';
+import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE } from '../actions/types';
 
 /* The movies state contains the following:
     - collections: an array  containing a genre and a list of movies in that genre
@@ -12,7 +12,9 @@ const initialState = {
     movie: null,
     searchList: null,
     moviesList: null,
-    loading: true
+    loading: true,
+    wishList: [],
+    isFavourite: false
 };
 
 // The state parameter is the movies state that comes from the store
@@ -32,10 +34,31 @@ export default function (state = initialState, action) {
             };
 
         case GET_MOVIE:
+
+            let fav = false;
+            
+            state.wishList.forEach(m => {
+                if (m.id == action.payload.id)
+                    fav = true;
+            })
+
             return {
                 ...state,
                 movie: action.payload,
+                isFavourite: fav,
                 loading: false
+            };
+
+        case FAVOURITE_MOVIE:
+            return {
+                ...state,
+                wishList: [...state.wishList, state.movie]
+            };
+        
+        case UNFAVOURITE_MOVIE:
+            return {
+                ...state,
+                wishList: state.wishList.filter(movie => movie.id !== state.movie.id)
             };
 
         case SEARCH_MOVIES:

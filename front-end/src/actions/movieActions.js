@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE } from './types';
+import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE } from './types';
 import api from "../api";
 
 // Will call this from the view later
@@ -60,6 +60,19 @@ export const searchMovies = query => dispatch => {
     dispatch({
         type: SEARCH_MOVIES,
         payload: query
+    })
+};
+
+export const favouriteMovie = () => dispatch => {
+    dispatch({
+        type: FAVOURITE_MOVIE
+    })
+};
+
+
+export const unFavouriteMovie = () => dispatch => {
+    dispatch({
+        type: UNFAVOURITE_MOVIE
     })
 };
 

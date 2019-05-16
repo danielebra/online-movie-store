@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "materialize-css/dist/css/materialize.min.css";
 
@@ -80,8 +80,7 @@ class Header extends Component {
                       <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
                       <Link to="/account_details">Account Details</Link>
                       <Link to="/orders">My Orders</Link> 
-                      <Link to="/wishlist">Wish List</Link>
-                      
+                      <a onClick={() => this.props.history.push('/wishlist')}>Wish List</a>
                       { user.is_admin === 'true' ? (
                         <div>
                           <Link to="/add_movie">Add Movies</Link>
@@ -115,4 +114,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { searchMovies, logoutUser })(Header);
+export default connect(mapStateToProps, { searchMovies, logoutUser })(withRouter(Header));

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { getMovies, getMovieById } from '../actions/movieActions';
+import { getMovies, getMovieById, favouriteMovie, unFavouriteMovie } from '../actions/movieActions';
 import Loading from './Templates/loading';
 
 import M from "materialize-css";
@@ -12,6 +12,27 @@ import Reviews from "./UIElements/Reviews";
 import Trailer from "./UIElements/Trailer";
 
 class Movie extends Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      favourite: false,
+      flagged: false
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    
+    if (nextProps.movies && !this.state.flagged) {
+      const { isFavourite } = this.props.movies;
+
+      if (isFavourite)
+        this.setState({ favourite: true });
+
+      this.setState({ flagged: true });
+    }
+  }
 
   componentWillMount() {
     if (this.props.match.params.id) {
@@ -23,8 +44,23 @@ class Movie extends Component {
     M.AutoInit();
   }
 
+  toggleFavourite() {
+    this.setState({ favourite: !this.state.favourite }, function() {
+
+      if (this.state.favourite)
+        this.props.favouriteMovie();
+      else
+        this.props.unFavouriteMovie();
+
+      console.log(this.state.favourite);
+      console.log(this.props.movies.wishList);
+    });
+  }
+
   render() {
     const { movie, loading } = this.props.movies;
+    const { favourite } = this.state;
+    
     let pageContent;
     let hasReviews = false;
 
@@ -32,10 +68,11 @@ class Movie extends Component {
       pageContent = <Loading/>
 
     } else {
+
+      console.log(favourite);
+
       if (movie.reviews.length > 0)
         hasReviews = true;
-
-      console.log(movie);
 
       let genres = ''
       movie.genre.forEach(genre => genres += genre + ' | ');
@@ -50,7 +87,7 @@ class Movie extends Component {
               <h2 className="movieTitleDetail">
                 {movie.title}
                 <span className="year"> ({movie.year})</span>
-                <i className="small material-icons right favIcon">favorite</i>
+                <i onClick={() => this.toggleFavourite()} className="small material-icons right favIcon">{ favourite ? 'favorite' : 'favorite_border'}</i>
                 <br />
                 <span className="price">${movie.price}</span>
               </h2>
@@ -109,4 +146,4 @@ const mapStateToProps = state => ({
   movies: state.movies
 });
 
-export default connect(mapStateToProps, { getMovies, getMovieById })(Movie);
+export default connect(mapStateToProps, { getMovies, getMovieById, favouriteMovie, unFavouriteMovie })(withRouter(Movie));

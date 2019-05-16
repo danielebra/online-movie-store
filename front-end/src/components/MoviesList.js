@@ -3,28 +3,42 @@ import React, { Component } from "react";
 import background from "../images/bg4.jpg";
 import MovieCard from "./UIElements/MovieCard";
 import Loading from './Templates/loading';
-
-// Redux
+import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-
-// ACTIONS
 import { getMovies } from '../actions/movieActions';
 
 class MoviesList extends Component {
+
+  constructor() {
+    super();
+    
+    this.state = {
+      wishListActive: false
+    }
+  }
+
   componentWillMount() {
     this.props.getMovies();
+
+    if (window.location.pathname == '/wishlist')
+      this.setState({ wishListActive: true });
   }
 
   render() {
     // If loading is true or there are no movies then show loading, otherwise iterate through each movie and display it.
-    let { collections, searchList, loading } = this.props.movies;
+    let { collections, searchList, loading, wishList } = this.props.movies;
+    let { user } = this.props.auth;
+    let { wishListActive } = this.state;
     let pageContent;
     
     if (loading) {
       pageContent = <Loading/>
-      
+
+    } else if (wishListActive && wishList.length == 0) {
+      pageContent = <p className="center"> You don't have any favourite movies. </p>
+
     } else if (!loading && collections == null) {
-      pageContent = <p className="center"> No movies available.</p>
+      pageContent = <p className="center"> No movies available for {user.first_name}.</p>
 
     } else {
       if (searchList != null) {
@@ -33,28 +47,49 @@ class MoviesList extends Component {
         }
       }
       
-      pageContent = (
-        collections.map((item, index) => {
-          return (
-            <div className="col s12 category" key={index}>
-              <div className="movieTitle">{item.genre}</div>
-              <ul className="categoryRow clearfix">
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "normal",
-                    flexWrap: "wrap"
-                  }}
-                >
-                  {collections[index].movies.map((item, index) => {
-                    return <MovieCard key={index} movie={item}/>
-                  })}
-                </div>
-              </ul>
-            </div>
-          );
-        })
-      )
+      if (wishListActive) {
+        pageContent = (
+          <div className="col s12 category">
+            <div className="movieTitle">{user.first_name}'s Wish List</div>
+            <ul className="categoryRow clearfix">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "normal",
+                  flexWrap: "wrap"
+                }}>
+                { wishList.map((item, index) => {
+                  return <MovieCard key={index} movie={item}/>
+                })}
+              </div>
+            </ul>
+          </div>
+        )
+
+      } else {
+        pageContent = (
+          collections.map((item, index) => {
+            return (
+              <div className="col s12 category" key={index}>
+                <div className="movieTitle">{item.genre}</div>
+                <ul className="categoryRow clearfix">
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "normal",
+                      flexWrap: "wrap"
+                    }}
+                  >
+                    {collections[index].movies.map((item, index) => {
+                      return <MovieCard key={index} movie={item}/>
+                    })}
+                  </div>
+                </ul>
+              </div>
+            );
+          })
+        )
+      }
     }
 
     return (
@@ -77,4 +112,4 @@ const mapStateToProps = state => ({
 });
 
 // Connect actions to use within react and export component
-export default connect(mapStateToProps, { getMovies })(MoviesList);
+export default connect(mapStateToProps, { getMovies })(withRouter(MoviesList));
