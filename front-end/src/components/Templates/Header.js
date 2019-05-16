@@ -84,13 +84,12 @@ class Header extends Component {
                       
                       { user.is_admin === 'true' ? (
                         <div>
-                          <Link to="/addMovie">Add Movies</Link>
+                          <Link to="/add_movie">Add Movies</Link>
                           <Link to="/view_users"> View Users </Link>
                         </div>
                       ) : null }
-                      
-                      <a className="divider"/>
-                      <a className="belowDivider" onClick={this.props.logoutUser}>Logout</a>
+
+                      <a onClick={this.props.logoutUser}>Logout</a>
                     </div>
                   </li>
                 </ul>

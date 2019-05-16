@@ -112,7 +112,7 @@ class  PlaceOrder extends Component {
         }
 
     return (
-      <div id="movieDetails">
+      <div className="top-padding">
         <div className="container">
           <h2 align = "center">ORDER PLACEMENT</h2>
           {content}

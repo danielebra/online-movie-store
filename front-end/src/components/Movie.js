@@ -78,7 +78,7 @@ class Movie extends Component {
     }
 
     return (
-      <div id="movieDetails">
+      <div className="top-padding">
         <div className="container">
           {pageContent}
           <div className="row details">

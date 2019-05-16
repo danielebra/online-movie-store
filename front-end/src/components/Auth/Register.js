@@ -49,11 +49,13 @@ class Register extends Component {
 
     let dob = this.formatDOB(this.state.date_of_birth);
     this.setState({ date_of_birth: dob });
-  
-    console.log(this.state.is_admin);
+
+    let first_name = this.firstUpperLetter(this.state.first_name);
+    let last_name = this.firstUpperLetter(this.state.last_name);
+
     const userData = {
-    first_name: this.state.first_name,
-    last_name: this.state.last_name,
+    first_name,
+    last_name,
     email: this.state.email,
     mobile_number: this.state.mobile_number,
     date_of_birth: this.state.date_of_birth,
@@ -63,6 +65,10 @@ class Register extends Component {
 
   this.props.registerUser(userData, this.props.history);
 }
+
+  firstUpperLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   validatePassword(password, passwordConfirm) {
     let errors = {};

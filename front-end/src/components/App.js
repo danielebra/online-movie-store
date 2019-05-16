@@ -15,6 +15,7 @@ import store from '../store';
 // CSS
 import '../styles/main.scss';
 import '../styles/materialize.min.css';
+import 'materialize-css/dist/css/materialize.min.css';
 
 // Components
 import Header from './Templates/Header'
@@ -28,9 +29,9 @@ import Movies from './MoviesList';
 import Movie from './Movie';
 import PlaceOrder from './PlaceOrder';
 import OrderSuccess from './OrderSuccess';
-import 'materialize-css/dist/css/materialize.min.css';
 import UserOrders from './UserOrders';
 import AddMovie from './AddMovie';
+import AccountDetails from './Edit/AccountDetails';
 
 class App extends Component {
   render() {
@@ -49,7 +50,9 @@ class App extends Component {
             <PrivateRoute exact path="/order_success" component={OrderSuccess}/>
             <PrivateRoute exact path="/orders" component={UserOrders}/>
             <PrivateRoute exact path="/order/:id" component={PlaceOrder}/>
-            <PrivateRoute exact path="/addMovie" component={AddMovie}/>
+            <PrivateRoute exact path="/add_movie" component={AddMovie}/>
+
+            <PrivateRoute exact path="/account_details" component={AccountDetails}/>
             <Footer/>
           </div>
         </Router>

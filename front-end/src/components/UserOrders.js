@@ -19,7 +19,7 @@ class UserOrders extends Component{
     render(){
 
         return(
-            <div id="movieDetails">
+            <div className="top-padding">
                  <div className="container">
             <div className="row">
                 <input className="col s4 offset-s4 white" type="text" placeholder="Enter order number"></input>

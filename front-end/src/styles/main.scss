@@ -117,3 +117,70 @@ img.backgroundImage {
     display:block;
     object-fit: cover;
 }
+
+table.striped>tbody>tr:nth-child(odd){
+    background-color :#222 !important;
+}
+
+table {
+    width: 60% !important;
+    margin-left: 185px;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+td, tr {
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 2px;
+}
+
+tr {
+    border-bottom: 1px solid rgba(0,0,0,0.12)
+}
+table.centered thead tr th, table.centered tbody tr td {
+    text-align: center;
+}
+.editBtn{
+    width: 20% !important;
+    background: #cc1b24c2 !important;
+    margin-top: 30px;
+    margin-bottom: -20px;
+    margin-left: 10px;
+    margin-right: 20px;
+    font-size: 14px !important;
+}
+
+.updateBtns {
+    margin-top: 25px;
+}
+
+.cancelBtn, .cancelBtn:active, .cancelBtn:focus {
+    background: #cc1b24c2 !important;
+    margin-left: 300px;
+}
+.editSubmitBtn, .editSubmitBtn:active, .editSubmitBtn:focus {
+    background: #2fe929c2 !important;
+    margin-left: 300px;
+}
+
+.account-details {
+    .input-field {
+        width: 300px;
+        margin-left: 75px;
+    }
+    input {
+        color: #bdbdbd;
+    }
+
+    input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+        border-bottom: 1px solid #9a2553;
+        box-shadow: 0 1px 0 0 #630000;
+    }
+}
+
+
