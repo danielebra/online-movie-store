@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import M from "materialize-css";
+import M from "materialize-css/dist/js/materialize.min.js";
+import "materialize-css/dist/css/materialize.min.css";
 
 import { connect } from 'react-redux';
 import { searchMovies } from '../../actions/movieActions';
+import { logoutUser } from '../../actions/authActions';
 import $ from 'jquery';
 class Header extends Component {
   constructor() {
@@ -16,6 +18,14 @@ class Header extends Component {
   componentDidMount() {
     M.AutoInit();
     $('#search-form').submit(false);
+  }
+
+  openNav() {
+    document.getElementById("mySidenav").style.width = "300px";
+  }
+
+  closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
   }
 
   search = event => {
@@ -40,7 +50,7 @@ class Header extends Component {
           </Link>
           {isAuthenticated ? (
             <div>
-              <ul id="nav-mobile" className="hide-on-med-and-down">
+              <ul id="nav-mobile" className="hide-on-med-and-down left-margin">
                 <li>
                   <Link className="current first" to="/">
                     Home
@@ -62,34 +72,38 @@ class Header extends Component {
                 </li>
               </ul>
 
-              <ul id="nav-mobile" className="right hide-on-med-and-down">
-
-          
-                <li>
-                <Link to="/myOrders">My Orders</Link>
-              </li>
-              <li>
-              <Link to="/addMovie">Add Movie</Link>
-              </li>
-                <li>
-                  <Link to="/wishlist">Wishlist</Link>
-                </li>
-                <li>
-                  <a href="badges.html">
-                    <i className="material-icons">menu</i>
-                  </a>
-                </li>
-              </ul>
+              <div className="right-margin">
+                <ul className="right">
+                  <li> 
+                    <a onClick={this.openNav} href="#!" >Hi, {user.first_name}<i className="material-icons right">menu</i></a>
+                    <div id="mySidenav" className="newsidenav">
+                      <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
+                      <Link to="/account_details">Account Details</Link>
+                      <Link to="/orders">My Orders</Link> 
+                      <Link to="/wishlist">Wish List</Link>
+                      
+                      { user.is_admin === 'true' ? (
+                        <div>
+                          <Link to="/addMovie">Add Movies</Link>
+                          <Link to="/view_users"> View Users </Link>
+                        </div>
+                      ) : null }
+                      
+                      <a className="divider"/>
+                      <a className="belowDivider" onClick={this.props.logoutUser}>Logout</a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
           ) : (
-            <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <ul id="nav-mobile" className="right right-margin hide-on-med-and-down">
               <li>
                 <Link to="/login">Login</Link>
               </li>
               <li>
                 <Link to="/register">Register</Link>
               </li>
-              
             </ul>
           )}
         </div>
@@ -102,4 +116,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { searchMovies })(Header);
+export default connect(mapStateToProps, { searchMovies, logoutUser })(Header);

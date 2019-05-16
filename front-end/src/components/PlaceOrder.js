@@ -104,7 +104,7 @@ class  PlaceOrder extends Component {
               <div className="col s4">
               </div>
               <div className="col s4">
-              <Link to="/orderSuccess"><button className="waves-effect waves-light red darken-3 btn tooltipped" data-position="buttom" data-tooltip="Place this Order">Place</button></Link>
+              <Link to="/order_success"><button className="waves-effect waves-light red darken-3 btn tooltipped" data-position="buttom" data-tooltip="Place this Order">Place</button></Link>
               </div>
             </div>
           </div>
