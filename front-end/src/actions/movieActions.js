@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST } from './types';
+import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE } from './types';
 import api from "../api";
 
 // Will call this from the view later
@@ -68,6 +68,12 @@ export const clearSearchList = () => {
         type: CLEAR_SEARCH_LIST
     }
 }
+
+export const addMovie = () => dispatch => {
+    return{
+        type: ADD_MOVIE
+    }
+};
 
 // Set profile loading
 export const setLoading = () => {

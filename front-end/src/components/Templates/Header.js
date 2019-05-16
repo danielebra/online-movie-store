@@ -69,7 +69,7 @@ class Header extends Component {
                 <Link to="/myOrders">My Orders</Link>
               </li>
               <li>
-              <Link to="/addMovie">Add movie</Link>
+              <Link to="/addMovie">Add Movie</Link>
               </li>
                 <li>
                   <Link to="/wishlist">Wishlist</Link>
