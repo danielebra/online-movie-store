@@ -60,7 +60,7 @@ export const superLoginForDevelopment = () => dispatch =>  {
             mobile_number: 989898989,
             date_of_birth: 1999/99/99,
             password: 'avengersendgamespoilers',
-            is_admin: 'true'
+            is_admin: 'false'
         }
     });
 }

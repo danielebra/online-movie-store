@@ -22,7 +22,7 @@ class OrderSuccess extends Component {
             </div>
             
             <div className="col 3s offset-s2">
-            <button className="waves-effect waves-light red darken-3 btn">My Orders</button>
+            <Link to="/orders" className="waves-effect waves-light red darken-3 btn">My Orders</Link>
             
             </div>
            </div>

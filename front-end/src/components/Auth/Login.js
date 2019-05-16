@@ -26,7 +26,6 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    
     if(nextProps.errors){
       let errors = {}
       errors['email'] = nextProps.errors['email'];
