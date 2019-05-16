@@ -13,8 +13,7 @@ const initialState = {
     searchList: null,
     moviesList: null,
     loading: true,
-    wishList: [],
-    isFavourite: false
+    wishList: []
 };
 
 // The state parameter is the movies state that comes from the store
@@ -34,18 +33,9 @@ export default function (state = initialState, action) {
             };
 
         case GET_MOVIE:
-
-            let fav = false;
-            
-            state.wishList.forEach(m => {
-                if (m.id == action.payload.id)
-                    fav = true;
-            })
-
             return {
                 ...state,
                 movie: action.payload,
-                isFavourite: fav,
                 loading: false
             };
 

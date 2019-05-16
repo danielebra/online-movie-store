@@ -22,18 +22,6 @@ class Movie extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    
-    if (nextProps.movies && !this.state.flagged) {
-      const { isFavourite } = this.props.movies;
-
-      if (isFavourite)
-        this.setState({ favourite: true });
-
-      this.setState({ flagged: true });
-    }
-  }
-
   componentWillMount() {
     if (this.props.match.params.id) {
       this.props.getMovieById(this.props.match.params.id);
@@ -44,6 +32,19 @@ class Movie extends Component {
     M.AutoInit();
   }
 
+  isMovieFavourite() {
+    const { movie, wishList } = this.props.movies;
+
+    if (!this.state.flagged) {
+      wishList.forEach(m => {
+        if (m.id == movie.id) {
+          this.setState({ favourite: true });
+        }
+      })
+      this.setState({ flagged: true });
+    }
+  }
+
   toggleFavourite() {
     this.setState({ favourite: !this.state.favourite }, function() {
 
@@ -52,8 +53,6 @@ class Movie extends Component {
       else
         this.props.unFavouriteMovie();
 
-      console.log(this.state.favourite);
-      console.log(this.props.movies.wishList);
     });
   }
 
@@ -69,7 +68,7 @@ class Movie extends Component {
 
     } else {
 
-      console.log(favourite);
+      this.isMovieFavourite();
 
       if (movie.reviews.length > 0)
         hasReviews = true;
