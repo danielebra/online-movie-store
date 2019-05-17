@@ -46,13 +46,18 @@ class Movie extends Component {
   }
 
   toggleFavourite() {
+    const { movie } = this.props.movies;
     this.setState({ favourite: !this.state.favourite }, function() {
 
-      if (this.state.favourite)
+      if (this.state.favourite) {
         this.props.favouriteMovie();
-      else
+        M.toast({html: `${movie.title} has been favourited.`, displayLength: 2000})
+      
+      } else {
         this.props.unFavouriteMovie();
+        M.toast({html: `${movie.title} has been unfavourited.`, displayLength: 2000})
 
+      }
     });
   }
 

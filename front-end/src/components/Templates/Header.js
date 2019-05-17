@@ -40,6 +40,7 @@ class Header extends Component {
   render() {
 
     const { isAuthenticated, user } = this.props.auth;
+    const { wishList } = this.props.movies;
 
     return (
       <nav id="header">
@@ -80,7 +81,7 @@ class Header extends Component {
                       <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
                       <Link to="/account_details">Account Details</Link>
                       <Link to="/orders">My Orders</Link> 
-                      <a onClick={() => this.props.history.push('/wishlist')}>Wish List</a>
+                      <a onClick={() => this.props.history.push('/wishlist')}>Wish List {wishList.length > 0 ? (<div class="wishListBadge"> <span class="new badge">{wishList.length}</span> </div>) : null}</a> 
                       { user.is_admin === 'true' ? (
                         <div>
                           <Link to="/add_movie">Add Movies</Link>
@@ -111,7 +112,8 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  movies: state.movies
 });
 
 export default connect(mapStateToProps, { searchMovies, logoutUser })(withRouter(Header));
