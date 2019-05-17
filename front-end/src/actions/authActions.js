@@ -60,8 +60,7 @@ export const setCurrentUser = userData => {
 
 // Log user out
 export const logoutUser = () => dispatch => {
-    localStorage.removeItem('email');
-    localStorage.removeItem('password');
+    localStorage.removeItem('user');
     dispatch({
         type: LOGOUT_USER
     });

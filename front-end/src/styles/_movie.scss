@@ -233,6 +233,14 @@ img.moviesBackground {
     width: 35%;
 }
 
+.fav a {
+    color: white !important;
+}
+
+span.badge.new {
+    background-color: #b32b00 !important;
+}
+
 .material-icons {
     display: inline-flex;
     align-items: center;
@@ -266,6 +274,15 @@ i.favIcon {
     margin-top: 5px;
     margin-right: 20px;
     cursor: pointer;
+}
+
+.addReviewBtn {
+    font-size: 13px !important;
+    background: #c71f27c2 !important;
+}
+
+.add-review {
+    margin-left: 150px;
 }
 
 .tab {

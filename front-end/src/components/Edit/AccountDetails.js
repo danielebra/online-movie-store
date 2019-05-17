@@ -23,7 +23,6 @@ class AccountDetails extends Component {
 
         if(nextProps.errors){
           let errors = {};
-          console.log(nextProps.errors);
 
             Object.keys(nextProps.errors) 
             .forEach(function eachKey(key) {

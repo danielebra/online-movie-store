@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE } from './types';
+import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE } from './types';
 import api from "../api";
 
 // Will call this from the view later
@@ -52,6 +52,17 @@ export const getMovieById = id => dispatch => {
             type: GET_MOVIE,
             payload: movie[0]
         })
+    })
+};
+
+export const addReview = (userId, movieId, review) => dispatch => {
+    api.get("movie/").then(res =>  {
+        // let movie = res.data.filter(movie => movie.id == id);
+
+        // dispatch({
+        //     type: ADD_REVIEW,
+        //     payload: res.data
+        // })
     })
 };
 

@@ -77,11 +77,11 @@ class Header extends Component {
                 <ul className="right">
                   <li> 
                     <a onClick={this.openNav} href="#!" >Hi, {user.first_name}<i className="material-icons right">menu</i></a>
-                    <div id="mySidenav" className="newsidenav">
-                      <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
+                    <div onClick={this.closeNav} id="mySidenav" className="newsidenav">
+                      <a href="javascript:void(0)" className="closebtn">&times;</a>
                       <Link to="/account_details">Account Details</Link>
                       <Link to="/orders">My Orders</Link> 
-                      <a onClick={() => this.props.history.push('/wishlist')}>Wish List {wishList.length > 0 ? (<div class="wishListBadge"> <span class="new badge">{wishList.length}</span> </div>) : null}</a> 
+                      <Link to="/wishlist">Wish List {wishList.length > 0 ? (<div class="wishListBadge"> <span class="new badge">{wishList.length}</span> </div>) : null}</Link> 
                       { user.is_admin === 'true' ? (
                         <div>
                           <Link to="/add_movie">Add Movies</Link>

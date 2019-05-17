@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 // React Router
 import {
   BrowserRouter as Router,
-  Route,
-  Link,
-  Switch
+  Route
 } from 'react-router-dom';
 
 // Redux

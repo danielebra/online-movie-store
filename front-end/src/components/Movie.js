@@ -18,7 +18,10 @@ class Movie extends Component {
 
     this.state = {
       favourite: false,
-      flagged: false
+      flagged: false,
+      rating: 0,
+      text: '',
+      errors: {}
     }
   }
 
@@ -51,18 +54,25 @@ class Movie extends Component {
 
       if (this.state.favourite) {
         this.props.favouriteMovie();
-        M.toast({html: `${movie.title} has been favourited.`, displayLength: 2000})
+        M.toast({html: `<a href="/wishlist">${movie.title} has been favourited.</a>`, classes: 'fav', displayLength: 2000})
       
       } else {
         this.props.unFavouriteMovie();
-        M.toast({html: `${movie.title} has been unfavourited.`, displayLength: 2000})
+        M.toast({html: `<a href="/wishlist">${movie.title} has been unfavourited.</a>`, classes: 'fav', displayLength: 2000})
 
       }
     });
   }
 
+  addReview = event => {
+    event.preventDefault();
+
+    console.log(this.state);
+  }
+
   render() {
     const { movie, loading } = this.props.movies;
+    const { errors } = this.props;
     const { favourite } = this.state;
     
     let pageContent;
@@ -86,7 +96,6 @@ class Movie extends Component {
             <div className="col s5">
               <img className="movieDetailsImg" src={movie.thumbnail} />
             </div>
-
             <div className="col s7 mov">
               <h2 className="movieTitleDetail">
                 {movie.title}
@@ -138,6 +147,44 @@ class Movie extends Component {
             </div>
             <div id="reviews" className="col s12">
               { hasReviews ? <Reviews movie={movie}/> : <p className="info center"> No reviews available for this movie. </p> }
+              
+              <form className="center add-review" noValidate onSubmit={this.addReview}>
+                <div className="input-field col s2">
+                  <input 
+                    type="number" 
+                    id="rating"
+                    value={this.state.rating}
+                    min="0" max="10"
+                    onChange={event =>
+                      this.setState({ rating: parseInt(event.target.value) })
+                    } 
+                    className="validate"
+                    required
+                    aria-required=""
+                  />
+                  { errors.rating ? <span className="helper-text error"> { errors.rating } </span> : null}
+                  <label htmlFor="rating">Rating</label>
+                </div>
+
+                <div className="input-field col s6">
+                    <input 
+                      type="text" 
+                      id="text"
+                      value={this.state.text}
+                      onChange={event =>
+                        this.setState({ text: event.target.value })
+                      } 
+                      className="validate"
+                      required
+                      aria-required=""
+                  />
+                  { errors.text ? <span className="helper-text error"> { errors.text } </span> : null}
+                  <label htmlFor="text">Text</label>
+                </div>
+                <div className="input-field col s4">
+                  <button className="btn-large addReviewBtn"> Add a Review <i className="material-icons">add</i></button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -147,7 +194,8 @@ class Movie extends Component {
 }
 
 const mapStateToProps = state => ({
-  movies: state.movies
+  movies: state.movies,
+  errors: state.errors
 });
 
 export default connect(mapStateToProps, { getMovies, getMovieById, favouriteMovie, unFavouriteMovie })(withRouter(Movie));
