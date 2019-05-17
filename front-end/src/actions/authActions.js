@@ -27,6 +27,10 @@ export const loginUser = userData => dispatch => {
         .post('user/auth/login/', userData)
         .then(res => {
             if (res.data['isValid']) {
+                
+                // set localstorage
+                localStorage.setItem('user', JSON.stringify(res.data['user']));
+
                 dispatch({
                     type: LOGIN_USER,
                     payload: res.data['user']
@@ -44,23 +48,44 @@ export const loginUser = userData => dispatch => {
                 payload: err.response.data
             })
         }
-        );
+    );
+};
+
+export const setCurrentUser = userData => {
+    return{
+        type: LOGIN_USER,
+        payload: userData
+    };
+};
+
+// Log user out
+export const logoutUser = () => dispatch => {
+    localStorage.removeItem('email');
+    localStorage.removeItem('password');
+    dispatch({
+        type: LOGOUT_USER
+    });
 };
 
 export const superLoginForDevelopment = () => dispatch =>  {
+    let user = {
+        first_name: 'George',
+        last_name: 'Boi',
+        email: 'george_is_god@uts.edu.au',
+        mobile_number: 989898989,
+        date_of_birth: 1999/99/99,
+        password: 'avengersendgamespoilers',
+        is_admin: 'true'
+    };
+    localStorage.setItem('user', JSON.stringify(user));
+
     dispatch({
         type: LOGIN_USER,
-        payload: {
-            first_name: 'George',
-            last_name: 'Boi',
-            email: 'george_is_god@uts.edu.au',
-            mobile_number: 989898989,
-            date_of_birth: 1999/99/99,
-            password: 'avengersendgamespoilers',
-            is_admin: 'true'
-        }
+        payload: user
     });
 }
+
+//JSON.parse(localStorage.user)
 
 export const editUser = updatedData => dispatch => {
     api
@@ -79,12 +104,6 @@ export const editUser = updatedData => dispatch => {
                 type: GET_ERRORS,
                 payload: err.response.data
             })
-        });
+        }
+    );
 }
-
-// Log user out
-export const logoutUser = () => dispatch => {
-    dispatch({
-        type: LOGOUT_USER
-    });
-};

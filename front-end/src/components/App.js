@@ -32,6 +32,12 @@ import OrderSuccess from './OrderSuccess';
 import UserOrders from './UserOrders';
 import AddMovie from './AddMovie';
 import AccountDetails from './Edit/AccountDetails';
+import { setCurrentUser } from '../actions/authActions';
+
+// Check user localstorage
+if (localStorage.user) {
+  store.dispatch(setCurrentUser(JSON.parse(localStorage.user)));
+}
 
 class App extends Component {
   render() {

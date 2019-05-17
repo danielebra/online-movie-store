@@ -19,6 +19,10 @@ const initialState = {
 // The state parameter is the movies state that comes from the store
 // The action is the object containing a type and payload we dispatched in the action creator
 export default function (state = initialState, action) {
+    let list;
+
+    if (localStorage.wishlist)
+        state.wishList = JSON.parse(localStorage.wishlist);
 
     switch (action.type) {
         
@@ -40,15 +44,25 @@ export default function (state = initialState, action) {
             };
 
         case FAVOURITE_MOVIE:
+            list = [...state.wishList, state.movie];
+            localStorage.setItem('wishlist', JSON.stringify(list));
+
+            console.log(list);
+
             return {
                 ...state,
-                wishList: [...state.wishList, state.movie]
+                wishList: list
             };
         
         case UNFAVOURITE_MOVIE:
+            list = state.wishList.filter(movie => movie.id !== state.movie.id);
+            localStorage.setItem('wishlist', JSON.stringify(list));
+
+            console.log(list);
+
             return {
                 ...state,
-                wishList: state.wishList.filter(movie => movie.id !== state.movie.id)
+                wishList: list
             };
 
         case SEARCH_MOVIES:
