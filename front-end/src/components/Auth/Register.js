@@ -18,9 +18,16 @@ class Register extends Component {
       date_of_birth: Date,
       password: "",
       passwordConfirm: "",
+      is_admin: false,
       errors: {}
     };
   }
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+        this.props.history.push('/');
+    }
+}
 
   componentWillReceiveProps(nextProps) {
     
@@ -49,16 +56,24 @@ class Register extends Component {
     let dob = this.formatDOB(this.state.date_of_birth);
     this.setState({ date_of_birth: dob });
 
-    const userData = {
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-      email: this.state.email,
-      mobile_number: this.state.mobile_number,
-      date_of_birth: this.state.date_of_birth,
-      password: this.state.password
-    };
+    let first_name = this.firstUpperLetter(this.state.first_name);
+    let last_name = this.firstUpperLetter(this.state.last_name);
 
-    this.props.registerUser(userData, this.props.history);
+    const userData = {
+    first_name,
+    last_name,
+    email: this.state.email,
+    mobile_number: this.state.mobile_number,
+    date_of_birth: this.state.date_of_birth,
+    password: this.state.password,
+    is_admin: String(this.state.is_admin)
+  };
+
+  this.props.registerUser(userData, this.props.history);
+}
+
+  firstUpperLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   validatePassword(password, passwordConfirm) {
@@ -221,8 +236,17 @@ class Register extends Component {
                   </div>
 
                   <div className="input-field col s12">
+                    <label>
+                      <input type="checkbox" className="filled-in checkbox-red" onChange={event =>
+                          this.setState({ is_admin: !this.state.is_admin })
+                        }/>
+                      <span>Admin</span>
+                    </label>
+                  </div>
+
+                  <div className="input-field col s12">
                     <button
-                      className="button-primary waves-effect waves-light"
+                      className="button-primary waves-effect waves-light registerBtn"
                       type="submit"
                       id="register-btn-submit"
                     >

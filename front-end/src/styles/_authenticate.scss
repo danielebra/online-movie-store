@@ -28,6 +28,15 @@
     }
 }
 
+.registerBtn {
+    margin-top: 35px;
+}
+
+.checkbox-red[type="checkbox"].filled-in:checked + span:not(.lever):after {
+    border: 2px solid #e5424d;  
+    background-color: #e5424d;
+}
+
 @media (min-width: 990px){
     .auth{
         margin: auto;

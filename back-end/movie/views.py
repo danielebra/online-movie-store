@@ -70,7 +70,8 @@ class User(viewsets.ModelViewSet):
                 else:
                     user.__dict__[k] = request.data[k]
             user.save()
-            return Response({"status": 'user updated'})
+            userUpdate = UserModel.objects.filter(email=user.email).values().first()
+            return Response({"status": 'user updated', "user": userUpdate})
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -91,7 +92,7 @@ class User(viewsets.ModelViewSet):
             user = UserModel.objects.filter(
                 email=request.data['email']).values().first()
             if user['password'] == request.data['password']:
-                return Response({"isValid": "true"})
+                return Response({"isValid": "true", "user": user})
             else:
                 return Response({'email': 'Email or password dont match.'})
 

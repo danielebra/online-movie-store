@@ -11,6 +11,7 @@ class User(models.Model):
     shipping_address = models.TextField(blank=True)
     email = models.EmailField(unique=True)
     password = models.TextField()
+    is_admin = models.TextField()
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name

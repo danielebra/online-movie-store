@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import M from "materialize-css";
+import { Link, withRouter } from "react-router-dom";
+import M from "materialize-css/dist/js/materialize.min.js";
+import "materialize-css/dist/css/materialize.min.css";
 
 import { connect } from 'react-redux';
 import { searchMovies } from '../../actions/movieActions';
+import { logoutUser } from '../../actions/authActions';
 import $ from 'jquery';
 class Header extends Component {
   constructor() {
@@ -18,6 +20,14 @@ class Header extends Component {
     $('#search-form').submit(false);
   }
 
+  openNav() {
+    document.getElementById("mySidenav").style.width = "300px";
+  }
+
+  closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+  }
+
   search = event => {
     event.preventDefault();
 
@@ -30,6 +40,7 @@ class Header extends Component {
   render() {
 
     const { isAuthenticated, user } = this.props.auth;
+    const { wishList } = this.props.movies;
 
     return (
       <nav id="header">
@@ -40,7 +51,7 @@ class Header extends Component {
           </Link>
           {isAuthenticated ? (
             <div>
-              <ul id="nav-mobile" className="hide-on-med-and-down">
+              <ul id="nav-mobile" className="hide-on-med-and-down left-margin">
                 <li>
                   <Link className="current first" to="/">
                     Home
@@ -62,34 +73,36 @@ class Header extends Component {
                 </li>
               </ul>
 
-              <ul id="nav-mobile" className="right hide-on-med-and-down">
+              <div className="right-margin">
+                <ul className="right">
+                  <li> 
+                    <a onClick={this.openNav} href="#!" >Hi, {user.first_name}<i className="material-icons right">menu</i></a>
+                    <div onClick={this.closeNav} id="mySidenav" className="newsidenav">
+                      <a href="javascript:void(0)" className="closebtn">&times;</a>
+                      <Link to="/account_details">Account Details</Link>
+                      <Link to="/orders">My Orders</Link> 
+                      <Link to="/wishlist">Wish List {wishList.length > 0 ? (<div class="wishListBadge"> <span class="new badge">{wishList.length}</span> </div>) : null}</Link> 
+                      { user.is_admin === 'true' ? (
+                        <div>
+                          <Link to="/add_movie">Add Movies</Link>
+                          <Link to="/view_users"> View Users </Link>
+                        </div>
+                      ) : null }
 
-          
-                <li>
-                <Link to="/myOrders">My Orders</Link>
-              </li>
-              <li>
-              <Link to="/addMovie">Add movie</Link>
-              </li>
-                <li>
-                  <Link to="/wishlist">Wishlist</Link>
-                </li>
-                <li>
-                  <a href="badges.html">
-                    <i className="material-icons">menu</i>
-                  </a>
-                </li>
-              </ul>
+                      <a onClick={this.props.logoutUser}>Logout</a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
           ) : (
-            <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <ul id="nav-mobile" className="right right-margin hide-on-med-and-down">
               <li>
                 <Link to="/login">Login</Link>
               </li>
               <li>
                 <Link to="/register">Register</Link>
               </li>
-              
             </ul>
           )}
         </div>
@@ -99,7 +112,8 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  movies: state.movies
 });
 
-export default connect(mapStateToProps, { searchMovies })(Header);
+export default connect(mapStateToProps, { searchMovies, logoutUser })(withRouter(Header));
