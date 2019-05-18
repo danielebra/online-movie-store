@@ -38,10 +38,13 @@ class UpdateMovie extends Component{
         return(
             <div id="movieDetails">
             <div className="container">
-              {pageContent}
-              <div className="row details">
-                    <h1> Fuck you.jpeg </h1>
-              </div>
+                <div className="row details">
+                      <h1> Movie List </h1>
+                      <select value={pageContent} >
+                          <option value={collections[0]}> Option 1 </option>
+                          <option value={collections[1]}> Option 2 </option>
+                      </select>
+                </div>  
             </div>
             </div>
         )
