@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE } from '../actions/types';
+import { GET_MOVIES, GET_MOVIE, ADD_REVIEW, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE } from '../actions/types';
 
 /* The movies state contains the following:
     - collections: an array  containing a genre and a list of movies in that genre
@@ -47,6 +47,12 @@ export default function (state = initialState, action) {
                 movie: action.payload,
                 loading: false
             };
+
+        case ADD_REVIEW:
+            state.movie.reviews.push(action.payload);
+            return {
+                ...state
+            }
 
         case FAVOURITE_MOVIE:
             list = [...state.wishList, state.movie];
