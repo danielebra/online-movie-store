@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('trailer_link', models.TextField()),
                 ('price', models.FloatField()),
                 ('maturity_rating', models.CharField(max_length=6)),
-                ('pruchase_count', models.IntegerField()),
+                ('purchase_count', models.IntegerField()),
                 ('stock', models.IntegerField()),
             ],
         ),

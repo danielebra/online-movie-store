@@ -75,16 +75,17 @@ class Header extends Component {
               <div className="right-margin">
                 <ul className="right">
                   <li> 
-                    <a onClick={this.openNav} href="#!" >Hi, {user.first_name}<i className="material-icons right">menu</i></a>
+                    <a onClick={this.openNav} href="#!"> Hi, {user.first_name}<i className="material-icons right">menu</i></a>
                     <div id="mySidenav" className="newsidenav">
                       <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
                       <Link to="/account_details">Account Details</Link>
                       <Link to="/orders">My Orders</Link> 
                       <Link to="/wishlist">Wish List</Link>
-                      
+                      <Link to="/add-movie">Add Movies</Link>
+                      <Link to="/update-movie">Update Movies </Link>
+
                       { user.is_admin === 'true' ? (
                         <div>
-                          <Link to="/addMovie">Add Movies</Link>
                           <Link to="/view_users"> View Users </Link>
                         </div>
                       ) : null }
