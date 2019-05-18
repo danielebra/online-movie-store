@@ -44,7 +44,7 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_genre(self, obj):
-        return [_genre for _genre in obj.genre.all().values()]
+        return [_genre.name for _genre in obj.genre.all()]
 
     def get_reviews(self, obj):
         return [_review for _review in obj.reviews.all().values()]
