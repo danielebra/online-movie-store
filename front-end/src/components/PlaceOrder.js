@@ -69,7 +69,7 @@ class  PlaceOrder extends Component {
                   <Info movie={movie} />
               </div>
                
-              <div>
+              <div className="row">
               <div className="col s5">
               <span className="price"><font size="+3">${movie.price}</font></span>
               </div>
@@ -79,21 +79,11 @@ class  PlaceOrder extends Component {
               <button className="col s4 waves-effect btn red darken-3" onClick={this.addQuantity}>+</button>
               </div>
               </div>
-               <div className="col s12">
-               <label>Shipping Address</label>
-    
-                 <select>
-                  <option value="enterAddress" disabled selected>Choose your address</option>
-                  <option value="address1">32/2 Jone Street, Hurstville, Sydney, NSW</option>
-                  <option value="address2">2/3 Chiler Street, Wolli Creek, Sydney, NSW</option>
-                </select>
+              
+              <h6>Shipping Address: 2/32 jone Street, Haymarket, Sydney, NSW 2000</h6>
              
-                
-              
-               </div>
-              
-              <div >
-              <label><font size="+1">Shipping fee: ${shippingFee}</font></label>
+              <div className="row">
+              <h5>Shipping fee: ${shippingFee}</h5>
               </div>
               <div> 
                 <h5 className="right-align"><font size="+5">Total: ${totalPrice.toFixed(2)}</font></h5>
