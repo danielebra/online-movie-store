@@ -45,41 +45,38 @@ class AddMovie extends Component {
             <div class="top-padding">
                 <div className="container">
                     <h2 className="center-align">Add Movie</h2>
-                    <div className="row">
                         <form className="col s12" onSubmit={this.onSubmit}>
                             <div className="row">
-                                <div className="col s6">
+                                <div className="col s6 offset-s1">
                                     <label htmlFor="title"><font size="+1">Movie Title</font></label>
                                     <input 
                                         id="title" 
                                         type="text" 
                                         placeholder="Enter title of movie" 
-                                        className="validate white" 
                                         onChange={event =>
                                             this.setState({title: event.target.value })
                                         }
                                     />
                                 </div>
-                                <div className="col s3 offset-s3">
+                                <div className="col s3 offset-s1">
                                     <label htmlFor="year"><font size="+1">Movie Year</font></label>
                                     <input 
                                         id="year" 
                                         type="text" 
                                         placeholder="Enter year of movie" 
-                                        className="validate white" 
                                         onChange={event =>
                                             this.setState({year: event.target.value })
                                         }
                                         />
                                 </div>
+                                <div className="row"></div>
                                 <div className="row">
                                     <div className="col s12">
                                         <label htmlFor="description"><font size="+1">Description</font></label>
                                         <textarea 
                                             id="description" 
                                             type="text" 
-                                            placeholder="Enter movie description" 
-                                            className="validate white" 
+                                            placeholder="Enter movie description"
                                             rows="5" 
                                             onChange={event =>
                                                 this.setState({description: event.target.value })
@@ -93,8 +90,7 @@ class AddMovie extends Component {
                                         <input 
                                             id="thumbail" 
                                             type="text" 
-                                            placeholder="place a URL of Thumbail" 
-                                            className="validate white" 
+                                            placeholder="place a URL of Thumbail"
                                             onChange={event =>
                                                 this.setState({thumbnail: event.target.value })
                                             } 
@@ -106,8 +102,7 @@ class AddMovie extends Component {
                                         <input 
                                             id="trailer" 
                                             type="text"
-                                            placeholder="place a URL for Trailer" 
-                                            className="validate white" 
+                                            placeholder="place a URL for Trailer"
                                             onChange={event =>
                                                 this.setState({trailer: event.target.value })
                                             } 
@@ -116,35 +111,33 @@ class AddMovie extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="col s3">
-                                        <label htmlFor="price"><font size="+1">Movie price</font></label>
+                                        <label htmlFor="price"><font size="+1">Movie Price</font></label>
                                         <input 
                                             id="price" 
                                             type="text" 
-                                            placeholder="price" 
-                                            className="validate white" 
+                                            placeholder="Price"
                                             onChange={event =>
                                                 this.setState({price: event.target.value })
                                             }
                                             />
                                     </div>
                                     <div className="col s3 offset-s1">
-                                        <label htmlFor="stock"><font size="+1">Movie stock</font></label>
+                                        <label htmlFor="stock"><font size="+1">Movie Stock</font></label>
                                         <input 
                                             id="stock" 
                                             type="text" 
-                                            placeholder="avaliable stock" 
-                                            className="validate white" 
+                                            placeholder="Avaliable stock"
                                             onChange={event =>
                                                 this.setState({stock: event.target.value })
                                             } 
                                             />
                                     </div>
                                     <div className="col s4 offset-s1">
-                                        <label htmlFor="maturity"><font size="+1">Maturity rating</font></label>
-                                        <input className="validate white"
+                                        <label htmlFor="maturity"><font size="+1">Maturity Rating</font></label>
+                                        <input
                                             id="maturity" 
                                             type="text" 
-                                            placeholder="maturity rating" 
+                                            placeholder="Maturity Rating" 
                                             onChange={event =>
                                                 this.setState({maturity_rating: event.target.value })
                                             } 
@@ -152,7 +145,7 @@ class AddMovie extends Component {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col s3 offset-s2">
+                                    <div className="col s3 offset-s3">
                                         <button className="waves-effect waves-light red darken-3 btn">Cancel</button>
                                     </div>
                                     <div className="col s3 offset-s2">
@@ -163,11 +156,10 @@ class AddMovie extends Component {
                                             <span> Submit </span>
                                         </button>
                                     </div>
-                                    <div className="col s2"></div>
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    
                 </div>
             </div>
 

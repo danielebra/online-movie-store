@@ -36,15 +36,134 @@ class UpdateMovie extends Component{
             }
         }
         return(
+          <div className="top-padding">
             <div id="movieDetails">
-            <div className="container">
+              <div className="container">
                 <div className="row details">
-                      <h1> Movie List </h1>
-                      <select value={pageContent} >
-                          <option value={collections[0]}> Option 1 </option>
-                          <option value={collections[1]}> Option 2 </option>
-                      </select>
+                  <h1 className="center-align"> Update/Remove Movie </h1>
+                  <div className="movieList">
+                    <select value="">
+                        <option value="Error"> Select Movie to view or change </option>
+                        <option value={collections[0]}> Option 1 </option>
+                        <option value={collections[1]}> Option 2 </option>
+                    </select>
+                  </div>
+                </div>
+                <hr></hr>
+                <h3> Movie Details</h3>
+                <form className="col 10" onSubmit="">
+                <div className="row">
+                    <div className="col s4">
+                      <label htmlFor="title"><font size="+1"> Movie Title </font></label>
+                      <input 
+                      id="title" 
+                      type="text" 
+                      placeholder="Movie Title" 
+                       
+                      onChange={event =>
+                          this.setState({title: event.target.value })
+                      }
+                      />
+                    </div>
+                    
+                    <div className="col s4 offset-s2">
+                        <label htmlFor="year"> <font size="+1">Year</font></label>
+                        <input 
+                        id="year" 
+                        type="text" 
+                        placeholder="Movie Year" 
+                        onChange={event =>
+                            this.setState({year: event.target.value })
+                        }
+                        />
+                    </div>
+                </div>
+                <div className="row">
+                  <div className="col s7">
+                      <label htmlFor="description"> <font size="+1">Description</font></label>
+                      <input 
+                      id="description" 
+                      type="text" 
+                      placeholder="Movie Description"
+                      onChange={event =>
+                          this.setState({year: event.target.value })
+                      }
+                      />
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col s4">
+                      <label htmlFor="thumbnail"> <font size="+1">Thumbnail URL</font></label>
+                      <input 
+                      id="thumbnail" 
+                      type="text" 
+                      placeholder="Movie Thumbnail URL"
+                      onChange={event =>
+                          this.setState({year: event.target.value })
+                      }
+                      />
+                  </div>
+                  <div className="col s4 offset-s2">
+                    <label htmlFor="trailer"> <font size="+1">Trailer URL </font></label>
+                    <input 
+                    id="trailer" 
+                    type="text" 
+                    placeholder="Movie Trailer URL" 
+                    onChange={event =>
+                        this.setState({year: event.target.value })
+                    }
+                    />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col s3">
+                      <label htmlFor="price"><font size="+1">Movie Price</font></label>
+                      <input 
+                          id="price" 
+                          type="text" 
+                          placeholder="Movie Price"
+                          onChange={event =>
+                              this.setState({price: event.target.value })
+                          }
+                          />
+                  </div>
+                  <div className="col s3 offset-s1">
+                    <label htmlFor="stock"><font size="+1">Movie Stock</font></label>
+                    <input 
+                        id="stock" 
+                        type="text" 
+                        placeholder="Avaliable Stock"
+                        onChange={event =>
+                            this.setState({stock: event.target.value })
+                        } 
+                        />
+                  </div>
+                  <div className="col s4 offset-s1">
+                      <label htmlFor="maturity"><font size="+1">Maturity Rating</font></label>
+                      <input
+                          id="maturity" 
+                          type="text" 
+                          placeholder="Maturity Rating" 
+                          onChange={event =>
+                              this.setState({maturity_rating: event.target.value })
+                          } 
+                          />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col s12 center-align">
+                    <button
+                      className="waves-effect waves-light red darken-3 btn"
+                      type="submit"
+                      id="update-movies-btn"
+                    >
+                    Save Changes
+                    </button> 
+                  </div>
                 </div>  
+              </form> 
+            </div>
             </div>
             </div>
         )
