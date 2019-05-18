@@ -26,10 +26,11 @@ class MoviesList extends Component {
 
   render() {
     // If loading is true or there are no movies then show loading, otherwise iterate through each movie and display it.
-    let { collections, searchList, loading, wishList } = this.props.movies;
+    let { collections, searchList, loading, wishList, moviesList } = this.props.movies;
     let { user } = this.props.auth;
     let { wishListActive } = this.state;
     let pageContent;
+    console.log(this.props.movies);
     
     if (loading) {
       pageContent = <Loading/>
@@ -37,7 +38,7 @@ class MoviesList extends Component {
     } else if (wishListActive && wishList.length == 0) {
       pageContent = <p className="center"> You don't have any favourite movies. </p>
 
-    } else if (!loading && collections == null) {
+    } else if (!loading && collections == null && moviesList == null) {
       pageContent = <p className="center"> No movies available for {user.first_name}.</p>
 
     } else {
@@ -47,10 +48,12 @@ class MoviesList extends Component {
         }
       }
       
-      if (wishListActive) {
+      if ((wishListActive || moviesList) && collections == null) {
+        let wishListTitle = `${user.first_name}'s Wish List`;
+
         pageContent = (
           <div className="col s12 category">
-            <div className="movieTitle">{user.first_name}'s Wish List</div>
+            <div className="movieTitle">{wishListActive ? wishListTitle : 'Movies' } </div>
             <ul className="categoryRow clearfix">
               <div
                 style={{
@@ -58,7 +61,9 @@ class MoviesList extends Component {
                   justifyContent: "normal",
                   flexWrap: "wrap"
                 }}>
-                { wishList.map((item, index) => {
+                { wishListActive ? wishList.map((item, index) => {
+                  return <MovieCard key={index} movie={item}/>
+                }) : moviesList.map((item, index) => {
                   return <MovieCard key={index} movie={item}/>
                 })}
               </div>

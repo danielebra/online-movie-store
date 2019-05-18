@@ -25,11 +25,16 @@ export default function (state = initialState, action) {
         state.wishList = JSON.parse(localStorage.wishlist);
 
     switch (action.type) {
-        
+
         case GET_MOVIES:
+            let data = null;
+
+            if (action.payload.collections.length > 0)
+                data = action.payload.collections;
+            
             return {
                 ...state,
-                collections: action.payload.collections,
+                collections: data,
                 moviesList: action.payload.movies,
                 searchList: null,
                 movie: null,

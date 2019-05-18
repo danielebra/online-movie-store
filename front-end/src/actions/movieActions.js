@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE } from './types';
+import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ERRORS } from './types';
 import api from "../api";
 
 // Will call this from the view later
@@ -25,7 +25,7 @@ export const getMovies = () => dispatch => {
                     payload.collections.push(collection);
             });
 
-            if (payload.collections.length > 0)
+            if (movies.length > 0)
                 dispatch({
                     type: GET_MOVIES,
                     payload
@@ -55,15 +55,32 @@ export const getMovieById = id => dispatch => {
     })
 };
 
-export const addReview = (userId, movieId, review) => dispatch => {
-    api.get("movie/").then(res =>  {
-        // let movie = res.data.filter(movie => movie.id == id);
-
-        // dispatch({
-        //     type: ADD_REVIEW,
-        //     payload: res.data
-        // })
+export const addReview = (movieId, review) => dispatch => {
+    
+    api.post('review/', review.rating, review.text).then(res => {
+        console.log(res.data);
     })
+    .catch(err => {
+        console.log(err.response.data);
+        dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        })
+    })
+    
+    // api
+    // .post(`movie/${movieId}/add_review`, review).then(res =>  {
+    //     console.log("Success: ", res.data);
+    //     // let movie = res.data.filter(movie => movie.id == id);
+
+    //     // dispatch({
+    //     //     type: ADD_REVIEW,
+    //     //     payload: res.data
+    //     // })
+    // })
+    // .catch(err => {
+    //     console.log("Error: ", err.response.data);
+    // })
 };
 
 export const searchMovies = query => dispatch => {
