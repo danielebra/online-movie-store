@@ -52,6 +52,7 @@ class User(viewsets.ModelViewSet):
         # would always fail if the email was the same.
         # Due to time constrains, the following is a bypass for just the email errror:
         serializer.is_valid()
+
         error = serializer.errors
         can_bypass_validation = False
         if 'email' in error.keys() and len(error.keys()) == 1:
@@ -97,15 +98,11 @@ class User(viewsets.ModelViewSet):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # @action(methods=['post'], detail=True, url_path="register")
-    # def post(self, request, pk=None):
-    #     print(request.data)
-    #     print("in post")
-    #     serializer = UsersSerializer(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    @action(methods=['delete'], detail=True)
+    def delete(self, request, pk=None):
+        user = self.get_object()
+        user.delete()
+        return Response(status=status.HTTP_200_OK)
 
 
 class MoviePopulator(viewsets.ModelViewSet):
