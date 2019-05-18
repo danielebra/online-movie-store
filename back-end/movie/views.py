@@ -9,17 +9,15 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 
-from .models import Movie, Genre, MovieGenre, Review, MovieReview
+from .models import Movie, Genre, MovieGenre, Review, MovieReview, Order
 from .models import User as UserModel
-from .serializers import UsersSerializer, MovieSerializer, GenreSerializer, PasswordSerializer, MovieGenreSerializer, LoginSerializer, MovieReviewSerializer, ReviewSerializer
+from .serializers import UsersSerializer, MovieSerializer, GenreSerializer, PasswordSerializer, MovieGenreSerializer, LoginSerializer, MovieReviewSerializer, ReviewSerializer, OrderSerializer
 from .forms import UserForm
 
 
 class Genre(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
-
-# Create and view all reviews
 
 
 class ReviewView(viewsets.ModelViewSet):
@@ -70,7 +68,8 @@ class User(viewsets.ModelViewSet):
                 else:
                     user.__dict__[k] = request.data[k]
             user.save()
-            userUpdate = UserModel.objects.filter(email=user.email).values().first()
+            userUpdate = UserModel.objects.filter(
+                email=user.email).values().first()
             return Response({"status": 'user updated', "user": userUpdate})
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -175,3 +174,8 @@ class MoviePopulator(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class OrderView(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer

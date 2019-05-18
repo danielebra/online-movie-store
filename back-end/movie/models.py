@@ -21,6 +21,7 @@ class Review(models.Model):
     rating = IntegerRangeField(min_value=0, max_value=10)
     text = models.TextField()
     date = models.DateTimeField(default=timezone.now)
+    name = models.TextField()
 
     def __str__(self):
         return str(self.rating) + ' | ' + self.text
@@ -68,8 +69,19 @@ class MovieGenre(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    quanitiy = models.IntegerField()
-    discount_modifer = models.FloatField()
+    quantity = models.IntegerField()
+    discount_modifier = models.FloatField()
     total_cost = models.FloatField()
     order_type = models.CharField(default='delivery', max_length=20)
-    date = models.DateField(default=timezone.now)
+    date = models.DateTimeField(default=timezone.now)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+# This is to have order support multiple movies (not being used)
+
+
+class MovieOrder(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.order.user.email + ' | ' + self.movie.title
