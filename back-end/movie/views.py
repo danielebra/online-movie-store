@@ -148,6 +148,12 @@ class MoviePopulator(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(methods=['delete'], detail=True)
+    def delete(self, request, pk=None):
+        movie = self.get_object()
+        movie.delete()
+        return Response(status=status.HTTP_200_OK)
+
 
 class OrderView(viewsets.ModelViewSet):
     queryset = Order.objects.all()
