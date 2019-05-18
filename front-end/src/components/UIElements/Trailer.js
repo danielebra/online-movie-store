@@ -23,11 +23,11 @@ class Trailer extends Component {
     let { trailer_link } = this.props.movie;
     let videoId = trailer_link.split("/")[4];
 
-    trailer_link += '?rel=0&hd=1&controls=0&modestbranding=1&showinfo=0&autoplay=1&autohide=1&fs=0enablejsapi=1';
+    trailer_link += '?rel=0&hd=1&controls=0&modestbranding=1&showinfo=0&autoplay=0&autohide=1&fs=0enablejsapi=1';
 
     const opts = {
       playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 1,
+        autoplay: 0,
         controls: 0,
         rel: 0,
         iv_load_policy: 3,

@@ -8,9 +8,10 @@ class User(models.Model):
     last_name = models.CharField(max_length=16)
     date_of_birth = models.DateField()
     mobile_number = models.TextField()
-    shipping_address = models.TextField()
-    email = models.TextField(unique=True)
+    shipping_address = models.TextField(blank=True)
+    email = models.EmailField(unique=True)
     password = models.TextField()
+    is_admin = models.TextField()
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
@@ -19,7 +20,8 @@ class User(models.Model):
 class Review(models.Model):
     rating = IntegerRangeField(min_value=0, max_value=10)
     text = models.TextField()
-    date = models.DateField(default=timezone.now)
+    date = models.DateTimeField(default=timezone.now)
+    name = models.TextField()
 
     def __str__(self):
         return str(self.rating) + ' | ' + self.text
@@ -42,7 +44,7 @@ class Movie(models.Model):
     genre = models.ManyToManyField(Genre, through='MovieGenre')
     price = models.FloatField()
     maturity_rating = models.CharField(max_length=6)
-    pruchase_count = models.IntegerField()
+    purchase_count = models.IntegerField()
     stock = models.IntegerField()
 
     def __str__(self):
@@ -67,8 +69,19 @@ class MovieGenre(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    quanitiy = models.IntegerField()
-    discount_modifer = models.FloatField()
+    quantity = models.IntegerField()
+    discount_modifier = models.FloatField()
     total_cost = models.FloatField()
     order_type = models.CharField(default='delivery', max_length=20)
-    date = models.DateField(default=timezone.now)
+    date = models.DateTimeField(default=timezone.now)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+# This is to have order support multiple movies (not being used)
+
+
+class MovieOrder(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.order.user.email + ' | ' + self.movie.title

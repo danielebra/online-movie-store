@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 // React Router
 import {
   BrowserRouter as Router,
-  Route,
-  Link,
-  Switch
+  Route
 } from 'react-router-dom';
 
 // Redux
@@ -15,33 +13,52 @@ import store from '../store';
 // CSS
 import '../styles/main.scss';
 import '../styles/materialize.min.css';
+import 'materialize-css/dist/css/materialize.min.css';
 
 // Components
 import Header from './Templates/Header'
 import Footer from './Templates/Footer'
 
+import PrivateRoute from './Templates/PrivateRoute';
+
 import Login from './Auth/Login';
 import Register from './Auth/Register';
-
 import Movies from './MoviesList';
 import Movie from './Movie';
 import PlaceOrder from './PlaceOrder';
-import 'materialize-css/dist/css/materialize.min.css';
+import OrderSuccess from './OrderSuccess';
+import UserOrders from './UserOrders';
+import AddMovie from './AddMovie';
+import AccountDetails from './Edit/AccountDetails';
+import { setCurrentUser } from '../actions/authActions';
+
+// Check user localstorage
+if (localStorage.user) {
+  store.dispatch(setCurrentUser(JSON.parse(localStorage.user)));
+}
 
 class App extends Component {
   render() {
     return (
 
-
       <Provider store={store}>
         <Router>
           <div className="App">
             <Header/>
-            <Route exact path="/" component={Movies} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/login/:email" component={Login} />
             <Route exact path="/register" component={Register} />
-            <Route exact path="/movie/:id" component={Movie} />
-            <Route exact path="/placeOrder" component={PlaceOrder}/>
+
+            <PrivateRoute exact path="/" component={Movies} />
+            <PrivateRoute exact path="/wishlist" component={Movies} />
+            
+            <PrivateRoute exact path="/movie/:id" component={Movie} />
+            <PrivateRoute exact path="/order_success" component={OrderSuccess}/>
+            <PrivateRoute exact path="/orders" component={UserOrders}/>
+            <PrivateRoute exact path="/order/:id" component={PlaceOrder}/>
+            <PrivateRoute exact path="/add_movie" component={AddMovie}/>
+
+            <PrivateRoute exact path="/account_details" component={AccountDetails}/>
             <Footer/>
           </div>
         </Router>

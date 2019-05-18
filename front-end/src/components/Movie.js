@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { getMovies, getMovieById } from '../actions/movieActions';
+import { getMovies, getMovieById, favouriteMovie, unFavouriteMovie } from '../actions/movieActions';
 import Loading from './Templates/loading';
 
 import M from "materialize-css";
@@ -12,6 +12,18 @@ import Reviews from "./UIElements/Reviews";
 import Trailer from "./UIElements/Trailer";
 
 class Movie extends Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      favourite: false,
+      flagged: false,
+      rating: 0,
+      text: '',
+      errors: {}
+    }
+  }
 
   componentWillMount() {
     if (this.props.match.params.id) {
@@ -23,10 +35,46 @@ class Movie extends Component {
     M.AutoInit();
   }
 
+  isMovieFavourite() {
+    const { movie, wishList } = this.props.movies;
+
+    if (!this.state.flagged) {
+      wishList.forEach(m => {
+        if (m.id == movie.id) {
+          this.setState({ favourite: true });
+        }
+      })
+      this.setState({ flagged: true });
+    }
+  }
+
+  toggleFavourite() {
+    const { movie } = this.props.movies;
+    this.setState({ favourite: !this.state.favourite }, function() {
+
+      if (this.state.favourite) {
+        this.props.favouriteMovie();
+        M.toast({html: `<a href="/wishlist">${movie.title} has been favourited.</a>`, classes: 'fav', displayLength: 2000})
+      
+      } else {
+        this.props.unFavouriteMovie();
+        M.toast({html: `<a href="/wishlist">${movie.title} has been unfavourited.</a>`, classes: 'fav', displayLength: 2000})
+
+      }
+    });
+  }
+
+  addReview = event => {
+    event.preventDefault();
+
+    console.log(this.state);
+  }
+
   render() {
-    const { movies } = this.props;
-    const { loading } = movies;
-    let movie = movies.movie;
+    const { movie, loading } = this.props.movies;
+    const { errors } = this.props;
+    const { favourite } = this.state;
+    
     let pageContent;
     let hasReviews = false;
 
@@ -34,11 +82,11 @@ class Movie extends Component {
       pageContent = <Loading/>
 
     } else {
-      movie = movie[0]
+
+      this.isMovieFavourite();
+
       if (movie.reviews.length > 0)
         hasReviews = true;
-
-      console.log(movie);
 
       let genres = ''
       movie.genre.forEach(genre => genres += genre + ' | ');
@@ -48,18 +96,17 @@ class Movie extends Component {
             <div className="col s5">
               <img className="movieDetailsImg" src={movie.thumbnail} />
             </div>
-
             <div className="col s7 mov">
               <h2 className="movieTitleDetail">
                 {movie.title}
                 <span className="year"> ({movie.year})</span>
-                <i className="small material-icons right favIcon">favorite</i>
+                <i onClick={() => this.toggleFavourite()} className="small material-icons right favIcon">{ favourite ? 'favorite' : 'favorite_border'}</i>
                 <br />
                 <span className="price">${movie.price}</span>
               </h2>
 
               <div className="row">
-                <Link to="/placeOrder" className="waves-effect waves-light btn-large movieButton">
+                <Link to={`/order/${movie.id}`} className="waves-effect waves-light btn-large movieButton">
                   <i className="material-icons">shop</i> <span>Buy Now</span>
                 </Link>
               </div>
@@ -81,17 +128,15 @@ class Movie extends Component {
     }
 
     return (
-      <div id="movieDetails">
+      <div className="top-padding">
         <div className="container">
           {pageContent}
           <div className="row details">
             <div className="col s12">
               <ul className="tabs">
-                
                 <li className="tab col s6">
-                  <a href="#trailer">Trailer</a>
+                  <a className="active" href="#trailer">Trailer</a>
                 </li>
-
                 <li className="tab col s6">
                   <a href="#reviews">Reviews</a>
                 </li>
@@ -102,6 +147,44 @@ class Movie extends Component {
             </div>
             <div id="reviews" className="col s12">
               { hasReviews ? <Reviews movie={movie}/> : <p className="info center"> No reviews available for this movie. </p> }
+              
+              <form className="center add-review" noValidate onSubmit={this.addReview}>
+                <div className="input-field col s2">
+                  <input 
+                    type="number" 
+                    id="rating"
+                    value={this.state.rating}
+                    min="0" max="10"
+                    onChange={event =>
+                      this.setState({ rating: parseInt(event.target.value) })
+                    } 
+                    className="validate"
+                    required
+                    aria-required=""
+                  />
+                  { errors.rating ? <span className="helper-text error"> { errors.rating } </span> : null}
+                  <label htmlFor="rating">Rating</label>
+                </div>
+
+                <div className="input-field col s6">
+                    <input 
+                      type="text" 
+                      id="text"
+                      value={this.state.text}
+                      onChange={event =>
+                        this.setState({ text: event.target.value })
+                      } 
+                      className="validate"
+                      required
+                      aria-required=""
+                  />
+                  { errors.text ? <span className="helper-text error"> { errors.text } </span> : null}
+                  <label htmlFor="text">Text</label>
+                </div>
+                <div className="input-field col s4">
+                  <button className="btn-large addReviewBtn"> Add a Review <i className="material-icons">add</i></button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -111,7 +194,8 @@ class Movie extends Component {
 }
 
 const mapStateToProps = state => ({
-  movies: state.movies
+  movies: state.movies,
+  errors: state.errors
 });
 
-export default connect(mapStateToProps, { getMovies, getMovieById })(Movie);
+export default connect(mapStateToProps, { getMovies, getMovieById, favouriteMovie, unFavouriteMovie })(withRouter(Movie));

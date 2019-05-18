@@ -1,79 +1,108 @@
-// //import setAuthToken from "../utils/setAuthToken";
-// //import jwt_decode from 'jwt-decode';
+//import setAuthToken from "../utils/setAuthToken";
+//import jwt_decode from 'jwt-decode';
 
-// // Action types
-// import { SET_CURRENT_USER } from "./types";
-// import { GET_ERRORS } from "./types";
+// Action types
+import { LOGIN_USER, LOGOUT_USER, GET_ERRORS, UPDATE_USER, CLEAR_ERRORS } from "./types";
 
+import api from "../api";
 
+export const registerUser = (userData, history) => dispatch => {
 
-// // Register
-// export const registerUser = (userData, history) => dispatch => {
-
-//     api
-//         .post('users/register/', userData)
-//         .then(res => history.push('/login')) // if success, redirect to the account page
-//         .catch(err =>
-//             dispatch({
-//                 type: GET_ERRORS,
-//                 payload: err.response.data
-//             })
-//         );
-// };
-
-
-// // Login - Get User Token
-// export const loginUser = (userData) => dispatch => {
-//     axios
-//         .post('users/login', userData)
-//         .then(res => {
-
-//             // Once we get the response back, save to LocalStorage
-//             const { token } = res.data;
-
-//             // Set token to LocalStorage
-//             localStorage.setItem('jwtToken', token);
-
-//             // Set token to Auth header
-//             setAuthToken(token);
+    // if success, redirect to the login page
+    api.post('user/', userData)
+        .then(res => {
+            history.push(`/login/${userData.email}`)
+        }) 
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        });
+};
 
 
-//             // Set user to state
+export const loginUser = userData => dispatch => {
+    api
+        .post('user/auth/login/', userData)
+        .then(res => {
+            if (res.data['isValid']) {
+                
+                // set localstorage
+                localStorage.setItem('user', JSON.stringify(res.data['user']));
 
-//             // decode token to get user data
-//             const decoded = jwt_decode(token);
+                dispatch({
+                    type: LOGIN_USER,
+                    payload: res.data['user']
+                })
+            } else {
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: res.data
+                })
+            }
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        }
+    );
+};
 
-//             // Set current user
-//             dispatch(setCurrentUser(decoded));
+export const setCurrentUser = userData => {
+    return{
+        type: LOGIN_USER,
+        payload: userData
+    };
+};
 
-//         })
-//         .catch(err =>
-//             dispatch({
-//                 type: GET_ERRORS,
-//                 payload: err.response.data
-//             })
-//         );
-// };
+// Log user out
+export const logoutUser = () => dispatch => {
+    localStorage.removeItem('user');
+    dispatch({
+        type: LOGOUT_USER
+    });
+};
 
-// // Set logged in user
-// export const setCurrentUser = decoded => {
-//     return {
-//         type: SET_CURRENT_USER,
-//         payload: decoded
-//     }
-// };
+export const superLoginForDevelopment = () => dispatch =>  {
+    let user = {
+        first_name: 'George',
+        last_name: 'Boi',
+        email: 'george_is_god@uts.edu.au',
+        mobile_number: 989898989,
+        date_of_birth: 1999/99/99,
+        password: 'avengersendgamespoilers',
+        is_admin: 'true'
+    };
+    localStorage.setItem('user', JSON.stringify(user));
 
+    dispatch({
+        type: LOGIN_USER,
+        payload: user
+    });
+}
 
-// // Log user out
-// export const logoutUser = () => dispatch => {
+//JSON.parse(localStorage.user)
 
-//     // Remove token from localStorage
-//     localStorage.removeItem('jwtToken');
-
-//     // Remove account header for future requests
-//     setAuthToken(false);
-
-//     // Set current user to {} which will set isAuthenticate to false
-//     dispatch(setCurrentUser({}));
-
-// };
+export const editUser = updatedData => dispatch => {
+    api
+        .put(`user/${updatedData.id}/change/`, updatedData)
+        .then(res => {
+            dispatch({
+                type: UPDATE_USER,
+                payload: res.data['user']
+            })
+            dispatch({
+                type: CLEAR_ERRORS
+            })
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        }
+    );
+}
