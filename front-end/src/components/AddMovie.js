@@ -42,7 +42,7 @@ class AddMovie extends Component {
 
     render() {
         return (
-            <div id="movieDetails">
+            <div class="top-padding">
                 <div className="container">
                     <h2 className="center-align">Add Movie</h2>
                     <div className="row">

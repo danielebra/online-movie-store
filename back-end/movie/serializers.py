@@ -1,8 +1,14 @@
 from rest_framework import serializers
 
-from .models import User, Movie, MovieReview, Genre, MovieGenre
+from .models import User, Movie, MovieReview, Genre, MovieGenre, Review, MovieOrder, Order
 
 # convert models to json, each seralise has a model and fields to display
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'
 
 
 class MovieReviewSerializer(serializers.ModelSerializer):
@@ -16,10 +22,12 @@ class UsersSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['email', 'password']
+
 
 class MovieSerializer(serializers.ModelSerializer):
 
@@ -45,3 +53,15 @@ class PasswordSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['password', ]
+
+
+class MovieOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MovieOrder
+        fields = '__all__'
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'

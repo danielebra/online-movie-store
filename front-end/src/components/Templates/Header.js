@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "materialize-css/dist/css/materialize.min.css";
 
@@ -40,6 +40,7 @@ class Header extends Component {
   render() {
 
     const { isAuthenticated, user } = this.props.auth;
+    const { wishList } = this.props.movies;
 
     return (
       <nav id="header">
@@ -89,9 +90,8 @@ class Header extends Component {
                           <Link to="/view_users"> View Users </Link>
                         </div>
                       ) : null }
-                      
-                      <a className="divider"/>
-                      <a className="belowDivider" onClick={this.props.logoutUser}>Logout</a>
+
+                      <a onClick={this.props.logoutUser}>Logout</a>
                     </div>
                   </li>
                 </ul>
@@ -114,7 +114,8 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  movies: state.movies
 });
 
-export default connect(mapStateToProps, { searchMovies, logoutUser })(Header);
+export default connect(mapStateToProps, { searchMovies, logoutUser })(withRouter(Header));

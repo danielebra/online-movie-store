@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST } from '../actions/types';
+import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE } from '../actions/types';
 
 /* The movies state contains the following:
     - collections: an array  containing a genre and a list of movies in that genre
@@ -12,19 +12,29 @@ const initialState = {
     movie: null,
     searchList: null,
     moviesList: null,
-    loading: true
+    loading: true,
+    wishList: []
 };
 
 // The state parameter is the movies state that comes from the store
 // The action is the object containing a type and payload we dispatched in the action creator
 export default function (state = initialState, action) {
+    let list;
+
+    if (localStorage.wishlist)
+        state.wishList = JSON.parse(localStorage.wishlist);
 
     switch (action.type) {
-        
+
         case GET_MOVIES:
+            let data = null;
+
+            if (action.payload.collections.length > 0)
+                data = action.payload.collections;
+            
             return {
                 ...state,
-                collections: action.payload.collections,
+                collections: data,
                 moviesList: action.payload.movies,
                 searchList: null,
                 movie: null,
@@ -36,6 +46,28 @@ export default function (state = initialState, action) {
                 ...state,
                 movie: action.payload,
                 loading: false
+            };
+
+        case FAVOURITE_MOVIE:
+            list = [...state.wishList, state.movie];
+            localStorage.setItem('wishlist', JSON.stringify(list));
+
+            console.log(list);
+
+            return {
+                ...state,
+                wishList: list
+            };
+        
+        case UNFAVOURITE_MOVIE:
+            list = state.wishList.filter(movie => movie.id !== state.movie.id);
+            localStorage.setItem('wishlist', JSON.stringify(list));
+
+            console.log(list);
+
+            return {
+                ...state,
+                wishList: list
             };
 
         case SEARCH_MOVIES:

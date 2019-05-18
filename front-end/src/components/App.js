@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 // React Router
 import {
   BrowserRouter as Router,
-  Route,
-  Link,
-  Switch
+  Route
 } from 'react-router-dom';
 
 // Redux
@@ -15,6 +13,7 @@ import store from '../store';
 // CSS
 import '../styles/main.scss';
 import '../styles/materialize.min.css';
+import 'materialize-css/dist/css/materialize.min.css';
 
 // Components
 import Header from './Templates/Header'
@@ -28,7 +27,6 @@ import Movies from './MoviesList';
 import Movie from './Movie';
 import PlaceOrder from './PlaceOrder';
 import OrderSuccess from './OrderSuccess';
-import 'materialize-css/dist/css/materialize.min.css';
 import UserOrders from './UserOrders';
 import AddMovie from './AddMovie';
 import UpdateMovie from './UpdateMovie';
@@ -46,6 +44,8 @@ class App extends Component {
             <Route exact path="/register" component={Register} />
 
             <PrivateRoute exact path="/" component={Movies} />
+            <PrivateRoute exact path="/wishlist" component={Movies} />
+            
             <PrivateRoute exact path="/movie/:id" component={Movie} />
             <PrivateRoute exact path="/order_success" component={OrderSuccess}/>
             <PrivateRoute exact path="/orders" component={UserOrders}/>

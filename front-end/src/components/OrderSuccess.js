@@ -6,7 +6,7 @@ class OrderSuccess extends Component {
 
     render(){
         return(
-            <div id="movieDetails">
+            <div className="top-padding">
             <div className="container">
             <div className="card gray">
             <div className="row">

@@ -9,15 +9,20 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 
-from .models import Movie, Genre, MovieGenre
+from .models import Movie, Genre, MovieGenre, Review, MovieReview, Order
 from .models import User as UserModel
-from .serializers import UsersSerializer, MovieSerializer, GenreSerializer, PasswordSerializer, MovieGenreSerializer, LoginSerializer
+from .serializers import UsersSerializer, MovieSerializer, GenreSerializer, PasswordSerializer, MovieGenreSerializer, LoginSerializer, MovieReviewSerializer, ReviewSerializer, OrderSerializer
 from .forms import UserForm
 
 
 class Genre(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
+
+
+class ReviewView(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
 
 
 class User(viewsets.ModelViewSet):
@@ -63,7 +68,9 @@ class User(viewsets.ModelViewSet):
                 else:
                     user.__dict__[k] = request.data[k]
             user.save()
-            return Response({"status": 'user updated'})
+            userUpdate = UserModel.objects.filter(
+                email=user.email).values().first()
+            return Response({"status": 'user updated', "user": userUpdate})
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -71,24 +78,25 @@ class User(viewsets.ModelViewSet):
     def login(self, request, pk=None):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid()
-        
+
         error = serializer.errors
         can_bypass_validation = False
-        
+
         if 'email' in error.keys() and len(error.keys()) == 1:
             if len(error['email']) == 1:  # Only when there is one error
                 if error['email'][0].code == "unique":
                     can_bypass_validation = True
 
         if can_bypass_validation or serializer.is_valid():
-            user = UserModel.objects.filter(email=request.data['email']).values().first()
+            user = UserModel.objects.filter(
+                email=request.data['email']).values().first()
             if user['password'] == request.data['password']:
-                return Response({"isValid": "true"})
+                return Response({"isValid": "true", "user": user})
             else:
                 return Response({'email': 'Email or password dont match.'})
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
     # @action(methods=['post'], detail=True, url_path="register")
     # def post(self, request, pk=None):
     #     print(request.data)
@@ -99,7 +107,7 @@ class User(viewsets.ModelViewSet):
     #         return Response(serializer.data, status=status.HTTP_201_CREATED)
     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        
+
 class MoviePopulator(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
@@ -141,9 +149,33 @@ class MoviePopulator(viewsets.ModelViewSet):
     @action(methods=['post'], detail=True)
     def add_genre(self, request, pk=None):
         query = MovieGenre.objects.all()
-        serializer = MovieGenreSerializer(data=request.data)
+
+        request_data = request.data.copy()
+        if 'movie' not in request_data.keys():
+            request_data['movie'] = pk
+        serializer = MovieGenreSerializer(data=request_data)
 
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['post'], detail=True)
+    def add_review(self, request, pk=None):
+        query = MovieReview.objects.all()
+
+        # Remap pk to movie_pk
+        request_data = request.data.copy()
+        if 'movie' not in request_data.keys():
+            request_data['movie'] = pk
+        serializer = MovieReviewSerializer(data=request_data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class OrderView(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
