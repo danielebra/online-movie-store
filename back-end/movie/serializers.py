@@ -29,23 +29,31 @@ class LoginSerializer(serializers.ModelSerializer):
         fields = ['email', 'password']
 
 
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = '__all__'
+
+
 class MovieSerializer(serializers.ModelSerializer):
+    genre = serializers.SerializerMethodField()
+    reviews = serializers.SerializerMethodField()
 
     class Meta:
         model = Movie
         fields = '__all__'
+
+    def get_genre(self, obj):
+        return [_genre for _genre in obj.genre.all().values()]
+
+    def get_reviews(self, obj):
+        return [_review for _review in obj.reviews.all().values()]
 
 
 class MovieGenreSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MovieGenre
-        fields = '__all__'
-
-
-class GenreSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Genre
         fields = '__all__'
 
 

@@ -112,30 +112,6 @@ class MoviePopulator(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
 
-    def get(self, request):
-        query = Movie.objects.all()
-        serializer = MovieSerializer(query, many=True)
-        resp = Response(serializer.data)
-        # Populates all the genres in the movie and changes them to the name of genre, instead of the pk
-        counter = 0
-        for movie in query:
-            # Review
-            # Rating, Text, Date
-            resp.data[counter]['reviews'] = []
-            reviews = movie.reviews.all()
-            for review in reviews:
-                resp.data[counter]['reviews'].append({'rating': review.rating,
-                                                      'text': review.text,
-                                                      'date': review.date})
-
-            # Genre
-            resp.data[counter]['genre'] = []
-            genres = movie.genre.all()
-            for genre in genres:
-                resp.data[counter]['genre'].append(genre.name)
-            counter += 1
-        return resp
-
     def post(self, request):
         # This doesn't handle genres
         query = Movie.objects.all()

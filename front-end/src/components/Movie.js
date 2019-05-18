@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { getMovies, getMovieById, favouriteMovie, unFavouriteMovie } from '../actions/movieActions';
+import { getMovies, getMovieById, favouriteMovie, unFavouriteMovie, addReview } from '../actions/movieActions';
 import Loading from './Templates/loading';
 
 import M from "materialize-css";
@@ -30,7 +30,20 @@ class Movie extends Component {
       this.props.getMovieById(this.props.match.params.id);
     }
   }
-  
+  componentWillReceiveProps(nextProps) {
+    
+    if(nextProps.errors){
+      let errors = {};
+
+      Object.keys(nextProps.errors) 
+        .forEach(function eachKey(key) { 
+          errors[key] = nextProps.errors[key][0];
+        });
+      
+        this.setState({ errors });
+    }
+  }
+
   componentDidMount() {
     M.AutoInit();
   }
@@ -67,7 +80,15 @@ class Movie extends Component {
   addReview = event => {
     event.preventDefault();
 
-    console.log(this.state);
+    const { auth, movies } = this.props;
+
+    let review = {
+      rating: this.state.rating,
+      text: this.state.text,
+      name: auth.user.first_name
+    }
+
+    this.props.addReview(movies.movie.id, review);
   }
 
   render() {
@@ -78,11 +99,12 @@ class Movie extends Component {
     let pageContent;
     let hasReviews = false;
 
+    console.log(this.props.movies);
+
     if (movie == null || loading) {
       pageContent = <Loading/>
 
     } else {
-
       this.isMovieFavourite();
 
       if (movie.reviews.length > 0)
@@ -195,7 +217,8 @@ class Movie extends Component {
 
 const mapStateToProps = state => ({
   movies: state.movies,
-  errors: state.errors
+  errors: state.errors,
+  auth: state.auth
 });
 
-export default connect(mapStateToProps, { getMovies, getMovieById, favouriteMovie, unFavouriteMovie })(withRouter(Movie));
+export default connect(mapStateToProps, { getMovies, getMovieById, favouriteMovie, unFavouriteMovie, addReview })(withRouter(Movie));

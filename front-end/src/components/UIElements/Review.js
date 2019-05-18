@@ -7,21 +7,21 @@ class Review extends Component {
     return (
       <div class="col s6">
         <div class="card horizontal">
-          <div class="card-image">{review.author[0]}</div>
+          <div class="card-image">{review.name ? review.name[0] : null}</div>
 
           <div class="card-stacked">
             <div className="card-top">
               <p className="authorName">
                 {" "}
-                {review.author}
+                {review.name}
                 <span className="review right">
                   <i className="material-icons starr">star</i>{" "}
-                  <span className="reviewRating">{review.ratings}</span>
+                  <span className="reviewRating">{review.rating}</span>
                 </span>
               </p>
             </div>
             <div class="card-content">
-              <p>{review.description}</p>
+              <p>{review.text}</p>
             </div>
           </div>
         </div>
