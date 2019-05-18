@@ -81,9 +81,11 @@ class Movie extends Component {
     event.preventDefault();
 
     const { auth, movies } = this.props;
+
     let review = {
       rating: this.state.rating,
-      text: this.state.text
+      text: this.state.text,
+      name: auth.user.first_name
     }
 
     this.props.addReview(movies.movie.id, review);
@@ -96,6 +98,8 @@ class Movie extends Component {
     
     let pageContent;
     let hasReviews = false;
+
+    console.log(this.props.movies);
 
     if (movie == null || loading) {
       pageContent = <Loading/>

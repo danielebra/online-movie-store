@@ -57,30 +57,35 @@ export const getMovieById = id => dispatch => {
 
 export const addReview = (movieId, review) => dispatch => {
     
-    api.post('review/', review.rating, review.text).then(res => {
+    api.post('review/', review).then(res => {
         console.log(res.data);
+
+        let reviewObject = res.data;
+
+        let review = {
+            review: res.data.id
+        }
+
+        api.post(`movie/${movieId}/add_review/`, review).then(res =>  {
+            console.log("Success: ", res.data);
+    
+            dispatch({
+                type: ADD_REVIEW,
+                payload: reviewObject
+            })
+        })
+        .catch(err => {
+            console.log("Error: ", err.response.data);
+        })
     })
-    .catch(err => {
-        console.log(err.response.data);
+    .catch(err =>
         dispatch({
             type: GET_ERRORS,
             payload: err.response.data
         })
-    })
+    )
     
-    // api
-    // .post(`movie/${movieId}/add_review`, review).then(res =>  {
-    //     console.log("Success: ", res.data);
-    //     // let movie = res.data.filter(movie => movie.id == id);
-
-    //     // dispatch({
-    //     //     type: ADD_REVIEW,
-    //     //     payload: res.data
-    //     // })
-    // })
-    // .catch(err => {
-    //     console.log("Error: ", err.response.data);
-    // })
+   
 };
 
 export const searchMovies = query => dispatch => {
