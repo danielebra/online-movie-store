@@ -68,10 +68,12 @@ class User(viewsets.ModelViewSet):
         if can_bypass_validation or serializer.is_valid():
             user = UserModel.objects.filter(
                 email=request.data['email']).values().first()
+            if not user:
+                return Response({'isValid': 'false', 'email': 'Email not found'})
             if user['password'] == request.data['password']:
                 return Response({"isValid": "true", "user": user})
             else:
-                return Response({'email': 'Email or password dont match.'})
+                return Response({'isValid': 'false', 'email': 'Email or password dont match.'})
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
