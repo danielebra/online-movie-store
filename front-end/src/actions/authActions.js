@@ -2,7 +2,7 @@
 //import jwt_decode from 'jwt-decode';
 
 // Action types
-import { LOGIN_USER, LOGOUT_USER, GET_ERRORS, UPDATE_USER, CLEAR_ERRORS } from "./types";
+import { LOGIN_USER, LOGOUT_USER, GET_ERRORS, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE } from "./types";
 
 import api from "../api";
 
@@ -12,6 +12,10 @@ export const registerUser = (userData, history) => dispatch => {
     api.post('user/', userData)
         .then(res => {
             history.push(`/login/${userData.email}`)
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: 'You have successfully registered.'
+            })
         }) 
         .catch(err => {
             dispatch({
@@ -26,8 +30,9 @@ export const loginUser = userData => dispatch => {
     api
         .post('user/auth/login/', userData)
         .then(res => {
+            console.log("success ", res.data);
+
             if (res.data['isValid']) {
-                
                 // set localstorage
                 localStorage.setItem('user', JSON.stringify(res.data['user']));
 
@@ -43,6 +48,7 @@ export const loginUser = userData => dispatch => {
             }
         })
         .catch(err => {
+            console.log("error ", err.response.data);
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
@@ -59,8 +65,12 @@ export const setCurrentUser = userData => {
 };
 
 // Log user out
-export const logoutUser = () => dispatch => {
+export const logoutUser = message => dispatch => {
     localStorage.removeItem('user');
+    dispatch({
+        type: GET_FEEDBACK,
+        payload: message
+    })
     dispatch({
         type: LOGOUT_USER
     });
@@ -84,18 +94,26 @@ export const superLoginForDevelopment = () => dispatch =>  {
     });
 }
 
-//JSON.parse(localStorage.user)
-
-export const editUser = updatedData => dispatch => {
+export const editUser = (updatedData) => dispatch => {
+    
     api
-        .put(`user/${updatedData.id}/change/`, updatedData)
+        .patch(`user/${updatedData.id}/change/`, updatedData)
         .then(res => {
+            
+            localStorage.setItem('user', JSON.stringify(updatedData));
+
             dispatch({
                 type: UPDATE_USER,
-                payload: res.data['user']
+                payload: updatedData
             })
+
             dispatch({
                 type: CLEAR_ERRORS
+            })
+
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: `${updatedData.first_name} your details has been updated successfully.`
             })
         })
         .catch(err => {
@@ -106,3 +124,49 @@ export const editUser = updatedData => dispatch => {
         }
     );
 }
+
+export const deleteUser = (user) => dispatch => {
+    api
+        .delete(`user/${user.id}/delete/`)
+        .then(res => {
+            console.log(res.data);
+            let message = `${user.first_name} your account has been deleted!`;
+            
+            dispatch(logoutUser(message));
+        })
+        .catch(err => {
+            console.log(err.response.data);
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        }
+    );
+}
+
+export const clearFeedback = () => {
+    return{
+        type: CLEAR_FEEDBACK
+    };
+};
+
+export const clearUpdate = () => {
+    return{
+        type: CLEAR_UPDATE
+    };
+};
+
+export const getAllUsers = () => dispatch => {
+
+    api.get('user/')
+        .then(res => {
+            console.log(res.data);
+            dispatch({
+                type: GET_ALL_USERS,
+                payload: res.data
+            })
+        }) 
+        .catch(err => {
+            console.log(err.response.data);
+        });
+};

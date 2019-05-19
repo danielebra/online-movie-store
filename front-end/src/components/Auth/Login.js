@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-import { loginUser, superLoginForDevelopment } from "../../actions/authActions";
+import { loginUser, superLoginForDevelopment, clearFeedback } from "../../actions/authActions";
 import bg from "../../images/bg2.jpg";
 import isEmpty from "../../isEmpty";
 
@@ -21,7 +21,7 @@ class Login extends Component {
 
   componentWillMount() {
     if (this.props.match.params.email) {
-      this.setState({ email: this.props.match.params.email});
+      this.setState({ email: this.props.match.params.email });
     }
   }
 
@@ -41,6 +41,7 @@ class Login extends Component {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/");
     }
+
   }
 
   validation() {
@@ -63,7 +64,7 @@ class Login extends Component {
   onSubmit = event => {
     event.preventDefault();
 
-    this.setState({ errors: {} });
+    this.setState({ errors: {}});
 
     if (!this.validation()){
       return false;
@@ -80,6 +81,7 @@ class Login extends Component {
   render() {
 
     const { errors } = this.state;
+    const { feedback } = this.props;
 
     return (
       <section className="auth">
@@ -87,6 +89,8 @@ class Login extends Component {
         <div className="container box">
           <div className="row">
             <div className="col s12">
+            <span className="helper-text success"> { !isEmpty(feedback) ? feedback : null }</span>
+
               <div className="">
                 <div className="heading">
                   <h3>Login</h3>
@@ -157,7 +161,8 @@ class Login extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
+  feedback: state.feedback
 });
 
-export default connect(mapStateToProps, { loginUser, superLoginForDevelopment })(withRouter(Login));
+export default connect(mapStateToProps, { loginUser, superLoginForDevelopment, clearFeedback })(withRouter(Login));
