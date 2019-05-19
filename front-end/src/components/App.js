@@ -9,7 +9,7 @@ import {
 // Redux
 import { Provider } from 'react-redux';
 import store from '../store';
-
+import isEmpty from '../isEmpty';
 // CSS
 import '../styles/main.scss';
 import '../styles/materialize.min.css';
@@ -30,10 +30,12 @@ import OrderSuccess from './OrderSuccess';
 import UserOrders from './UserOrders';
 import AddMovie from './AddMovie';
 import AccountDetails from './Edit/AccountDetails';
+import AllUsers from './Admin/AllUsers';
 import { setCurrentUser } from '../actions/authActions';
 
 // Check user localstorage
-if (localStorage.user) {
+if (!isEmpty(localStorage.user)) {
+  console.log(localStorage);
   store.dispatch(setCurrentUser(JSON.parse(localStorage.user)));
 }
 
@@ -59,7 +61,8 @@ class App extends Component {
             <PrivateRoute exact path="/add_movie" component={AddMovie}/>
 
             <PrivateRoute exact path="/account_details" component={AccountDetails}/>
-            <Footer/>
+            <PrivateRoute exact path="/all_users" component={AllUsers}/>
+
           </div>
         </Router>
       </Provider>

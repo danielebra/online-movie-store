@@ -61,12 +61,11 @@ export const addReview = (movieId, review) => dispatch => {
         console.log(res.data);
 
         let reviewObject = res.data;
-
-        let review = {
+        let data = {
             review: res.data.id
         }
 
-        api.post(`movie/${movieId}/add_review/`, review).then(res =>  {
+        api.post(`movie/${movieId}/add_review/`, data).then(res =>  {
             console.log("Success: ", res.data);
     
             dispatch({

@@ -99,7 +99,7 @@ class Movie extends Component {
     let pageContent;
     let hasReviews = false;
 
-    console.log(this.props.movies);
+    console.log(movie);
 
     if (movie == null || loading) {
       pageContent = <Loading/>

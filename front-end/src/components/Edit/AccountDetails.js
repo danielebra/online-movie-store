@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import isEmpty from '../../isEmpty';
-
-import { editUser } from '../../actions/authActions';
+import M from 'materialize-css';
+import { editUser, clearUpdate, deleteUser } from '../../actions/authActions';
 
 class AccountDetails extends Component {
 
@@ -15,8 +15,14 @@ class AccountDetails extends Component {
             user: {},
             showFields: false,
             errors: {},
-            added: false
+            flagged: false,
+            updated: false
         }
+    }
+
+    componentDidMount() {
+        var elems = document.querySelector('.modal');
+        M.Modal.init(elems, {});
     }
 
     componentWillReceiveProps(nextProps) {
@@ -26,11 +32,17 @@ class AccountDetails extends Component {
 
             Object.keys(nextProps.errors) 
             .forEach(function eachKey(key) {
-                if (nextProps.errors[key] != "user with this email already exists.")
-                    errors[key] = nextProps.errors[key][0];
+                errors[key] = nextProps.errors[key][0];
             });
 
             this.setState({ errors });
+        }
+
+        if (nextProps.auth.updated) {
+            this.props.clearUpdate();
+            this.toggle();
+            if (this.state.user !== this.props.auth.user)
+                this.setState({ updated: true });
         }
       }
 
@@ -48,10 +60,8 @@ class AccountDetails extends Component {
                 return false;
         }
         this.props.editUser(newUserDetails);
-        if (!this.state.errors) {
-            this.toggle();
-        }
     }
+
 
     validatePassword(password) {
         let errors = {};
@@ -74,14 +84,22 @@ class AccountDetails extends Component {
     
     toggle() {
         this.setState({ showFields: !this.state.showFields });
+
+        if (this.state.showFields) {
+            this.setState({ updated: false });
+        }
+    }
+
+    deleteAccount() {
+        this.props.deleteUser(this.state.user);
     }
 
     render() {
         const dbUser = this.props.auth.user;
-        const { user, showFields, errors, added } = this.state;
-
-        if (dbUser && !added) {
-            this.setState({ user: dbUser, added: true });
+        const { user, showFields, errors, flagged, updated } = this.state;
+        
+        if (dbUser && !flagged) {
+            this.setState({ user: dbUser, flagged: true });
         }
 
         return (
@@ -90,8 +108,9 @@ class AccountDetails extends Component {
                     <div className="row">
                         <div className="col s12 center">
                             <h3> My Account Details</h3>
+                            { updated ? showFields ? null : <span className="helper-text success margin-btn"> You details has been updated successfully. </span> : null}
                             <form noValidate>
-                                <table className="table striped bordered center">
+                                <table className="table striped bordered center editDetails">
                                     <tbody>
                                         <tr>
                                             <td>First Name</td>
@@ -115,7 +134,7 @@ class AccountDetails extends Component {
                                                         { errors.first_name ? <span className="helper-text error"> { errors.first_name } </span> : null}
                                                     </div>
                                                 ) : (
-                                                    <td>{ user.first_name }</td>
+                                                    <td>{ dbUser.first_name }</td>
                                                 )
                                             }
                                         </tr>
@@ -142,7 +161,7 @@ class AccountDetails extends Component {
                                                         { errors.last_name ? <span className="helper-text error"> { errors.last_name } </span> : null}
                                                     </div>
                                                 ) : (
-                                                    <td>{ user.last_name }</td>
+                                                    <td>{ dbUser.last_name }</td>
                                                 )
                                             }
                                         </tr>
@@ -169,7 +188,7 @@ class AccountDetails extends Component {
                                                         { errors.email ? <span className="helper-text error"> { errors.email } </span> : null}
                                                     </div>
                                                 ) : (
-                                                    <td>{ user.email }</td>
+                                                    <td>{ dbUser.email }</td>
                                                 )
                                             }
                                         </tr>
@@ -196,7 +215,7 @@ class AccountDetails extends Component {
                                                         { errors.mobile_number ? <span className="helper-text error"> { errors.mobile_number } </span> : null}
                                                     </div>
                                                 ) : (
-                                                    <td>{ user.mobile_number }</td>
+                                                    <td>{ dbUser.mobile_number }</td>
                                                 )
                                             }
                                         </tr>
@@ -223,7 +242,7 @@ class AccountDetails extends Component {
                                                         { errors.date_of_birth ? <span className="helper-text error"> { errors.date_of_birth } </span> : null}
                                                     </div>
                                                 ) : (
-                                                    <td>{ user.date_of_birth }</td>
+                                                    <td>{ dbUser.date_of_birth }</td>
                                                 )
                                             }
                                         </tr>
@@ -250,7 +269,7 @@ class AccountDetails extends Component {
                                                         { errors.shipping_address ? <span className="helper-text error"> { errors.shipping_address } </span> : null}
                                                     </div>
                                                 ) : (
-                                                    <td>{ user.shipping_address }</td>
+                                                    <td>{ dbUser.shipping_address }</td>
                                                 )
                                             }
                                         </tr>
@@ -277,7 +296,7 @@ class AccountDetails extends Component {
                                                         { errors.password ? <span className="helper-text error"> { errors.password } </span> : null}
                                                     </div>
                                                 ) : (
-                                                    <td>{ user.password }</td>
+                                                    <td>{ dbUser.password }</td>
                                                 )
                                             }
                                         </tr>
@@ -295,8 +314,21 @@ class AccountDetails extends Component {
                                     </div>
                                 </div>
                             : 
-                                <a className="btn-large editBtn" onClick={() => this.toggle()}>Edit Details <i className="material-icons">edit</i></a>
+                                <div id="accountBtns">
+                                    <a className="btn-large deleteBtn btn modal-trigger" href="#modal">Delete user <i className="material-icons">delete</i></a>
+                                    <a className="btn-large editBtn" onClick={() => this.toggle()}>Edit Details <i className="material-icons">edit</i></a>
+                                </div>
                             }
+
+                            <div id="modal" class="modal">
+                                <div class="modal-content">
+                                <h4 className="modal-title">Are you sure you want to delete your account?</h4>
+                                </div>
+                                <div class="modalFooter">
+                                    <a onClick={() => this.deleteAccount()} class="waves-effect btn-flat">Yes</a>
+                                    <a href="#!" class="modal-close waves-effect btn-flat">No</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -311,4 +343,4 @@ const mapStateToProps = state => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, { editUser })(AccountDetails);
+export default connect(mapStateToProps, { editUser, clearUpdate, deleteUser })(AccountDetails);
