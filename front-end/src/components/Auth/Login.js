@@ -135,7 +135,7 @@ class Login extends Component {
 
                   <div className="input-field col s12">
                     <button
-                      className="button-primary waves-effect waves-light"
+                      className="button-primary waves-light"
                       type="submit"
                       id="register-btn-submit"
                     >

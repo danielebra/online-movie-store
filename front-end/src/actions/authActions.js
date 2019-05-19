@@ -30,9 +30,9 @@ export const loginUser = userData => dispatch => {
     api
         .post('user/auth/login/', userData)
         .then(res => {
-            console.log("success ", res.data);
+            console.log(res.data);
 
-            if (res.data['isValid']) {
+            if (res.data['user']) {
                 // set localstorage
                 localStorage.setItem('user', JSON.stringify(res.data['user']));
 
