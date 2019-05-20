@@ -61,6 +61,8 @@ class App extends Component {
             <PrivateRoute exact path="/order/:id" component={PlaceOrder}/>
             <PrivateRoute exact path="/add_movie" component={AddMovie}/>
             <PrivateRoute exact path="/update_movie" component={UpdateMovie}/>
+
+            <PrivateRoute exact path="/user_management" component={UserManagement}/>
             <Footer/>
           </div>
         </Router>
