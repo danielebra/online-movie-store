@@ -12,7 +12,7 @@ export default function(state = feedback, action) {
             return action.payload;
 
         case CLEAR_FEEDBACK:
-            return {};
+            return '';
 
         default:
             return state;
