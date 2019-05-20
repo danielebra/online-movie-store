@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   align-items: center;
   flex: auto;
+  padding-bottom: 1%;
 }
 .flex-outer > li > label,
 .flex-outer li p {
@@ -12,11 +13,12 @@
 }
 
 .flex-outer > li > label + *,
+
 .flex-inner {
   //   flex: 1 0 220px;
 }
 .flex-inner > li > div {
-  width: 98%;
+  width: 80%;
 }
 .flex-outer > li > div {
   width: 100%;
