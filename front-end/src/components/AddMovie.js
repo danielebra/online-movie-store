@@ -16,25 +16,25 @@ class AddMovie extends Component {
             year: "",
             description: "",
             thumbnail: "",
-            trailer_link: "",
+            trailer: "",
+            genre:"",
             price: 0,
             stock: 0,
-            purchase_count: 0,
             maturityRating: 0,
         }; 
     }
-    //Sends movie details to get 
+    //Sends movie details to movieActions/addMovie
    onSubmit = event => {
         event.preventDefault();
         const movieDetails = {
             title: this.state.title,
             year: this.state.year,
             description: this.state.description,
+            genre: this.state.genre,
             thumbnail: this.state.thumbnail,
-            trailer_link: this.state.trailer_ink,
+            trailer: this.state.trailer,
             price: this.state.price,
-            maturity_rating: this.state.maturityRating,
-            purchase_count: this.state.purchase_count,
+            maturityRating: this.state.maturityRating,
             stock: this.state.stock,
         }
         this.props.addMovie(movieDetails);
@@ -42,7 +42,7 @@ class AddMovie extends Component {
 
     render() {
         return (
-            <div class="top-padding">
+            <div className="top-padding">
                 <div className="container">
                     <h2 className="center-align">Add Movie</h2>
                         <form className="col s12" onSubmit={this.onSubmit}>
@@ -70,6 +70,7 @@ class AddMovie extends Component {
                                         />
                                 </div>
                                 <div className="row"></div>
+
                                 <div className="row">
                                     <div className="col s12">
                                         <label htmlFor="description"><font size="+1">Description</font></label>
@@ -86,11 +87,25 @@ class AddMovie extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="col s5">
+                                        <label htmlFor="genre"><font size="+1">genre</font></label>
+                                        <input 
+                                            id="genre" 
+                                            type="text" 
+                                            placeholder="Enter movie genre"
+                                            onChange={event =>
+                                                this.setState({thumbnail: event.target.value })
+                                            } 
+                                            />
+
+                                </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col s5">
                                         <label htmlFor="thumbnail"><font size="+1">Thumbnail URL</font></label>
                                         <input 
                                             id="thumbail" 
                                             type="text" 
-                                            placeholder="place a URL of Thumbail"
+                                            placeholder="Enter the URL for a Thumbnail"
                                             onChange={event =>
                                                 this.setState({thumbnail: event.target.value })
                                             } 
@@ -102,7 +117,7 @@ class AddMovie extends Component {
                                         <input 
                                             id="trailer" 
                                             type="text"
-                                            placeholder="place a URL for Trailer"
+                                            placeholder="Enter a URL for a Trailer"   
                                             onChange={event =>
                                                 this.setState({trailer: event.target.value })
                                             } 
@@ -133,13 +148,13 @@ class AddMovie extends Component {
                                             />
                                     </div>
                                     <div className="col s4 offset-s1">
-                                        <label htmlFor="maturity"><font size="+1">Maturity Rating</font></label>
+                                        <label htmlFor="maturityRating"><font size="+1">Maturity Rating</font></label>
                                         <input
-                                            id="maturity" 
+                                            id="maturityRating" 
                                             type="text" 
                                             placeholder="Maturity Rating" 
                                             onChange={event =>
-                                                this.setState({maturity_rating: event.target.value })
+                                                this.setState({maturitRating: event.target.value })
                                             } 
                                             />
                                     </div>

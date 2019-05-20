@@ -23,6 +23,10 @@ class UpdateMovie extends Component{
         
       };
 
+      onSubmit(){
+
+      }
+
       render() {
         let { collections, searchList, loading } = this.props.movies;
         let pageContent;
@@ -47,16 +51,16 @@ class UpdateMovie extends Component{
                 <div className="row details">
                   <h1 className="center-align"> Update/Remove Movie </h1>
                   <div className="movieList">
-                    <select value="">
+                    <select>
                         <option value="Error"> Select Movie to view or change </option>
-                        <option value={collections.movie.title}> Option 1 </option>
+                        <option value={collections.movie}> Option 1 </option>
                         <option value={collections[1]}> Option 2 </option>
                     </select>
                   </div>
                 </div>
                 <hr></hr>
                 <h3> Movie Details</h3>
-                <form className="col 10" onSubmit="">
+                <form className="col 10" onSubmit={this.onSubmit}>
                 <div className="row">
                     <div className="col s4">
                       <label htmlFor="title"><font size="+1"> Movie Title </font></label>

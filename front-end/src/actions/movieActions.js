@@ -113,19 +113,17 @@ export const clearSearchList = () => {
     return {
         type: CLEAR_SEARCH_LIST
     }
-}
+};
 
 export const addMovie = (movieDetails) => dispatch => {
     api.post('movie/', movieDetails)
         .then(res => {
             console.log("ADDED: ", res.data)
-        })
-        .catch(err => {
             dispatch({
-                /*type: ADD_MOVIE,
-                payload: err.response.data*/
+                type: ADD_MOVIE,
+                payload: res.data
             })
-        });
+        })
 };
 
 // Set profile loading
