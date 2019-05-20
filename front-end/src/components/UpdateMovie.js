@@ -9,15 +9,20 @@ import Info from "./UIElements/Info";
 
 class UpdateMovie extends Component{
     componentWillMount() {
-        if (this.props.match.params.id) {
-          this.props.getMovieById(this.props.match.params.id);
-        }
       }
       
       componentDidMount() {
         M.AutoInit();
       }
-    
+
+      getMovieItems(){
+        /*collections.map((item, index) => {
+        collections[index].movies.map((item, index) => {
+          ;
+        }*/
+        
+      };
+
       render() {
         let { collections, searchList, loading } = this.props.movies;
         let pageContent;
@@ -44,7 +49,7 @@ class UpdateMovie extends Component{
                   <div className="movieList">
                     <select value="">
                         <option value="Error"> Select Movie to view or change </option>
-                        <option value={collections[0]}> Option 1 </option>
+                        <option value={collections.movie.title}> Option 1 </option>
                         <option value={collections[1]}> Option 2 </option>
                     </select>
                   </div>
@@ -58,8 +63,8 @@ class UpdateMovie extends Component{
                       <input 
                       id="title" 
                       type="text" 
-                      placeholder="Movie Title" 
-                       
+                      placeholder="Movie Title"
+                      className="white-text" 
                       onChange={event =>
                           this.setState({title: event.target.value })
                       }
@@ -72,6 +77,7 @@ class UpdateMovie extends Component{
                         id="year" 
                         type="text" 
                         placeholder="Movie Year" 
+                        className="white-text"
                         onChange={event =>
                             this.setState({year: event.target.value })
                         }
@@ -85,6 +91,7 @@ class UpdateMovie extends Component{
                       id="description" 
                       type="text" 
                       placeholder="Movie Description"
+                      className="white-text"
                       onChange={event =>
                           this.setState({year: event.target.value })
                       }
@@ -99,6 +106,7 @@ class UpdateMovie extends Component{
                       id="thumbnail" 
                       type="text" 
                       placeholder="Movie Thumbnail URL"
+                      className="white-text"
                       onChange={event =>
                           this.setState({year: event.target.value })
                       }
@@ -110,6 +118,7 @@ class UpdateMovie extends Component{
                     id="trailer" 
                     type="text" 
                     placeholder="Movie Trailer URL" 
+                    className="white-text"
                     onChange={event =>
                         this.setState({year: event.target.value })
                     }
@@ -123,6 +132,7 @@ class UpdateMovie extends Component{
                           id="price" 
                           type="text" 
                           placeholder="Movie Price"
+                          className="white-text"
                           onChange={event =>
                               this.setState({price: event.target.value })
                           }
@@ -134,6 +144,7 @@ class UpdateMovie extends Component{
                         id="stock" 
                         type="text" 
                         placeholder="Avaliable Stock"
+                        className="white-text"
                         onChange={event =>
                             this.setState({stock: event.target.value })
                         } 
