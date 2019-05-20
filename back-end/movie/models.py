@@ -17,6 +17,15 @@ class User(models.Model):
         return self.first_name + ' ' + self.last_name
 
 
+class LogModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.TextField()
+    time_stamp = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return '{0} | {1}'.format(self.user.email, str(self.time_stamp))
+
+
 class Review(models.Model):
     rating = IntegerRangeField(min_value=0, max_value=10)
     text = models.TextField()
