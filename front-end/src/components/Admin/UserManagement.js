@@ -266,14 +266,30 @@ class UserManagement extends Component {
 
                                                 ) : (
                                                     <tr>
-                                                        {
-                                                            // Iterate over all fields of user
-                                                            Object.keys(user).map(function eachKey(key) {
-                                                                if (key == 'id' || key =='is_admin' || key=='password')
-                                                                    return;
-                                                                return <td> {user[key]} </td>
-                                                            })
-                                                        }
+                                                        <td>
+                                                            {user.first_name}
+                                                        </td>
+
+                                                        <td>
+                                                            {user.last_name}
+                                                        </td>
+
+                                                        <td>
+                                                            {user.email}
+                                                        </td>
+
+                                                        <td>
+                                                            {user.mobile_number}
+                                                        </td>
+
+                                                        <td>
+                                                            {user.date_of_birth}
+                                                        </td>
+
+                                                        <td>
+                                                            {user.shipping_address}
+                                                        </td>
+
                                                         <td>
                                                             <i onClick={() => this.switchToEditingMode(index)} className="material-icons ">edit</i>
                                                         </td>
