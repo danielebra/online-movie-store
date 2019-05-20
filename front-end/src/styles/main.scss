@@ -122,6 +122,27 @@ table.striped>tbody>tr:nth-child(odd){
     background-color :#222 !important;
 }
 
+.management-table {
+    thead {
+        background-color: rgba(100, 18, 18, 0.555);
+    }
+    tbody {
+    }
+    input {
+        font-size: 14px !important;
+        text-align: center;
+    }
+    .input-field {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+}
+
+table.highlight>tbody>tr:hover {
+    background-color: rgba(58, 58, 58, 0.603) !important;
+    color: white;
+}
+
 table.editDetails{
     width: 60%;
     margin-left: 185px;
@@ -218,6 +239,10 @@ table.centered thead tr th, table.centered tbody tr td {
     }
     input {
         color: #bdbdbd;
+    }
+
+    .error {
+        font-size: 13px;
     }
 
     input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {

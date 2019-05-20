@@ -90,7 +90,7 @@ class Header extends Component {
                       { user.is_admin === 'true' ? (
                         <div>
                           <Link to="/add_movie">Add Movies</Link>
-                          <Link to="/all_users"> View Users </Link>
+                          <Link to="/user_management"> User Management </Link>
                         </div>
                       ) : null }
 

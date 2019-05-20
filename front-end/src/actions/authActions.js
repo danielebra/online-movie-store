@@ -14,7 +14,7 @@ export const registerUser = (userData, history) => dispatch => {
             history.push(`/login/${userData.email}`)
             dispatch({
                 type: GET_FEEDBACK,
-                payload: 'You have successfully registered.'
+                payload: 'You have successfully registered. Please login.'
             })
         }) 
         .catch(err => {
@@ -94,7 +94,7 @@ export const superLoginForDevelopment = () => dispatch =>  {
     });
 }
 
-export const editUser = (updatedData) => dispatch => {
+export const editUser = updatedData => dispatch => {
     
     api
         .patch(`user/${updatedData.id}/change/`, updatedData)
@@ -125,7 +125,71 @@ export const editUser = (updatedData) => dispatch => {
     );
 }
 
-export const deleteUser = (user) => dispatch => {
+export const addUserAsAdmin = userData => dispatch => {
+    api.post('user/', userData)
+        .then(res => {
+
+            dispatch({
+                type: CLEAR_ERRORS
+            })
+
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: `You have successfully registered ${userData.first_name}.`
+            })
+        }) 
+        .catch(err => {
+            dispatch(getAllUsers());
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        });
+};
+
+
+export const editUserAsAdmin = updatedData => dispatch => {
+    
+    api
+        .patch(`user/${updatedData.id}/change/`, updatedData)
+        .then(res => {
+            
+            dispatch({
+                type: CLEAR_ERRORS
+            })
+
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: `${updatedData.first_name} details has been updated.`
+            })
+        })
+        .catch(err => {
+            dispatch(getAllUsers());
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        }
+    );
+}
+
+export const deleteUserAsAdmin = user => dispatch => {
+    api
+        .delete(`user/${user.id}/delete/`)
+        .then(res => {
+            dispatch(getAllUsers());
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: `${user.first_name}'s account has been deleted.`
+            })
+        })
+        .catch(err => {
+            console.log(err.response.data);
+        }
+    );
+}
+
+export const deleteUser = user => dispatch => {
     api
         .delete(`user/${user.id}/delete/`)
         .then(res => {
@@ -160,7 +224,6 @@ export const getAllUsers = () => dispatch => {
 
     api.get('user/')
         .then(res => {
-            console.log(res.data);
             dispatch({
                 type: GET_ALL_USERS,
                 payload: res.data

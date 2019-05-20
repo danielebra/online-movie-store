@@ -30,7 +30,7 @@ import OrderSuccess from './OrderSuccess';
 import UserOrders from './UserOrders';
 import AddMovie from './AddMovie';
 import AccountDetails from './Edit/AccountDetails';
-import AllUsers from './Admin/AllUsers';
+import UserManagement from './Admin/UserManagement';
 import { setCurrentUser } from '../actions/authActions';
 
 // Check user localstorage
@@ -61,7 +61,7 @@ class App extends Component {
             <PrivateRoute exact path="/add_movie" component={AddMovie}/>
 
             <PrivateRoute exact path="/account_details" component={AccountDetails}/>
-            <PrivateRoute exact path="/all_users" component={AllUsers}/>
+            <PrivateRoute exact path="/user_management" component={UserManagement}/>
 
           </div>
         </Router>
