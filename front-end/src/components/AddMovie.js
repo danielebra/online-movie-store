@@ -16,11 +16,12 @@ class AddMovie extends Component {
             year: "",
             description: "",
             thumbnail: "",
-            trailer: "",
-            genre:"",
+            trailer_link: "",
             price: 0,
+            maturity_rating: 0,
+            purchase_count:"",
             stock: 0,
-            maturityRating: 0,
+            
         }; 
     }
     //Sends movie details to movieActions/addMovie
@@ -30,14 +31,16 @@ class AddMovie extends Component {
             title: this.state.title,
             year: this.state.year,
             description: this.state.description,
-            genre: this.state.genre,
             thumbnail: this.state.thumbnail,
-            trailer: this.state.trailer,
+            trailer_link: this.state.trailer_link,
             price: this.state.price,
-            maturityRating: this.state.maturityRating,
+            maturity_rating: this.state.maturity_rating,
+            purchase_count: this.state.purchase_count,
             stock: this.state.stock,
         }
         this.props.addMovie(movieDetails);
+        
+        //windows.alert({title} + "Submitted");
     }
 
     render() {
@@ -86,17 +89,16 @@ class AddMovie extends Component {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col s5">
-                                        <label htmlFor="genre"><font size="+1">genre</font></label>
+                                    <div className="col s3">
+                                        <label htmlFor="purchase_count"><font size="+1">Purchase Count</font></label>
                                         <input 
-                                            id="genre" 
+                                            id="purchase_count" 
                                             type="text" 
-                                            placeholder="Enter movie genre"
+                                            placeholder="Enter current amount of purchases"
                                             onChange={event =>
-                                                this.setState({thumbnail: event.target.value })
+                                                this.setState({purchase_count: event.target.value })
                                             } 
                                             />
-
                                 </div>
                                 </div>
                                 <div className="row">
@@ -115,11 +117,11 @@ class AddMovie extends Component {
                                     <div className="col s5 offset-s2">
                                         <label htmlFor="trailer"><font size="+1">Trailer URL</font></label>
                                         <input 
-                                            id="trailer" 
+                                            id="trailer_link" 
                                             type="text"
                                             placeholder="Enter a URL for a Trailer"   
                                             onChange={event =>
-                                                this.setState({trailer: event.target.value })
+                                                this.setState({trailer_link: event.target.value })
                                             } 
                                             />
                                     </div>
@@ -130,7 +132,7 @@ class AddMovie extends Component {
                                         <input 
                                             id="price" 
                                             type="text" 
-                                            placeholder="Price"
+                                            placeholder="Enter Price"
                                             onChange={event =>
                                                 this.setState({price: event.target.value })
                                             }
@@ -141,27 +143,29 @@ class AddMovie extends Component {
                                         <input 
                                             id="stock" 
                                             type="text" 
-                                            placeholder="Avaliable stock"
+                                            placeholder="Enter avaliable stock"
                                             onChange={event =>
                                                 this.setState({stock: event.target.value })
                                             } 
                                             />
                                     </div>
                                     <div className="col s4 offset-s1">
-                                        <label htmlFor="maturityRating"><font size="+1">Maturity Rating</font></label>
+                                        <label htmlFor="maturity"><font size="+1">Maturity Rating</font></label>
                                         <input
-                                            id="maturityRating" 
+                                            id="maturity_rating" 
                                             type="text" 
                                             placeholder="Maturity Rating" 
                                             onChange={event =>
-                                                this.setState({maturitRating: event.target.value })
+                                                this.setState({maturity_rating: event.target.value })
                                             } 
                                             />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col s3 offset-s3">
-                                        <button className="waves-effect waves-light red darken-3 btn">Cancel</button>
+                                        <Link to="/" className="waves-effect waves-light red darken-3 btn">
+                                            Cancel
+                                        </Link> 
                                     </div>
                                     <div className="col s3 offset-s2">
                                         <button className="waves-effect waves-light red darken-3 btn" 

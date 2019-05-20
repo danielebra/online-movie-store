@@ -124,6 +124,9 @@ export const addMovie = (movieDetails) => dispatch => {
                 payload: res.data
             })
         })
+        .catch(error =>{
+            console.log(error.response);
+        })
 };
 
 // Set profile loading
