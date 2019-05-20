@@ -11,8 +11,13 @@ export const UNFAVOURITE_MOVIE = 'UNFAVOURITE_MOVIE';
 
 export const LOGIN_USER = 'LOGIN_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
-export const UPDATE_USER = 'UPDATE_USER';
 
+export const UPDATE_USER = 'UPDATE_USER';
+export const GET_ALL_USERS = 'GET_ALL_USERS';
+export const CLEAR_UPDATE = 'CLEAR_UPDATE';
+
+export const GET_FEEDBACK = 'GET_FEEDBACK';
+export const CLEAR_FEEDBACK = 'CLEAR_FEEDBACK';
 export const GET_ERRORS = 'GET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 

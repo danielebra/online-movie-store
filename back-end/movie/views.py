@@ -9,9 +9,9 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 
-from .models import Movie, Genre, MovieGenre, Review, MovieReview, Order
+from .models import Movie, Genre, MovieGenre, Review, MovieReview, Order, LogModel
 from .models import User as UserModel
-from .serializers import UsersSerializer, MovieSerializer, GenreSerializer, PasswordSerializer, MovieGenreSerializer, LoginSerializer, MovieReviewSerializer, ReviewSerializer, OrderSerializer
+from .serializers import UsersSerializer, MovieSerializer, GenreSerializer, PasswordSerializer, MovieGenreSerializer, LoginSerializer, MovieReviewSerializer, ReviewSerializer, OrderSerializer, LogSerializer
 from .forms import UserForm
 
 
@@ -48,7 +48,9 @@ class User(viewsets.ModelViewSet):
             instance=user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response({"status": "user updated"}, status=status.HTTP_200_OK)
+            userObj = UserModel.objects.filter(
+                email=request.data['email']).values().first()
+            return Response({"status": "user updated", "user": userObj}, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -68,8 +70,10 @@ class User(viewsets.ModelViewSet):
         if can_bypass_validation or serializer.is_valid():
             user = UserModel.objects.filter(
                 email=request.data['email']).values().first()
+            if not user:
+                return Response({'email': 'Email not found'})
             if user['password'] == request.data['password']:
-                return Response({"isValid": "true", "user": user})
+                return Response({"user": user})
             else:
                 return Response({'email': 'Email or password dont match.'})
 
@@ -80,6 +84,32 @@ class User(viewsets.ModelViewSet):
         user = self.get_object()
         user.delete()
         return Response(status=status.HTTP_200_OK)
+
+    @action(methods=['post'], detail=True)
+    def log(self, request, pk=None):
+        print("in post")
+        # Map the pk to user
+        data = request.data.copy()
+        data['user'] = pk
+        serializer = LogSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['get'], detail=True)
+    def logs(self, request, pk=None):
+        query = LogModel.objects.filter(user=pk).values()
+        print(query)
+        return Response(query, status=status.HTTP_200_OK)
+        print("in get")
+        # Map the pk to user
+        data = request.data.copy()
+        data['user'] = pk
+        serializer = LogSerializer(data=data)
+        if serializer.is_valid():
+            return Response({"status": "success"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class MoviePopulator(viewsets.ModelViewSet):

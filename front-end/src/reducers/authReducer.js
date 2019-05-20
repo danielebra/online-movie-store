@@ -1,22 +1,12 @@
 
 // Action Types
-import { LOGIN_USER, LOGOUT_USER, UPDATE_USER } from "../actions/types";
+import { LOGIN_USER, LOGOUT_USER, UPDATE_USER, GET_ALL_USERS, CLEAR_UPDATE } from "../actions/types";
 
 const initialState = {
     isAuthenticated: false,
-    user: {}
-
-    //instant login
-    // isAuthenticated: true,
-    // user: {
-    //     first_name: 'George',
-    //     last_name: 'Boi',
-    //     email: 'george_is_god@uts.edu.au',
-    //     mobile_number: '989898989',
-    //     date_of_birth: '1999/12/01',
-    //     password: 'avengersendgamespoilers',
-    //     is_admin: 'true'
-    // }
+    user: {},
+    users: [],
+    updated: false
 };
 
 export default function (state = initialState, action) {
@@ -33,7 +23,14 @@ export default function (state = initialState, action) {
         case UPDATE_USER:
             return {
                 ...state,
-                user: action.payload
+                user: action.payload,
+                updated: true
+            };
+
+        case CLEAR_UPDATE:
+            return {
+                ...state,
+                updated: false
             };
 
         case LOGOUT_USER:
@@ -43,6 +40,13 @@ export default function (state = initialState, action) {
                 user: null,
                 isAdmin: false
             };
+
+        case GET_ALL_USERS:
+            return {
+                ...state,
+                users: action.payload
+            };
+
         default:
             return state;
     }

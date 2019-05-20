@@ -37,6 +37,11 @@ class Header extends Component {
     });
   }
 
+  logoutUser() {
+    let message = 'You have been logged out!';
+    this.props.logoutUser(message);
+  }
+
   render() {
 
     const { isAuthenticated, user } = this.props.auth;
@@ -87,11 +92,12 @@ class Header extends Component {
 
                       { user.is_admin === 'true' ? (
                         <div>
-                          <Link to="/view_users"> View Users </Link>
+                          <Link to="/add_movie">Add Movies</Link>
+                          <Link to="/user_management"> User Management </Link>
                         </div>
                       ) : null }
 
-                      <a onClick={this.props.logoutUser}>Logout</a>
+                      <a onClick={() => this.logoutUser()}>Logout</a>
                     </div>
                   </li>
                 </ul>

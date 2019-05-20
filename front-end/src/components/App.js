@@ -9,7 +9,7 @@ import {
 // Redux
 import { Provider } from 'react-redux';
 import store from '../store';
-
+import isEmpty from '../isEmpty';
 // CSS
 import '../styles/main.scss';
 import '../styles/materialize.min.css';
@@ -29,7 +29,15 @@ import PlaceOrder from './PlaceOrder';
 import OrderSuccess from './OrderSuccess';
 import UserOrders from './UserOrders';
 import AddMovie from './AddMovie';
-import UpdateMovie from './UpdateMovie';
+import AccountDetails from './Edit/AccountDetails';
+import UserManagement from './Admin/UserManagement';
+import { setCurrentUser } from '../actions/authActions';
+
+// Check user localstorage
+if (!isEmpty(localStorage.user)) {
+  console.log(localStorage);
+  store.dispatch(setCurrentUser(JSON.parse(localStorage.user)));
+}
 
 class App extends Component {
   render() {

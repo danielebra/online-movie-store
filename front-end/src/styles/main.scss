@@ -122,9 +122,31 @@ table.striped>tbody>tr:nth-child(odd){
     background-color :#222 !important;
 }
 
-table {
-    width: 60% !important;
+.management-table {
+    thead {
+        background-color: rgba(100, 18, 18, 0.555);
+    }
+    tbody {
+    }
+    input {
+        font-size: 14px !important;
+        text-align: center;
+    }
+    .input-field {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+}
+
+table.highlight>tbody>tr:hover {
+    background-color: rgba(58, 58, 58, 0.603) !important;
+    color: white;
+}
+
+table.editDetails{
+    width: 60%;
     margin-left: 185px;
+    margin-top: 10px;
 }
 
 tbody {
@@ -142,17 +164,59 @@ td, tr {
 tr {
     border-bottom: 1px solid rgba(0,0,0,0.12)
 }
+
 table.centered thead tr th, table.centered tbody tr td {
     text-align: center;
 }
-.editBtn{
-    width: 20% !important;
-    background: #cc1b24c2 !important;
+
+.editBtn, .deleteBtn{
     margin-top: 30px;
     margin-bottom: -20px;
     margin-left: 10px;
     margin-right: 20px;
     font-size: 14px !important;
+}
+
+.modal {
+    background-color: #222 !important;
+    margin-top: 150px !important;
+}
+
+.modal-title {
+    color: rgb(177, 0, 9);
+    font-size: 23px;
+    font-weight: 400;
+}
+
+.modalFooter {
+    background-color: black !important;
+    text-align: center;
+    padding: 15px;
+    margin: 10px;
+
+    a {
+        color: rgb(184, 184, 184);
+        margin: 0 10px;
+    }
+    a:hover {
+        color: white;
+    }
+}
+
+.editBtn {
+    background: #07b3a4c2 !important;
+}
+
+.editBtn:hover {
+    background: #09e7d5c2 !important;
+}
+
+.deleteBtn {
+    background: #cc383fc2 !important;
+}
+
+.deleteBtn:hover {
+    background: #ec242ec2 !important;
 }
 
 .updateBtns {
@@ -175,6 +239,10 @@ table.centered thead tr th, table.centered tbody tr td {
     }
     input {
         color: #bdbdbd;
+    }
+
+    .error {
+        font-size: 13px;
     }
 
     input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
