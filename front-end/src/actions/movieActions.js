@@ -29,7 +29,7 @@ export const getMovies = () => dispatch => {
                 dispatch({
                     type: GET_MOVIES,
                     payload
-                })
+                })  
             else
                 dispatch({
                     type: NO_MOVIES_FOUND
@@ -112,12 +112,20 @@ export const clearSearchList = () => {
     return {
         type: CLEAR_SEARCH_LIST
     }
-}
+};
 
-export const addMovie = () => dispatch => {
-    return{
-        type: ADD_MOVIE
-    }
+export const addMovie = (movieDetails) => dispatch => {
+    api.post('movie/', movieDetails)
+        .then(res => {
+            console.log("ADDED: ", res.data)
+            dispatch({
+                type: ADD_MOVIE,
+                payload: res.data
+            })
+        })
+        .catch(error =>{
+            console.log(error.response);
+        })
 };
 
 // Set profile loading

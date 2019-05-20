@@ -3,7 +3,7 @@ import "../styles/_addmovie.scss";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
-import { getMovieById } from "../actions/movieActions";
+import { addMovie } from "../actions/movieActions";
 
 import Loading from "../components/Templates/loading";
 import M from "materialize-css";
@@ -19,24 +19,24 @@ class AddMovie extends Component {
             thumbnail: "",
             trailer_link: "",
             price: 0,
+            maturity_rating: 0,
+            purchase_count:"",
             stock: 0,
-            pruchase_count: 0,
-            maturityRating: 0,
-        };
-        
+            
+        }; 
     }
-
+    //Sends movie details to movieActions/addMovie
    onSubmit = event => {
         event.preventDefault();
-        this.movieDetails = {
+        const movieDetails = {
             title: this.state.title,
             year: this.state.year,
             description: this.state.description,
             thumbnail: this.state.thumbnail,
-            trailer_link: this.state.trailer_ink,
+            trailer_link: this.state.trailer_link,
             price: this.state.price,
-            maturity_rating: this.state.maturityRating,
-            pruchase_count: this.state.pruchase_count,
+            maturity_rating: this.state.maturity_rating,
+            purchase_count: this.state.purchase_count,
             stock: this.state.stock,
         }
     }*/
@@ -51,7 +51,6 @@ class AddMovie extends Component {
         <div className="container">
           <h2 className="center-align">Add Movie</h2>
           <form>
-            {/* Movie Shit */}
             <ul class="flex-outer">
               <li>
                 <label for="title">
@@ -185,4 +184,11 @@ class AddMovie extends Component {
     );
   }
 }
-export default AddMovie;
+const mapStateToProps = state => ({
+  movies: state.movies
+});
+
+export default connect(
+  mapStateToProps,
+  { addMovie }
+)(AddMovie);
