@@ -29,6 +29,7 @@ import PlaceOrder from './PlaceOrder';
 import OrderSuccess from './OrderSuccess';
 import UserOrders from './UserOrders';
 import AddMovie from './AddMovie';
+import UpdateMovie from './UpdateMovie';
 import AccountDetails from './Edit/AccountDetails';
 import UserManagement from './Admin/UserManagement';
 import { setCurrentUser } from '../actions/authActions';

@@ -15,13 +15,15 @@ class UpdateMovie extends Component{
         M.AutoInit();
       }
 
-      getMovieItems(){
-        /*collections.map((item, index) => {
-        collections[index].movies.map((item, index) => {
-          ;
-        }*/
-        
-      };
+      /*componentWillReceiveProps(nextProps){
+        if(nextProps.movies){
+          const {movies} = nextProps;
+          let allMovies = new Array(movies.length).fill(false);
+          this.setState({ movies, allMovies });
+          console.log("Movies are ", movies);
+          console.log("Array length is", allMovies);
+        }
+      }*/
 
       onSubmit(){
 
