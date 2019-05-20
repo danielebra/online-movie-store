@@ -87,12 +87,11 @@ class Header extends Component {
                       <Link to="/account_details">Account Details</Link>
                       <Link to="/orders">My Orders</Link> 
                       <Link to="/wishlist">Wish List</Link>
-                      <Link to="/add-movie">Add Movies</Link>
-                      <Link to="/update-movie">Update Movies </Link>
+                      <Link to="/add_movie">Add Movies</Link>
+                      <Link to="/update_movie">Update Movies </Link>
 
                       { user.is_admin === 'true' ? (
                         <div>
-                          <Link to="/add_movie">Add Movies</Link>
                           <Link to="/user_management"> User Management </Link>
                         </div>
                       ) : null }

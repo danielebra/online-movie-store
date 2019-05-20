@@ -169,7 +169,7 @@ class AddMovie extends Component {
                                     </div>
                                     <div className="col s3 offset-s2">
                                         <button className="waves-effect waves-light red darken-3 btn" 
-                                            id="add-movie-submit-btn"
+                                            id="add_movie-submit-btn"
                                             type ="submit"
                                         >
                                             <span> Submit </span>

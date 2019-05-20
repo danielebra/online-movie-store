@@ -171,7 +171,7 @@ class UpdateMovie extends Component{
                     <button
                       className="waves-effect waves-light red darken-3 btn"
                       type="submit"
-                      id="update-movies-btn"
+                      id="update_movies-btn"
                     >
                     Save Changes
                     </button> 
