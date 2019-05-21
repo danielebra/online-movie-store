@@ -1,79 +1,235 @@
-// //import setAuthToken from "../utils/setAuthToken";
-// //import jwt_decode from 'jwt-decode';
+//import setAuthToken from "../utils/setAuthToken";
+//import jwt_decode from 'jwt-decode';
 
-// // Action types
-// import { SET_CURRENT_USER } from "./types";
-// import { GET_ERRORS } from "./types";
+// Action types
+import { LOGIN_USER, LOGOUT_USER, GET_ERRORS, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE } from "./types";
 
+import api from "../api";
 
+export const registerUser = (userData, history) => dispatch => {
 
-// // Register
-// export const registerUser = (userData, history) => dispatch => {
-
-//     api
-//         .post('users/register/', userData)
-//         .then(res => history.push('/login')) // if success, redirect to the account page
-//         .catch(err =>
-//             dispatch({
-//                 type: GET_ERRORS,
-//                 payload: err.response.data
-//             })
-//         );
-// };
-
-
-// // Login - Get User Token
-// export const loginUser = (userData) => dispatch => {
-//     axios
-//         .post('users/login', userData)
-//         .then(res => {
-
-//             // Once we get the response back, save to LocalStorage
-//             const { token } = res.data;
-
-//             // Set token to LocalStorage
-//             localStorage.setItem('jwtToken', token);
-
-//             // Set token to Auth header
-//             setAuthToken(token);
+    // if success, redirect to the login page
+    api.post('user/', userData)
+        .then(res => {
+            history.push(`/login/${userData.email}`)
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: 'You have successfully registered. Please login.'
+            })
+        }) 
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        });
+};
 
 
-//             // Set user to state
+export const loginUser = userData => dispatch => {
+    api
+        .post('user/auth/login/', userData)
+        .then(res => {
+            console.log(res.data);
 
-//             // decode token to get user data
-//             const decoded = jwt_decode(token);
+            if (res.data['user']) {
+                // set localstorage
+                localStorage.setItem('user', JSON.stringify(res.data['user']));
 
-//             // Set current user
-//             dispatch(setCurrentUser(decoded));
+                dispatch({
+                    type: LOGIN_USER,
+                    payload: res.data['user']
+                })
+            } else {
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: res.data
+                })
+            }
+        })
+        .catch(err => {
+            console.log("error ", err.response.data);
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        }
+    );
+};
 
-//         })
-//         .catch(err =>
-//             dispatch({
-//                 type: GET_ERRORS,
-//                 payload: err.response.data
-//             })
-//         );
-// };
+export const setCurrentUser = userData => {
+    return{
+        type: LOGIN_USER,
+        payload: userData
+    };
+};
 
-// // Set logged in user
-// export const setCurrentUser = decoded => {
-//     return {
-//         type: SET_CURRENT_USER,
-//         payload: decoded
-//     }
-// };
+// Log user out
+export const logoutUser = message => dispatch => {
+    localStorage.removeItem('user');
+    dispatch({
+        type: GET_FEEDBACK,
+        payload: message
+    })
+    dispatch({
+        type: LOGOUT_USER
+    });
+};
+
+export const superLoginForDevelopment = () => dispatch =>  {
+    let user = {
+        first_name: 'George',
+        last_name: 'Boi',
+        email: 'george_is_god@uts.edu.au',
+        mobile_number: 989898989,
+        date_of_birth: 1999/99/99,
+        password: 'avengersendgamespoilers',
+        is_admin: 'true'
+    };
+    localStorage.setItem('user', JSON.stringify(user));
+
+    dispatch({
+        type: LOGIN_USER,
+        payload: user
+    });
+}
+
+export const editUser = updatedData => dispatch => {
+    
+    api
+        .patch(`user/${updatedData.id}/change/`, updatedData)
+        .then(res => {
+            
+            localStorage.setItem('user', JSON.stringify(updatedData));
+
+            dispatch({
+                type: UPDATE_USER,
+                payload: updatedData
+            })
+
+            dispatch({
+                type: CLEAR_ERRORS
+            })
+
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: `${updatedData.first_name} your details has been updated successfully.`
+            })
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        }
+    );
+}
+
+export const addUserAsAdmin = userData => dispatch => {
+    api.post('user/', userData)
+        .then(res => {
+
+            dispatch({
+                type: CLEAR_ERRORS
+            })
+
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: `You have successfully registered ${userData.first_name}.`
+            })
+        }) 
+        .catch(err => {
+            dispatch(getAllUsers());
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        });
+};
 
 
-// // Log user out
-// export const logoutUser = () => dispatch => {
+export const editUserAsAdmin = updatedData => dispatch => {
+    
+    api
+        .patch(`user/${updatedData.id}/change/`, updatedData)
+        .then(res => {
+            
+            dispatch({
+                type: CLEAR_ERRORS
+            })
 
-//     // Remove token from localStorage
-//     localStorage.removeItem('jwtToken');
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: `${updatedData.first_name} details has been updated.`
+            })
+        })
+        .catch(err => {
+            dispatch(getAllUsers());
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        }
+    );
+}
 
-//     // Remove account header for future requests
-//     setAuthToken(false);
+export const deleteUserAsAdmin = user => dispatch => {
+    api
+        .delete(`user/${user.id}/delete/`)
+        .then(res => {
+            dispatch(getAllUsers());
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: `${user.first_name}'s account has been deleted.`
+            })
+        })
+        .catch(err => {
+            console.log(err.response.data);
+        }
+    );
+}
 
-//     // Set current user to {} which will set isAuthenticate to false
-//     dispatch(setCurrentUser({}));
+export const deleteUser = user => dispatch => {
+    api
+        .delete(`user/${user.id}/delete/`)
+        .then(res => {
+            console.log(res.data);
+            let message = `${user.first_name} your account has been deleted!`;
+            
+            dispatch(logoutUser(message));
+        })
+        .catch(err => {
+            console.log(err.response.data);
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        }
+    );
+}
 
-// };
+export const clearFeedback = () => {
+    return{
+        type: CLEAR_FEEDBACK
+    };
+};
+
+export const clearUpdate = () => {
+    return{
+        type: CLEAR_UPDATE
+    };
+};
+
+export const getAllUsers = () => dispatch => {
+
+    api.get('user/')
+        .then(res => {
+            dispatch({
+                type: GET_ALL_USERS,
+                payload: res.data
+            })
+        }) 
+        .catch(err => {
+            console.log(err.response.data);
+        });
+};

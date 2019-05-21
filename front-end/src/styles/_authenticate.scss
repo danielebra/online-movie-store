@@ -9,14 +9,7 @@
         box-shadow: 0 1px 0 0 #5b8bbb !important;
     }
 
-    .error { 
-        color: #e5424d;
-        font-size: 0.75rem;
-        letter-spacing: 0.025rem;
-        margin-top: 4px;
-        text-align: left;
-        font-weight: 500;
-    }
+    
     input[type=text]:not(.browser-default):focus:not([readonly])+label, input[type=email]:not(.browser-default):focus:not([readonly])+label, input[type=password]:not(.browser-default):focus:not([readonly])+label {
         color: #5b8bbb;
     }
@@ -35,6 +28,15 @@
     }
 }
 
+.registerBtn {
+    margin-top: 35px;
+}
+
+.checkbox-red[type="checkbox"].filled-in:checked + span:not(.lever):after {
+    border: 2px solid #e5424d;  
+    background-color: #e5424d;
+}
+
 @media (min-width: 990px){
     .auth{
         margin: auto;
@@ -42,3 +44,20 @@
     }
 }
 
+.error { 
+    color: #e5424d !important;
+    font-size: 0.75rem;
+    letter-spacing: 0.025rem;
+    margin-top: 4px;
+    text-align: left;
+    font-weight: 500;
+}
+
+.success { 
+    color: #32dd57 !important;
+    letter-spacing: 0.025rem;
+    font-size: 14px;
+    margin-top: 4px;
+    text-align: left;
+    font-weight: 500;
+}

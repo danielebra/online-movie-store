@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import M from "materialize-css";
+import { Link, withRouter } from "react-router-dom";
+import M from "materialize-css/dist/js/materialize.min.js";
+import "materialize-css/dist/css/materialize.min.css";
 
 import { connect } from 'react-redux';
 import { searchMovies } from '../../actions/movieActions';
+import { logoutUser } from '../../actions/authActions';
 import $ from 'jquery';
 class Header extends Component {
   constructor() {
     super();
     this.state = {
-      loggedIn: true,
       search: ''
     };
   }
@@ -17,6 +18,14 @@ class Header extends Component {
   componentDidMount() {
     M.AutoInit();
     $('#search-form').submit(false);
+  }
+
+  openNav() {
+    document.getElementById("mySidenav").style.width = "300px";
+  }
+
+  closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
   }
 
   search = event => {
@@ -28,7 +37,16 @@ class Header extends Component {
     });
   }
 
+  logoutUser() {
+    let message = 'You have been logged out!';
+    this.props.logoutUser(message);
+  }
+
   render() {
+
+    const { isAuthenticated, user } = this.props.auth;
+    const { wishList } = this.props.movies;
+
     return (
       <nav id="header">
         <div className="nav-wrapper">
@@ -36,9 +54,9 @@ class Header extends Component {
             {" "}
             MovieSpot{" "}
           </Link>
-          {this.state.loggedIn ? (
+          {isAuthenticated ? (
             <div>
-              <ul id="nav-mobile" className="hide-on-med-and-down">
+              <ul id="nav-mobile" className="hide-on-med-and-down left-margin">
                 <li>
                   <Link className="current first" to="/">
                     Home
@@ -50,7 +68,7 @@ class Header extends Component {
                       <form id="search-form">
                         <div className="input-field">
                           <input id="search" type="search" onChange={this.search}/>
-                          <label className="label-icon" for="search">
+                          <label className="label-icon" htmlFor="search">
                             <i className="material-icons">search</i>
                           </label>
                         </div>
@@ -60,33 +78,38 @@ class Header extends Component {
                 </li>
               </ul>
 
-              <ul id="nav-mobile" className="right hide-on-med-and-down">
-              <li>
-              <Link to="/payment">My payment</Link>
-              </li>
-          
-                <li>
-                <Link to="/myOrders">My Orders</Link>
-              </li>
-                <li>
-                  <Link to="/wishlist">Wishlist</Link>
-                </li>
-                <li>
-                  <a href="badges.html">
-                    <i className="material-icons">menu</i>
-                  </a>
-                </li>
-              </ul>
+              <div className="right-margin">
+                <ul className="right">
+                  <li> 
+                    <a onClick={this.openNav} href="#!"> Hi, {user.first_name}<i className="material-icons right">menu</i></a>
+                    <div id="mySidenav" className="newsidenav">
+                      <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
+                      <Link to="/account_details">Account Details</Link>
+                      <Link to="/orders">My Orders</Link> 
+                      <Link to="/wishlist">Wish List</Link>
+                      <Link to="/add_movie">Add Movies</Link>
+                      <Link to="/update_movie">Update Movies </Link>
+
+                      { user.is_admin === 'true' ? (
+                        <div>
+                          <Link to="/user_management"> User Management </Link>
+                        </div>
+                      ) : null }
+
+                      <a onClick={() => this.logoutUser()}>Logout</a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
           ) : (
-            <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <ul id="nav-mobile" className="right right-margin hide-on-med-and-down">
               <li>
                 <Link to="/login">Login</Link>
               </li>
               <li>
                 <Link to="/register">Register</Link>
               </li>
-              
             </ul>
           )}
         </div>
@@ -95,4 +118,9 @@ class Header extends Component {
   }
 }
 
-export default connect(null, { searchMovies })(Header);
+const mapStateToProps = state => ({
+  auth: state.auth,
+  movies: state.movies
+});
+
+export default connect(mapStateToProps, { searchMovies, logoutUser })(withRouter(Header));

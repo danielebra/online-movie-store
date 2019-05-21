@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST } from './types';
+import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ERRORS } from './types';
 import api from "../api";
 
 // Will call this from the view later
@@ -25,11 +25,11 @@ export const getMovies = () => dispatch => {
                     payload.collections.push(collection);
             });
 
-            if (payload.collections.length > 0)
+            if (movies.length > 0)
                 dispatch({
                     type: GET_MOVIES,
                     payload
-                })
+                })  
             else
                 dispatch({
                     type: NO_MOVIES_FOUND
@@ -55,6 +55,38 @@ export const getMovieById = id => dispatch => {
     })
 };
 
+export const addReview = (movieId, review) => dispatch => {
+    
+    api.post('review/', review).then(res => {
+        console.log(res.data);
+
+        let reviewObject = res.data;
+        let data = {
+            review: res.data.id
+        }
+
+        api.post(`movie/${movieId}/add_review/`, data).then(res =>  {
+            console.log("Success: ", res.data);
+    
+            dispatch({
+                type: ADD_REVIEW,
+                payload: reviewObject
+            })
+        })
+        .catch(err => {
+            console.log("Error: ", err.response.data);
+        })
+    })
+    .catch(err =>
+        dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        })
+    )
+    
+   
+};
+
 export const searchMovies = query => dispatch => {
     dispatch(setLoading());
     dispatch({
@@ -63,11 +95,38 @@ export const searchMovies = query => dispatch => {
     })
 };
 
+export const favouriteMovie = () => dispatch => {
+    dispatch({
+        type: FAVOURITE_MOVIE
+    })
+};
+
+
+export const unFavouriteMovie = () => dispatch => {
+    dispatch({
+        type: UNFAVOURITE_MOVIE
+    })
+};
+
 export const clearSearchList = () => {
     return {
         type: CLEAR_SEARCH_LIST
     }
-}
+};
+
+export const addMovie = (movieDetails) => dispatch => {
+    api.post('movie/', movieDetails)
+        .then(res => {
+            console.log("ADDED: ", res.data)
+            dispatch({
+                type: ADD_MOVIE,
+                payload: res.data
+            })
+        })
+        .catch(error =>{
+            console.log(error.response);
+        })
+};
 
 // Set profile loading
 export const setLoading = () => {

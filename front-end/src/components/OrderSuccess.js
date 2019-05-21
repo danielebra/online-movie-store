@@ -1,23 +1,12 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Link, withRouter } from "react-router-dom";
-import { getMovies } from '../actions/movieActions';
+import { Link } from "react-router-dom";
 import success from '../images/success.png';
-
-
-
-import M from "materialize-css";
-
-import Info from "./UIElements/Info";
-import Reviews from "./UIElements/Reviews";
-import Trailer from "./UIElements/Trailer";
 
 class OrderSuccess extends Component {
 
     render(){
         return(
-            <div id="movieDetails">
+            <div className="top-padding">
             <div className="container">
             <div className="card gray">
             <div className="row">
@@ -33,7 +22,7 @@ class OrderSuccess extends Component {
             </div>
             
             <div className="col 3s offset-s2">
-            <button className="waves-effect waves-light red darken-3 btn">My Orders</button>
+            <Link to="/orders" className="waves-effect waves-light red darken-3 btn">My Orders</Link>
             
             </div>
            </div>

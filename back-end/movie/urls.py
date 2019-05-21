@@ -7,14 +7,13 @@ from . import views
 router = routers.DefaultRouter()
 
 # first argument is a the url path, second argument is where to handle the request
-router.register('api/users', views.User)
-router.register('api/deprecated/movie', views.MovieDefault)
+router.register('api/user', views.User)  # returns all users
 router.register('api/genre', views.Genre)
+router.register('api/movie', views.MoviePopulator)
+router.register('api/review', views.ReviewView)
+router.register('api/order', views.OrderView)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('api/movie/', views.MoviePopulator.as_view()),
-    #path('', views.home, name='Home-page'),
-    # path('login/', views.Users.as_view()),
-    # path('register/', views.register, name='Register-page'),
+    # path('api/movie/', views.MoviePopulator.as_view())
 ]

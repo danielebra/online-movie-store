@@ -1,5 +1,4 @@
-
-
+  
 #header {    
     position: fixed;    
     left: 0;    
@@ -22,15 +21,13 @@
         background-color: #222;
     }
 
-    .brand-logo {
+    .brand-logo, .brand-logo:focus {
         font-weight: 700;
-        color: red;
+        color: rgb(253, 95, 95);
         text-transform: uppercase;
     }
 
     ul {
-        margin-left: 300px;
-        margin-right: 55px;
         li {
             margin-top: 1px;
             nav {
@@ -50,9 +47,54 @@
     }
 }
 
+.left-margin {
+    margin-left: 300px;
+}
+
+.right-margin {
+    margin-right: 50px;
+}
+
+.newsidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 60px;
+}
+
+.newsidenav a {
+    margin-left: 35px;
+    margin-bottom: -20px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #818181;
+    display: block;
+}
+
+.newsidenav a:hover {
+    color: #f1f1f1;
+}
+
+.newsidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 30px;
+    margin-left: 50px;
+}
 
 #footer {
-    padding: 25px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    text-align: center;
 
     .ele {
         z-index: 999;
@@ -76,3 +118,4 @@
         margin-left: 100px;
     }
 }
+
