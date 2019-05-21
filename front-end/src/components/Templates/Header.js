@@ -89,6 +89,7 @@ class Header extends Component {
                       <Link to="/wishlist">Wish List</Link>
                       <Link to="/add_movie">Add Movies</Link>
                       <Link to="/update_movie">Update Movies </Link>
+                      <Link to="/payment">Payment</Link>
 
                       { user.is_admin === 'true' ? (
                         <div>

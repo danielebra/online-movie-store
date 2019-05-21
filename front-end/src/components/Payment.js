@@ -24,7 +24,7 @@ class Payment extends Component{
                <div className="container">
                  <form action="/action_page.php"></form>
 
-                       <Link to="/payment"><h1>Payment page</h1></Link>
+                       <h1>Payment page</h1>
                        <h3>Billing Details</h3>
                        <label for="fname">Full Name</label>
                        <input type="text" id="fname" name="firstname" placeholder="Joe" />
