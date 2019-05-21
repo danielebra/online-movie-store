@@ -23,7 +23,6 @@ class AddMovie extends Component {
             purchase_count:"",
             stock: 0,
             selectedGenreId:""
-            
         }; 
     }
 
