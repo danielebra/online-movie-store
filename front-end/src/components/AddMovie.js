@@ -25,7 +25,10 @@ class AddMovie extends Component {
             selectedGenreId=""
         }; 
     }
-    
+    componentWillMount(){
+      this.props.getMovies();
+    }
+
     getGenreId(index){
       this.setState({selectedGenreId: index})
       console.log(index);
@@ -46,10 +49,6 @@ class AddMovie extends Component {
         }
        this.props.addMovie(movieDetails);
     }
-
-  getGenreId(index){
-    this.setState()
-  }
   
   render() {
     return (
@@ -99,7 +98,7 @@ class AddMovie extends Component {
                       <ul id="dropdown1" class='dropdown-content'>
                         {
                           this.props.movies.genres.map(genre =>
-                          <li><a onClick{() => this.getGenreId(genre.id)} href="#!">{genre.name}</a></li>
+                          <li><a onClick={() => this.getGenreId(genre.id)} href="#!">{genre.name}</a></li>
                         )}
                       
                       </ul>
