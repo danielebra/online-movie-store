@@ -61,6 +61,9 @@ class Header extends Component {
               </ul>
 
               <ul id="nav-mobile" className="right hide-on-med-and-down">
+              <li>
+              <Link to="/payment">My payment</Link>
+              </li>
           
                 <li>
                 <Link to="/myOrders">My Orders</Link>
