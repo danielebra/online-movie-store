@@ -28,6 +28,7 @@ import Movie from './Movie';
 import PlaceOrder from './PlaceOrder';
 import OrderSuccess from './OrderSuccess';
 import UserOrders from './UserOrders';
+import Payment from './Payment';
 import AddMovie from './AddMovie';
 import UpdateMovie from './UpdateMovie';
 import AccountDetails from './Edit/AccountDetails';
@@ -65,7 +66,7 @@ class App extends Component {
             <PrivateRoute exact path="/access_logs" component={AccessLogs}/>
 
             <PrivateRoute exact path="/user_management" component={UserManagement}/>
-            <Footer/>
+            <PrivateRoute exact path="/account_details" component={AccountDetails}/>
           </div>
         </Router>
       </Provider>
