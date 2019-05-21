@@ -22,11 +22,9 @@ class AddMovie extends Component {
             maturity_rating: 0,
             purchase_count:"",
             stock: 0,
-            selectedGenreId=""
+            selectedGenreId:""
+            
         }; 
-    }
-    componentWillMount(){
-      this.props.getMovies();
     }
 
     getGenreId(index){
@@ -94,13 +92,12 @@ class AddMovie extends Component {
                       <label for="genre">
                         <font size="+1"> Movie Genre(s)</font>
                       </label>
-                      <a class= 'dropdown-trigger btn' href='#' data-target='dropdown1'> Select a Genre</a>
-                      <ul id="dropdown1" class='dropdown-content'>
+                      <a className= 'dropdown-trigger btn' href='#' data-target='dropdown1'> Select a Genre</a>
+                      <ul id="dropdown1" className='dropdown-content'>
                         {
                           this.props.movies.genres.map(genre =>
                           <li><a onClick={() => this.getGenreId(genre.id)} href="#!">{genre.name}</a></li>
                         )}
-                      
                       </ul>
                     </div>
                   </li>
