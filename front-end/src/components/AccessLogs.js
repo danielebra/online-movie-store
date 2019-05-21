@@ -1,12 +1,8 @@
 // React and redux modules
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
-import isEmpty from '../../isEmpty';
-import { getAllAccessLogs } from '../../actions/authActions';
-import update from 'react-addons-update';
+import { getAllAccessLogs } from '../actions/authActions';
 import _ from 'underscore';
-import TableRow from '../UIElements/TableRow';
 import M from 'materialize-css';
 
 class AccessLogs extends Component {

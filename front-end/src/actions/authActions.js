@@ -2,7 +2,7 @@
 //import jwt_decode from 'jwt-decode';
 
 // Action types
-import { LOGIN_USER, LOGOUT_USER, GET_ERRORS, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS } from "./types";
+import { LOGIN_USER, LOGOUT_USER, CLEAR_SEARCH_USER, GET_ERRORS, SEARCH_USER, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS } from "./types";
 
 import api from "../api";
 
@@ -137,6 +137,20 @@ export const editUser = updatedData => dispatch => {
         }
     );
 }
+
+export const searchUser = query => dispatch => {
+    dispatch({
+        type: SEARCH_USER,
+        payload: query
+    })
+};
+
+
+export const clearSearch = () => dispatch => {
+    dispatch({
+        type: CLEAR_SEARCH_USER
+    })
+};
 
 export const addUserAsAdmin = userData => dispatch => {
     api.post('user/', userData)

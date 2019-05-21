@@ -1,13 +1,11 @@
 // React and redux modules
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
 import isEmpty from '../../isEmpty';
-import { getAllUsers, addUserAsAdmin, editUserAsAdmin, deleteUserAsAdmin, clearFeedback } from '../../actions/authActions';
-import update from 'react-addons-update';
+import { getAllUsers, addUserAsAdmin, searchUser, editUserAsAdmin, deleteUserAsAdmin, clearFeedback } from '../../actions/authActions';
 import _ from 'underscore';
-import TableRow from '../UIElements/TableRow';
 import M from 'materialize-css';
+import $ from 'jquery';
 
 class UserManagement extends Component {
 
@@ -20,6 +18,7 @@ class UserManagement extends Component {
             isEditing: [],
             errors: {},
             usersCount: 0,
+            search: '',
             newUser: {
                 first_name: "",
                 last_name: "",
@@ -38,6 +37,7 @@ class UserManagement extends Component {
         this.props.getAllUsers();
     }
 
+    // Initialising materialise JS components (selectors, modals)
     componentDidMount() {
         var elems = document.querySelectorAll('.modal');
         var options = {
@@ -45,8 +45,15 @@ class UserManagement extends Component {
             onCloseStart: () => this.modalClosing()
         }
         M.Modal.init(elems, options);
+
+        var elemsx = document.querySelectorAll('.tooltipped');
+        var instances = M.Tooltip.init(elemsx);
+
+        M.AutoInit();
+        $('#search-form').submit(false);
     }
 
+    // Even handler called when modal opens
     modalOpening() {
         this.props.clearFeedback();
         this.setState({ 
@@ -63,27 +70,26 @@ class UserManagement extends Component {
         });
     }
 
+    // Event handler called when modal closed
     modalClosing() {
         this.setState({ errors: {} });
     }
 
     // Called when the component receives props
     componentWillReceiveProps(nextProps) {
-        
        
         if (nextProps.auth) {
+            const { user, users, userSearchList } = nextProps.auth;
+            let usersToDisplay;
+            let isEditing;
 
-            const { user, users } = nextProps.auth;
+            if (userSearchList.length == 0)
+                usersToDisplay = users.filter(u => u.email !== user.email);
+            else
+                usersToDisplay = userSearchList.filter(u => u.email !== user.email);
 
-            // We filter out the current user that is logged in so we dont display their data
-            let usersToDisplay = users.filter(u => u.email !== user.email);
-            
-            // we create an array of bools based on how many users.
-            let isEditing = new Array(usersToDisplay.length).fill(false);
-
+            isEditing = new Array(usersToDisplay.length).fill(false);
             this.setState({ users: usersToDisplay, isEditing, usersCount: usersToDisplay.length });
-            //console.log("usersToDisplay: ", usersToDisplay.length);
-            //console.log("isEditing: ", isEditing.length);
         }
 
         if (nextProps.errors){
@@ -96,28 +102,21 @@ class UserManagement extends Component {
 
             this.setState({ errors });
         }
-
     }
 
-    // When the edit button is pressed this function takes the index and sets it to true so that it displays the editing mode for that user
-    switchToEditingMode(index) {
 
-        // we create a new array so that there wont be more than one user on editing mode at the same time
-        let arr = new Array(this.state.users.length).fill(false);
-        arr[index] = true; 
 
-        this.state.isEditing = arr;
-        this.forceUpdate()
-    }
+
+
+    search = event => {
+        event.preventDefault();
     
-    // called when the exit button is pressed, returns to view mode
-    closeEditingMode() {
-        this.props.clearFeedback();
+        this.setState({ search: event.target.value}, () => {
+          let query = this.state.search;
+          this.props.searchUser(query);
+        });
+      }
 
-        let arr = new Array(this.state.users.length).fill(false);
-        this.state.isEditing = arr;
-        this.forceUpdate()
-    }
 
     addNewUser = event => {
         event.preventDefault();
@@ -149,7 +148,7 @@ class UserManagement extends Component {
         };
 
       this.props.addUserAsAdmin(userData);
-      setTimeout(() => this.closeWindow(), 500);
+      setTimeout(() => this.closeWindow(), 300);
     }
 
     closeWindow() {
@@ -158,6 +157,37 @@ class UserManagement extends Component {
             var instance = M.Modal.getInstance(elem);
             instance.close();
         }
+
+        if (!isEmpty(this.state.search)) {
+            const { user, users } = this.props.auth;
+
+            let usersToDisplay = users.filter(u => u.email !== user.email);
+            let isEditing = new Array(usersToDisplay.length).fill(false);
+            
+            this.setState({ users: usersToDisplay, isEditing, usersCount: usersToDisplay.length });
+        }
+    }
+
+
+
+     // When the edit button is pressed this function takes the index and sets it to true so that it displays the editing mode for that user
+     switchToEditingMode(index) {
+
+        // we create a new array so that there wont be more than one user on editing mode at the same time
+        let arr = new Array(this.state.users.length).fill(false);
+        arr[index] = true; 
+
+        this.state.isEditing = arr;
+        this.forceUpdate()
+    }
+    
+    // called when the exit button is pressed, returns to view mode
+    closeEditingMode() {
+        this.props.clearFeedback();
+
+        let arr = new Array(this.state.users.length).fill(false);
+        this.state.isEditing = arr;
+        this.forceUpdate()
     }
 
     // passes the user details to redux 
@@ -172,6 +202,7 @@ class UserManagement extends Component {
         if (!this.state.errors) {
             this.closeEditingMode();
         }
+
     }
 
     deleteUser(index) {
@@ -180,8 +211,21 @@ class UserManagement extends Component {
         if (window.confirm("Are you sure you want to delete this user?")) {
             let user = this.state.users[index];
             this.props.deleteUserAsAdmin(user);
+            
+            if (!isEmpty(this.state.search)) {
+                setTimeout(() => {
+                    const { user, users } = this.props.auth;
+    
+                    let usersToDisplay = users.filter(u => u.email !== user.email);
+                    let isEditing = new Array(usersToDisplay.length).fill(false);
+                    
+                    this.setState({ users: usersToDisplay, isEditing, usersCount: usersToDisplay.length });
+                }, 300);
+            }
         }
     }
+
+
 
     firstUpperLetter(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
@@ -218,6 +262,7 @@ class UserManagement extends Component {
     
         return [year, month, day].join('-');
       }
+      
 
     render() {
         const { users, isEditing, errors, usersCount } = this.state;
@@ -231,11 +276,14 @@ class UserManagement extends Component {
                             <h3> User Management </h3>
 
                             <div className="right">
-                                 <a className="btn-floating btn-large modal-trigger addUserBtn" href="#modal-add-user"><i className="material-icons">add</i></a>
+                                 <a className="btn-floating btn-large modal-trigger pulse addUserBtn tooltipped" data-position="left" data-tooltip="Add a user" href="#modal-add-user"><i className="material-icons">add</i></a>
 
                                 <div id="modal-add-user" class="modal add-user-modal">
                                     <div class="modal-content">
-                                    <h3 className="modal-title">Add User</h3>
+                                        <a href="#!" class="modal-action modal-close">
+                                            <i class="material-icons right modal-close-red">close</i>
+                                        </a>
+                                        <h3 className="modal-title add-user-modal-title">Add User</h3>
                                         <form id="register" onSubmit={this.addNewUser} noValidate>
                                             <div className="col-2">
                                                 <div className="input-field col s6">
@@ -416,10 +464,26 @@ class UserManagement extends Component {
                             <br/>
 
                             <div className="left">
-                                <span className="helper-text margin-btn"> There are currently { usersCount } users.</span>
+                                <span className="helper-text margin-btn"> { usersCount == 1 ? `${usersCount} user` : `${usersCount} users` } found. </span>
                             </div>
 
-                            <br/> <br/>
+                            <div className="row center">
+                                <div className="col s12">
+                                    <nav className="search-users">
+                                        <div className="nav-wrapper">
+                                            <form id="search-form">
+                                                <div className="input-field">
+                                                    <input id="search" type="search" onChange={this.search}/>
+                                                    <label className="label-icon" htmlFor="search">
+                                                        <i className="material-icons">search</i>
+                                                    </label>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </nav>
+                                </div>
+                            </div>
+
                             <div className="left">
                                 <span className="helper-text success "> { feedback } </span> 
 
@@ -578,11 +642,11 @@ class UserManagement extends Component {
                                                         </td>
 
                                                         <td>
-                                                            <i onClick={() => this.editUser(index)} className="material-icons ">save</i>
+                                                            <i onClick={() => this.editUser(index)} className="material-icons pointer">save</i>
                                                         </td>
 
                                                         <td>
-                                                            <i onClick={() => this.closeEditingMode()} className="material-icons ">close</i>
+                                                            <i onClick={() => this.closeEditingMode()} className="material-icons pointer">close</i>
                                                         </td>
 
                                                     </tr>
@@ -618,11 +682,11 @@ class UserManagement extends Component {
                                                         </td>
 
                                                         <td>
-                                                            <i onClick={() => this.switchToEditingMode(index)} className="material-icons ">edit</i>
+                                                            <i onClick={() => this.switchToEditingMode(index)} className="material-icons pointer">edit</i>
                                                         </td>
 
                                                         <td>
-                                                            <i onClick={() => this.deleteUser(index)} className="material-icons ">delete</i>
+                                                            <i onClick={() => this.deleteUser(index)} className="material-icons pointer">delete</i>
                                                         </td>
 
                                                     </tr>
@@ -646,4 +710,4 @@ const mapStateToProps = state => ({
     feedback: state.feedback
 });
 
-export default connect(mapStateToProps, { getAllUsers, addUserAsAdmin, editUserAsAdmin, deleteUserAsAdmin, clearFeedback })(UserManagement);
+export default connect(mapStateToProps, { getAllUsers, searchUser, addUserAsAdmin, editUserAsAdmin, deleteUserAsAdmin, clearFeedback })(UserManagement);
