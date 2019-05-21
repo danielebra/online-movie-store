@@ -121,10 +121,7 @@ export const addMovie = (movieDetails) => dispatch => {
     api.post('movie/', movieDetails)
         .then(res => {
             console.log("ADDED: ", res.data)
-            dispatch({
-                type: ADD_MOVIE,
-                payload: res.data
-            })
+            dispatch(getMovies())
         })
         .catch(error =>{
             console.log(error.response);

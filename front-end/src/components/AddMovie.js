@@ -10,7 +10,7 @@ import M from "materialize-css";
 import Info from "./UIElements/Info";
 
 class AddMovie extends Component {
-  /*constructor(props){
+  constructor(props){
         super(props)
         this.state={
             title: "",
@@ -22,8 +22,13 @@ class AddMovie extends Component {
             maturity_rating: 0,
             purchase_count:"",
             stock: 0,
-            
+            selectedGenreId:""
         }; 
+    }
+
+    getGenreId(index){
+      this.setState({selectedGenreId: index})
+      console.log(index);
     }
     //Sends movie details to movieActions/addMovie
    onSubmit = event => {
@@ -39,42 +44,63 @@ class AddMovie extends Component {
             purchase_count: this.state.purchase_count,
             stock: this.state.stock,
         }
-    }*/
-
-  onChange = e => {
-    this.setState({ [e.target.id]: e.target.value });
-  };
-
+       this.props.addMovie(movieDetails);
+    }
+  
   render() {
     return (
-      <div class="top-padding">
+      <div className="top-padding">
         <div className="container">
           <h2 className="center-align">Add Movie</h2>
+          <hr></hr>
+          <br></br>
           <form>
-            <ul class="flex-outer">
+            <ul className="flex-outer">
               <li>
-                <label for="title">
-                  <font size="+1">Movie Title</font>
-                </label>
-                <input
-                  id="title"
-                  type="text"
-                  placeholder="Enter title of movie"
-                  className="validate white"
-                  onChange={this.onChange}
-                />
-              </li>
-              <li>
-                <label for="year">
-                  <font size="+1">Movie Year</font>
-                </label>
-                <input
-                  id="year"
-                  type="text"
-                  placeholder="Enter year of movie"
-                  class="validate white"
-                  onChange={this.onChange}
-                />
+                <ul class="flex-inner">
+                  <li >
+                    <div>
+                      <label for="title">
+                        <font size="+1">Movie Title</font>
+                      </label>
+                      <input
+                        id="title"
+                        type="text"
+                        placeholder="Enter title of movie"
+                        className="white-text" 
+                        onChange={event =>this.setState({title : event.target.value})}
+                      />
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label for="year">
+                        <font size="+1">Movie Year</font>
+                      </label>
+                      <input
+                        id="year"
+                        type="number"
+                        placeholder="Enter year of movie"
+                        className="white-text" 
+                        onChange={event =>this.setState({year : event.target.value})}
+                      />
+                    </div>
+                  </li>
+                  <li> 
+                    <div>
+                      <label for="genre">
+                        <font size="+1"> Movie Genre(s)</font>
+                      </label>
+                      <a className= 'dropdown-trigger btn' href='#' data-target='dropdown1'> Select a Genre</a>
+                      <ul id="dropdown1" className='dropdown-content'>
+                        {
+                          this.props.movies.genres.map(genre =>
+                          <li><a onClick={() => this.getGenreId(genre.id)} href="#!">{genre.name}</a></li>
+                        )}
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
               </li>
               <li style={{ height: 150 }}>
                 <div style={{ width: "100%" }}>
@@ -84,26 +110,26 @@ class AddMovie extends Component {
                   <textarea
                     id="description"
                     type="text"
-                    className="validate white"
                     placeholder="Enter movie description"
                     rows="6"
                     resize="none"
                     style={{ height: "100%", resize: "none" }}
-                    onChange={this.onChange}
+                    className="white-text" 
+                    onChange={event =>this.setState({description : event.target.value})}
                   />
                 </div>
               </li>
               <li>
                 <div>
-                  <label for="thumbail">
+                  <label for="thumbnail">
                     <font size="+1">Thumbnail URL</font>
                   </label>
                   <input
-                    id="thumbail"
+                    id="thumbnail"
                     type="text"
-                    placeholder="place a URL of Thumbail"
-                    class="validate white"
-                    onChange={this.onChange}
+                    placeholder="Enter a URL for Thumbnail"
+                    className="white-text" 
+                    onChange={event =>this.setState({thumbnail : event.target.value})}
                   />
                 </div>
               </li>
@@ -113,42 +139,40 @@ class AddMovie extends Component {
                     <font size="+1">Trailer URL</font>
                   </label>
                   <input
-                    id="trailer"
+                    id="trailer_link"
                     type="text"
-                    placeholder="place a URL for Trailer"
-                    class="validate white"
-                    onChange={this.onChange}
+                    placeholder="Enter a URL for Trailer"
+                    className="white-text" 
+                    onChange={event =>this.setState({trailer : event.target.value})}
                   />
                 </div>
               </li>
-
               <li>
-                <ul class="flex-inner" styl>
+                <ul class="flex-inner">
                   <li>
                     <div>
                       <label for="price">
-                        <font size="+1">Movie price</font>
+                        <font size="+1">Movie Price</font>
                       </label>
                       <input
                         id="price"
-                        type="text"
-                        placeholder="price"
-                        class="validate white"
-                        onChange={this.onChange}
+                        type="number"
+                        placeholder="Movie price"
+                        className="white-text" 
+                        onChange={event =>this.setState({price : event.target.value})}
                       />
                     </div>
                   </li>
                   <li>
                     <div>
                       <label for="stock">
-                        <font size="+1">Movie stock</font>
+                        <font size="+1">Movie Stock</font>
                       </label>
                       <input
-                        id="stock"
-                        type="text"
-                        placeholder="avaliable stock"
-                        class="validate white"
-                        onChange={this.onChange}
+                        id="number"
+                        placeholder="Avaliable stock"
+                        className="white-text" 
+                        onChange={event =>this.setState({stock : event.target.value})}
                       />
                     </div>
                   </li>
@@ -156,24 +180,24 @@ class AddMovie extends Component {
                   <li>
                     <div>
                       <label for="maturity">
-                        <font size="+1">Maturity rating</font>
+                        <font size="+1">Maturity Rating</font>
                       </label>
                       <input
-                        id="maturity"
+                        id="maturity_rating"
                         type="text"
-                        placeholder="maturity rating"
-                        class="validate white"
-                        onChange={this.onChange}
+                        placeholder="Enter maturity rating"
+                        className="white-text" 
+                        onChange={event =>this.setState({maturity_rating : event.target.value})}
                       />
                     </div>
                   </li>
                 </ul>
               </li>
-              <li>
-                <button className="waves-effect waves-light red darken-3 btn">
+              <li className="btn-style">
+                <Link to="/" className="waves-effect waves-light red darken-3 btn">
                   Cancel
-                </button>
-                <button className="waves-effect waves-light red darken-3 btn">
+                </Link>
+                <button className="waves-effect waves-light red darken-3 btn" onSubmit={this.onSubmit}>
                   Submit
                 </button>
               </li>

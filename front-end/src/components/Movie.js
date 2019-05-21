@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { getMovies, getMovieById, favouriteMovie, unFavouriteMovie, addReview } from '../actions/movieActions';
+import { getMovies, getMovieById} from '../actions/movieActions';
 import Loading from './Templates/loading';
 
 import M from "materialize-css";
@@ -221,4 +221,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getMovies, getMovieById, favouriteMovie, unFavouriteMovie, addReview })(withRouter(Movie));
+export default connect(mapStateToProps, { getMovies, getMovieById})(withRouter(Movie));
