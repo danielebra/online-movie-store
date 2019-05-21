@@ -33,6 +33,7 @@ import UpdateMovie from './UpdateMovie';
 import AccountDetails from './Edit/AccountDetails';
 import UserManagement from './Admin/UserManagement';
 import { setCurrentUser } from '../actions/authActions';
+import AccessLogs from './AccessLogs';
 
 // Check user localstorage
 if (!isEmpty(localStorage.user)) {
@@ -61,6 +62,7 @@ class App extends Component {
             <PrivateRoute exact path="/order/:id" component={PlaceOrder}/>
             <PrivateRoute exact path="/add_movie" component={AddMovie}/>
             <PrivateRoute exact path="/update_movie" component={UpdateMovie}/>
+            <PrivateRoute exact path="/access_logs" component={AccessLogs}/>
 
             <PrivateRoute exact path="/user_management" component={UserManagement}/>
             <Footer/>

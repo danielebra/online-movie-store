@@ -2,7 +2,7 @@
 //import jwt_decode from 'jwt-decode';
 
 // Action types
-import { LOGIN_USER, LOGOUT_USER, GET_ERRORS, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE } from "./types";
+import { LOGIN_USER, LOGOUT_USER, GET_ERRORS, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS } from "./types";
 
 import api from "../api";
 
@@ -33,6 +33,12 @@ export const loginUser = userData => dispatch => {
             console.log(res.data);
 
             if (res.data['user']) {
+
+                let data = {
+                    status: "Logged In"
+                }
+
+                api.post(`user/${userData.id}/log`, data)
                 // set localstorage
                 localStorage.setItem('user', JSON.stringify(res.data['user']));
 
@@ -66,6 +72,10 @@ export const setCurrentUser = userData => {
 
 // Log user out
 export const logoutUser = message => dispatch => {
+    let data = {
+        status: "Logged Out"
+    }
+    api.post(`user/${JSON.parse(localStorage.user.id)}/log`, data) 
     localStorage.removeItem('user');
     dispatch({
         type: GET_FEEDBACK,
@@ -232,4 +242,17 @@ export const getAllUsers = () => dispatch => {
         .catch(err => {
             console.log(err.response.data);
         });
+};
+
+export const getAllAccessLogs = () => dispatch => {
+    api.get(`user/${JSON.parse(localStorage.user.id)}/logs/`)
+       .then(res => {
+           dispatch({
+               type: GET_ALL_ACCESSLOGS,
+               payload: res.data
+           })
+       })
+       .catch(err => {
+        console.log(err.response.data);
+       });
 };

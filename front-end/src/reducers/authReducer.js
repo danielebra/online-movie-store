@@ -1,6 +1,6 @@
 
 // Action Types
-import { LOGIN_USER, LOGOUT_USER, UPDATE_USER, GET_ALL_USERS, CLEAR_UPDATE } from "../actions/types";
+import { LOGIN_USER, LOGOUT_USER, UPDATE_USER, GET_ALL_USERS, CLEAR_UPDATE, GET_ALL_ACCESSLOGS } from "../actions/types";
 
 const initialState = {
     isAuthenticated: false,
@@ -46,6 +46,12 @@ export default function (state = initialState, action) {
                 ...state,
                 users: action.payload
             };
+
+        case GET_ALL_ACCESSLOGS:
+            return {
+                ...state,
+                logs: action.payload
+            }
 
         default:
             return state;
