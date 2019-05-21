@@ -8,13 +8,16 @@ export const getMovies = () => dispatch => {
     // Here we make an API call or whatever that you need to do
     api.get("movie/").then(res =>  {
         let movies = res.data;
-        let payload = {
-            movies,
-            collections: []
-        };
+        
 
         api.get("genre/").then(res => {
             let genres = res.data;
+
+            let payload = {
+                movies,
+                collections: [],
+                genres
+            };
             
             genres.forEach(genre => {
                 var collection = {

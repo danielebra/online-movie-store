@@ -23,3 +23,4 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 export const MOVIES_LOADING = 'MOVIES_LOADING';
 export const ADD_MOVIE = 'ADD_MOVIE';
+export const GET_ALL_ACCESSLOGS = 'GET_ALL_ACCESSLOGS'

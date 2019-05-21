@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import isEmpty from '../../isEmpty';
-import { getAllUsers, editUserAsAdmin, deleteUserAsAdmin, clearFeedback } from '../../actions/authActions';
+import { getAllUsers, addUserAsAdmin, editUserAsAdmin, deleteUserAsAdmin, clearFeedback } from '../../actions/authActions';
 import update from 'react-addons-update';
 import _ from 'underscore';
 import TableRow from '../UIElements/TableRow';
@@ -18,7 +18,18 @@ class UserManagement extends Component {
         this.state = {
             users: [],
             isEditing: [],
-            errors: {}
+            errors: {},
+            usersCount: 0,
+            newUser: {
+                first_name: "",
+                last_name: "",
+                email: "",
+                mobile_number: "",
+                date_of_birth: Date,
+                password: "",
+                passwordConfirm: "",
+                is_admin: false
+            }
         }
     }
 
@@ -29,25 +40,50 @@ class UserManagement extends Component {
 
     componentDidMount() {
         var elems = document.querySelectorAll('.modal');
-        M.Modal.init(elems, {});
+        var options = {
+            onOpenStart: () => this.modalOpening(),
+            onCloseStart: () => this.modalClosing()
+        }
+        M.Modal.init(elems, options);
+    }
+
+    modalOpening() {
+        this.props.clearFeedback();
+        this.setState({ 
+                newUser: {
+                first_name: "",
+                last_name: "",
+                email: "",
+                mobile_number: "",
+                date_of_birth: Date,
+                password: "",
+                passwordConfirm: "",
+                is_admin: false
+            } 
+        });
+    }
+
+    modalClosing() {
+        this.setState({ errors: {} });
     }
 
     // Called when the component receives props
     componentWillReceiveProps(nextProps) {
-
+        
+       
         if (nextProps.auth) {
+
             const { user, users } = nextProps.auth;
 
             // We filter out the current user that is logged in so we dont display their data
             let usersToDisplay = users.filter(u => u.email !== user.email);
-
+            
             // we create an array of bools based on how many users.
             let isEditing = new Array(usersToDisplay.length).fill(false);
 
-            this.setState({ users: usersToDisplay, isEditing });
-
-            console.log("usersToDisplay: ", usersToDisplay.length);
-            console.log("isEditing: ", isEditing.length);
+            this.setState({ users: usersToDisplay, isEditing, usersCount: usersToDisplay.length });
+            //console.log("usersToDisplay: ", usersToDisplay.length);
+            //console.log("isEditing: ", isEditing.length);
         }
 
         if (nextProps.errors){
@@ -60,6 +96,7 @@ class UserManagement extends Component {
 
             this.setState({ errors });
         }
+
     }
 
     // When the edit button is pressed this function takes the index and sets it to true so that it displays the editing mode for that user
@@ -80,6 +117,47 @@ class UserManagement extends Component {
         let arr = new Array(this.state.users.length).fill(false);
         this.state.isEditing = arr;
         this.forceUpdate()
+    }
+
+    addNewUser = event => {
+        event.preventDefault();
+        this.props.clearFeedback();
+        this.setState({ errors: {} });
+
+        if (!this.validatePassword(this.state.newUser.password, this.state.newUser.passwordConfirm))
+          return false;
+    
+        let dob = this.formatDOB(this.state.newUser.date_of_birth);
+        this.setState({ 
+            newUser: { 
+                ...this.state.newUser, 
+                date_of_birth: dob 
+            }
+        });
+
+        let first_name = this.firstUpperLetter(this.state.newUser.first_name);
+        let last_name = this.firstUpperLetter(this.state.newUser.last_name);
+    
+        const userData = {
+            first_name,
+            last_name,
+            email: this.state.newUser.email,
+            mobile_number: this.state.newUser.mobile_number,
+            date_of_birth: this.state.newUser.date_of_birth,
+            password: this.state.newUser.password,
+            is_admin: String(this.state.newUser.is_admin)
+        };
+
+      this.props.addUserAsAdmin(userData);
+      setTimeout(() => this.closeWindow(), 500);
+    }
+
+    closeWindow() {
+        if (this.props.feedback) {
+            var elem = document.querySelector('.modal');
+            var instance = M.Modal.getInstance(elem);
+            instance.close();
+        }
     }
 
     // passes the user details to redux 
@@ -105,8 +183,44 @@ class UserManagement extends Component {
         }
     }
 
+    firstUpperLetter(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      }
+    
+      validatePassword(password, passwordConfirm) {
+        let errors = {};
+    
+        if (!isEmpty(password) || !isEmpty(passwordConfirm)) {
+          password = password.trim();
+    
+          if (password.length < 6)
+            errors.password = 'Password must be atleast 6 characters';
+    
+          if (password !== passwordConfirm.trim())
+            errors.passwordConfirm = 'Password must match';
+    
+          if (errors.password || errors.passwordConfirm) {
+            this.setState({ errors });
+            return false;
+          }
+        }
+        return true;
+      }
+    
+      formatDOB(date) {
+        let d = new Date(date);
+        let month = '' + (d.getMonth() + 1);
+        let day = '' + d.getDate();
+        let year = d.getFullYear();
+    
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+    
+        return [year, month, day].join('-');
+      }
+
     render() {
-        const { users, isEditing, errors } = this.state;
+        const { users, isEditing, errors, usersCount } = this.state;
         const { feedback } = this.props;
 
         return (
@@ -115,18 +229,210 @@ class UserManagement extends Component {
                     <div className="row">
                         <div className="col s12 center">
                             <h3> User Management </h3>
+
+                            <div className="right">
+                                 <a className="btn-floating btn-large modal-trigger addUserBtn" href="#modal-add-user"><i className="material-icons">add</i></a>
+
+                                <div id="modal-add-user" class="modal add-user-modal">
+                                    <div class="modal-content">
+                                    <h3 className="modal-title">Add User</h3>
+                                        <form id="register" onSubmit={this.addNewUser} noValidate>
+                                            <div className="col-2">
+                                                <div className="input-field col s6">
+                                                <input
+                                                    type="text"
+                                                    id="first_name"
+                                                    value={this.state.newUser.first_name}
+                                                    onChange={event =>
+                                                        this.setState({
+                                                            newUser: {
+                                                                  ...this.state.newUser,
+                                                                  first_name: event.target.value
+                                                            }
+                                                        })
+                                                      } 
+                                                    className="validate"
+                                                    required
+                                                    aria-required=""
+                                                />
+                                                { errors.first_name ? <span className="helper-text error"> { errors.first_name } </span> : null}
+                                                <label htmlFor="first_name">First Name</label>
+                                                </div>
+
+                                                <div className="input-field col s6">
+                                                <input
+                                                    type="text"
+                                                    id="last_name"
+                                                    value={this.state.newUser.last_name}
+                                                    onChange={event =>
+                                                        this.setState({
+                                                            newUser: {
+                                                                  ...this.state.newUser,
+                                                                  last_name: event.target.value
+                                                            }
+                                                        })
+                                                    } 
+                                                    className="validate"
+                                                    required
+                                                    aria-required=""
+                                                />
+                                                { errors.last_name ? <span className="helper-text error"> { errors.last_name } </span> : null}
+                                                <label htmlFor="last_name">Last Name</label>
+                                                </div>
+                                            </div>
+
+                                            <div className="input-field col s12">
+                                                <input
+                                                type="email"
+                                                id="email"
+                                                value={this.state.newUser.email}
+                                                onChange={event =>
+                                                    this.setState({
+                                                        newUser: {
+                                                              ...this.state.newUser,
+                                                              email: event.target.value
+                                                        }
+                                                    })
+                                                } 
+                                                className="validate"
+                                                required
+                                                aria-required=""
+                                                />
+                                                { errors.email ? <span className="helper-text error"> { errors.email } </span> : null}
+                                                <label htmlFor="email">Email</label>
+                                            </div>
+
+                                            <div className="col-2">
+                                                <div className="input-field col s6">
+                                                <input
+                                                    type="text"
+                                                    id="mobile"
+                                                    value={this.state.newUser.mobile_number}
+                                                    onChange={event =>
+                                                        this.setState({
+                                                            newUser: {
+                                                                  ...this.state.newUser,
+                                                                  mobile_number: event.target.value
+                                                            }
+                                                        })
+                                                    } 
+                                                    className="validate"
+                                                    required
+                                                    aria-required=""
+                                                />
+                                                { errors.mobile_number ? <span className="helper-text error"> { errors.mobile_number } </span> : null}
+                                                <label htmlFor="mobile">Mobile</label>
+                                                </div>
+
+                                                <div className="input-field col s6">
+                                                <input
+                                                    type="date"
+                                                    id="dob"
+                                                    onChange={event =>
+                                                        this.setState({
+                                                            newUser: {
+                                                                  ...this.state.newUser,
+                                                                  date_of_birth: event.target.value
+                                                            }
+                                                        })
+                                                    } 
+                                                    className="validate"
+                                                    required
+                                                    aria-required=""
+                                                />
+                                                { errors.date_of_birth ? <span className="helper-text error"> { errors.date_of_birth } </span> : null}
+                                                <label htmlFor="dob">Date of Birth</label>
+                                                </div>
+                                            </div>
+
+                                            <div className="input-field col s12">
+                                                <input
+                                                type="password"
+                                                id="password"
+                                                value={this.state.newUser.password}
+                                                onChange={event =>
+                                                    this.setState({
+                                                        newUser: {
+                                                              ...this.state.newUser,
+                                                              password: event.target.value
+                                                        }
+                                                    })
+                                                } 
+                                                className="validate"
+                                                />
+                                                { errors.password ? <span className="helper-text error"> { errors.password } </span> : null}
+                                                <label htmlFor="password">Password</label>
+                                            </div>
+
+                                            <div className="input-field col s12">
+                                                <input
+                                                type="password"
+                                                id="password_confirm"
+                                                value={this.state.newUser.passwordConfirm}
+                                                onChange={event =>
+                                                    this.setState({
+                                                        newUser: {
+                                                              ...this.state.newUser,
+                                                              passwordConfirm: event.target.value
+                                                        }
+                                                    })
+                                                } 
+                                                className="validate"
+                                                />
+                                                { errors.passwordConfirm ? <span className="helper-text error"> { errors.passwordConfirm } </span> : null}
+                                                <label htmlFor="password_confirm">Confirm Password</label>
+                                            </div>
+
+                                            <div className="input-field col s12">
+                                                <label>
+                                                <input type="checkbox" className="filled-in checkbox-red" 
+                                                onChange={event =>
+                                                    this.setState({
+                                                        newUser: {
+                                                              ...this.state.newUser,
+                                                              is_admin: !this.state.newUser.is_admin
+                                                        }
+                                                    })
+                                                } 
+                                                />
+                                                <span>Admin</span>
+                                                </label>
+                                            </div>
+
+                                            <div className="input-field col s12">
+                                                <button
+                                                className="button-primary waves-light registerBtn"
+                                                type="submit"
+                                                id="register-btn-submit"
+                                                >
+                                                <span> Sign Up</span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br/>
+
                             <div className="left">
-                                <span className="helper-text success margin-btn"> { feedback } </span> 
+                                <span className="helper-text margin-btn"> There are currently { usersCount } users.</span>
+                            </div>
+
+                            <br/> <br/>
+                            <div className="left">
+                                <span className="helper-text success "> { feedback } </span> 
 
                                 { Object.keys(errors).map(function eachKey(key) {
                                     return <div className="helper-text error"> {key}: {errors[key]} </div>
                                 })}
-
                             </div>
+
                             <form noValidate>
                                 <table className="table bordered highlight centered responsive-table management-table">
                                     <thead>
                                         <tr>
+                                            <th scope="col">ID</th>
                                             <th scope="col">First Name</th>
                                             <th scope="col">Last Name</th>
                                             <th scope="col">Email</th>
@@ -151,6 +457,23 @@ class UserManagement extends Component {
                                                             this.forceUpdate();
                                                         }} />
                                                     })} */}
+
+                                                        <td>
+                                                            <div className="input-field">
+                                                                <input 
+                                                                    type="text" 
+                                                                    value={user.id}
+                                                                    onChange={event => {
+                                                                            users[index].id = event.target.value;
+                                                                            this.forceUpdate();
+                                                                        }
+                                                                    } 
+                                                                    className="validate"
+                                                                    required
+                                                                    aria-required=""
+                                                                />
+                                                            </div>
+                                                        </td>
 
                                                         <td>
                                                             <div className="input-field">
@@ -267,6 +590,10 @@ class UserManagement extends Component {
                                                 ) : (
                                                     <tr>
                                                         <td>
+                                                            {user.id}
+                                                        </td>
+
+                                                        <td>
                                                             {user.first_name}
                                                         </td>
 
@@ -319,50 +646,4 @@ const mapStateToProps = state => ({
     feedback: state.feedback
 });
 
-export default connect(mapStateToProps, { getAllUsers, editUserAsAdmin, deleteUserAsAdmin, clearFeedback })(UserManagement);
-
-/*
-<td>
-
-                                            { isEditing ? 
-                                                <div className="row updateBtns">
-                                                    <div className="col s2">
-                                                        <button className="button-primary cancelBtn" onClick={() => this.toggle()}>Cancel</button>
-                                                    </div>
-
-                                                    <div className="col s2">
-                                                        <button className="button-primary editSubmitBtn" onClick={() => this.editUser()}>Save</button>
-                                                    </div>
-                                                </div>
-                                            : 
-                                                <a className="btn-large editBtn" onClick={() => this.toggle()}>Edit Details <i className="material-icons">Edit</i></a>
-                                            }
-                                                 
-                                            </td>
-
-                                            <td>
-                                                 <div className="col s2">
-                                                    <button className="button-primary cancelBtn" onClick={() => this.deleteUser()}>Delete</button>
-                                                </div>
-                                            </td>
-
-
-
-
-<div id="modal-delete" class="modal">
-                                                            <div class="modal-content">
-                                                            <h4 className="modal-title">Are you sure you want to delete this user?</h4>
-                                                            </div>
-                                                            <div class="modalFooter">
-                                                                <a onClick={() => this.deleteUser(index)} class="waves-effect btn-flat">Yes</a>
-                                                                <a href="#!" class="modal-close waves-effect btn-flat">No</a>
-                                                            </div>
-                                                        </div>
-
-
-
-
-
-                                                    
-
-*/
+export default connect(mapStateToProps, { getAllUsers, addUserAsAdmin, editUserAsAdmin, deleteUserAsAdmin, clearFeedback })(UserManagement);
