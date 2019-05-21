@@ -66,7 +66,7 @@ class App extends Component {
             
 
             <PrivateRoute exact path="/user_management" component={UserManagement}/>
-            <Footer/>
+            <PrivateRoute exact path="/account_details" component={AccountDetails}/>
           </div>
         </Router>
       </Provider>
