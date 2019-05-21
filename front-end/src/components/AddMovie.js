@@ -22,8 +22,13 @@ class AddMovie extends Component {
             maturity_rating: 0,
             purchase_count:"",
             stock: 0,
-            
+            selectedGenreId=""
         }; 
+    }
+    
+    getGenreId(index){
+      this.setState({selectedGenreId: index})
+      console.log(index);
     }
     //Sends movie details to movieActions/addMovie
    onSubmit = event => {
@@ -42,6 +47,10 @@ class AddMovie extends Component {
        this.props.addMovie(movieDetails);
     }
 
+  getGenreId(index){
+    this.setState()
+  }
+  
   render() {
     return (
       <div className="top-padding">
@@ -67,17 +76,34 @@ class AddMovie extends Component {
                       />
                     </div>
                   </li>
-                  <li >
-                    <label for="year">
-                      <font size="+1">Movie Year</font>
-                    </label>
-                    <input
-                      id="year"
-                      type="text"
-                      placeholder="Enter year of movie"
-                      className="white-text" 
-                      onChange={event =>this.setState({year : event.target.value})}
-                    />
+                  <li>
+                    <div>
+                      <label for="year">
+                        <font size="+1">Movie Year</font>
+                      </label>
+                      <input
+                        id="year"
+                        type="number"
+                        placeholder="Enter year of movie"
+                        className="white-text" 
+                        onChange={event =>this.setState({year : event.target.value})}
+                      />
+                    </div>
+                  </li>
+                  <li> 
+                    <div>
+                      <label for="genre">
+                        <font size="+1"> Movie Genre(s)</font>
+                      </label>
+                      <a class= 'dropdown-trigger btn' href='#' data-target='dropdown1'> Select a Genre</a>
+                      <ul id="dropdown1" class='dropdown-content'>
+                        {
+                          this.props.movies.genres.map(genre =>
+                          <li><a onClick{() => this.getGenreId(genre.id)} href="#!">{genre.name}</a></li>
+                        )}
+                      
+                      </ul>
+                    </div>
                   </li>
                 </ul>
               </li>
@@ -126,7 +152,6 @@ class AddMovie extends Component {
                   />
                 </div>
               </li>
-
               <li>
                 <ul class="flex-inner">
                   <li>
@@ -136,8 +161,8 @@ class AddMovie extends Component {
                       </label>
                       <input
                         id="price"
-                        type="text"
-                        placeholder="Movie Price"
+                        type="number"
+                        placeholder="Movie price"
                         className="white-text" 
                         onChange={event =>this.setState({price : event.target.value})}
                       />
@@ -149,8 +174,7 @@ class AddMovie extends Component {
                         <font size="+1">Movie Stock</font>
                       </label>
                       <input
-                        id="stock"
-                        type="text"
+                        id="number"
                         placeholder="Avaliable stock"
                         className="white-text" 
                         onChange={event =>this.setState({stock : event.target.value})}
@@ -164,9 +188,9 @@ class AddMovie extends Component {
                         <font size="+1">Maturity Rating</font>
                       </label>
                       <input
-                        id="maturity"
+                        id="maturity_rating"
                         type="text"
-                        placeholder="Enter Maturity Rating"
+                        placeholder="Enter maturity rating"
                         className="white-text" 
                         onChange={event =>this.setState({maturity_rating : event.target.value})}
                       />
