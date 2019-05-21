@@ -28,6 +28,7 @@ import Movie from './Movie';
 import PlaceOrder from './PlaceOrder';
 import OrderSuccess from './OrderSuccess';
 import UserOrders from './UserOrders';
+import Payment from './Payment';
 import AddMovie from './AddMovie';
 import UpdateMovie from './UpdateMovie';
 import AccountDetails from './Edit/AccountDetails';
