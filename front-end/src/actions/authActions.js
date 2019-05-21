@@ -40,6 +40,9 @@ export const loginUser = userData => dispatch => {
                     type: LOGIN_USER,
                     payload: res.data['user']
                 })
+                dispatch({
+                    type: CLEAR_FEEDBACK
+                })
             } else {
                 dispatch({
                     type: GET_ERRORS,
@@ -128,6 +131,7 @@ export const editUser = updatedData => dispatch => {
 export const addUserAsAdmin = userData => dispatch => {
     api.post('user/', userData)
         .then(res => {
+            dispatch(getAllUsers());
 
             dispatch({
                 type: CLEAR_ERRORS
@@ -139,7 +143,6 @@ export const addUserAsAdmin = userData => dispatch => {
             })
         }) 
         .catch(err => {
-            dispatch(getAllUsers());
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
@@ -153,7 +156,8 @@ export const editUserAsAdmin = updatedData => dispatch => {
     api
         .patch(`user/${updatedData.id}/change/`, updatedData)
         .then(res => {
-            
+            dispatch(getAllUsers());
+
             dispatch({
                 type: CLEAR_ERRORS
             })
@@ -164,7 +168,6 @@ export const editUserAsAdmin = updatedData => dispatch => {
             })
         })
         .catch(err => {
-            dispatch(getAllUsers());
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data

@@ -320,7 +320,7 @@ class AccountDetails extends Component {
                                 </div>
                             }
 
-                            <div id="modal" class="modal">
+                            <div id="modal" class="modal delete-modal">
                                 <div class="modal-content">
                                 <h4 className="modal-title">Are you sure you want to delete your account?</h4>
                                 </div>
