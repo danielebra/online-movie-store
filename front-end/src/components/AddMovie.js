@@ -47,6 +47,8 @@ class AddMovie extends Component {
       <div className="top-padding">
         <div className="container">
           <h2 className="center-align">Add Movie</h2>
+          <hr></hr>
+          <br></br>
           <form>
             <ul className="flex-outer">
               <li>
@@ -172,8 +174,8 @@ class AddMovie extends Component {
                   </li>
                 </ul>
               </li>
-              <li>
-                <Link to="\" className="waves-effect waves-light red darken-3 btn">
+              <li className="btn-style">
+                <Link to="/" className="waves-effect waves-light red darken-3 btn">
                   Cancel
                 </Link>
                 <button className="waves-effect waves-light red darken-3 btn" onSubmit={this.onSubmit}>
