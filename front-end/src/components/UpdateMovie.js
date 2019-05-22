@@ -9,6 +9,7 @@ import Info from "./UIElements/Info";
 
 class UpdateMovie extends Component{
     componentWillMount() {
+      this.props.getMovies();
       }
       
       componentDidMount() {
@@ -24,6 +25,10 @@ class UpdateMovie extends Component{
           console.log("Array length is", allMovies);
         }
       }*/
+
+      getMovieList(){
+        let { collections, searchList, loading, wishList, moviesList } = this.props.movies;}
+        //console.log(this.props.movies);
 
 
       onSubmit(){
@@ -91,9 +96,9 @@ class UpdateMovie extends Component{
                     </div>
                 </div>
                 <div className="row">
-                  <div className="col s7">
+                  <div className="col s12">
                       <label htmlFor="description"> <font size="+1">Description</font></label>
-                      <input 
+                      <textarea
                       id="description" 
                       type="text" 
                       placeholder="Movie Description"
