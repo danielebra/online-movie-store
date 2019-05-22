@@ -173,6 +173,11 @@ class MoviePopulator(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class LogView(viewsets.ModelViewSet):
+    queryset = LogModel.objects.all()
+    serializer_class = LogSerializer
+
+
 class OrderView(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer

@@ -122,7 +122,7 @@ class Movie extends Component {
               <h2 className="movieTitleDetail">
                 {movie.title}
                 <span className="year"> ({movie.year})</span>
-                <i onClick={() => this.toggleFavourite()} className="small material-icons right favIcon">{ favourite ? 'favorite' : 'favorite_border'}</i>
+                <i onClick={() => this.toggleFavourite()} className="small material-icons right favIcon fav">{ favourite ? 'favorite' : 'favorite_border'}</i>
                 <br />
                 <span className="price">${movie.price}</span>
               </h2>

@@ -2,7 +2,7 @@
 //import jwt_decode from 'jwt-decode';
 
 // Action types
-import { LOGIN_USER, LOGOUT_USER, GET_ERRORS, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS } from "./types";
+import { LOGIN_USER, LOGOUT_USER, CLEAR_SEARCH_USER, GET_ERRORS, SEARCH_USER, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS } from "./types";
 
 import api from "../api";
 
@@ -34,13 +34,15 @@ export const loginUser = userData => dispatch => {
 
             if (res.data['user']) {
 
-                let data = {
-                    status: "Logged In"
-                }
+                
 
-                api.post(`user/${userData.id}/log`, data)
+               
                 // set localstorage
                 localStorage.setItem('user', JSON.stringify(res.data['user']));
+                let logStatus = {
+                    status: "Logged In"
+                }
+                api.post(`user/${JSON.parse(localStorage.user).id}/log/`, logStatus) 
 
                 dispatch({
                     type: LOGIN_USER,
@@ -75,10 +77,10 @@ export const setCurrentUser = userData => {
 
 // Log user out
 export const logoutUser = message => dispatch => {
-    let data = {
+    let logStatus = {
         status: "Logged Out"
     }
-    api.post(`user/${JSON.parse(localStorage.user.id)}/log`, data) 
+    api.post(`user/${JSON.parse(localStorage.user).id}/log/`, logStatus) 
     localStorage.removeItem('user');
     dispatch({
         type: GET_FEEDBACK,
@@ -137,6 +139,20 @@ export const editUser = updatedData => dispatch => {
         }
     );
 }
+
+export const searchUser = query => dispatch => {
+    dispatch({
+        type: SEARCH_USER,
+        payload: query
+    })
+};
+
+
+export const clearSearch = () => dispatch => {
+    dispatch({
+        type: CLEAR_SEARCH_USER
+    })
+};
 
 export const addUserAsAdmin = userData => dispatch => {
     api.post('user/', userData)
@@ -248,12 +264,13 @@ export const getAllUsers = () => dispatch => {
 };
 
 export const getAllAccessLogs = () => dispatch => {
-    api.get(`user/${JSON.parse(localStorage.user.id)}/logs/`)
+    api.get(`user/${JSON.parse(localStorage.user).id}/logs/`)
        .then(res => {
            dispatch({
                type: GET_ALL_ACCESSLOGS,
                payload: res.data
            })
+           
        })
        .catch(err => {
         console.log(err.response.data);

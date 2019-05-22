@@ -12,6 +12,8 @@ router.register('api/genre', views.Genre)
 router.register('api/movie', views.MoviePopulator)
 router.register('api/review', views.ReviewView)
 router.register('api/order', views.OrderView)
+router.register('api/logs', views.LogView)
+
 
 urlpatterns = [
     path('', include(router.urls)),
