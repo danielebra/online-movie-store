@@ -34,13 +34,15 @@ export const loginUser = userData => dispatch => {
 
             if (res.data['user']) {
 
-                let data = {
-                    status: "Logged In"
-                }
+                
 
-                api.post(`user/${userData.id}/log`, data)
+               
                 // set localstorage
                 localStorage.setItem('user', JSON.stringify(res.data['user']));
+                let logStatus = {
+                    status: "Logged In"
+                }
+                api.post(`user/${JSON.parse(localStorage.user).id}/log/`, logStatus) 
 
                 dispatch({
                     type: LOGIN_USER,
@@ -72,10 +74,10 @@ export const setCurrentUser = userData => {
 
 // Log user out
 export const logoutUser = message => dispatch => {
-    let data = {
+    let logStatus = {
         status: "Logged Out"
     }
-    api.post(`user/${JSON.parse(localStorage.user.id)}/log`, data) 
+    api.post(`user/${JSON.parse(localStorage.user).id}/log/`, logStatus) 
     localStorage.removeItem('user');
     dispatch({
         type: GET_FEEDBACK,
@@ -245,12 +247,13 @@ export const getAllUsers = () => dispatch => {
 };
 
 export const getAllAccessLogs = () => dispatch => {
-    api.get(`user/${JSON.parse(localStorage.user.id)}/logs/`)
+    api.get(`user/${JSON.parse(localStorage.user).id}/logs/`)
        .then(res => {
            dispatch({
                type: GET_ALL_ACCESSLOGS,
                payload: res.data
            })
+           
        })
        .catch(err => {
         console.log(err.response.data);

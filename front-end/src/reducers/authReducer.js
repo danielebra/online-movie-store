@@ -6,7 +6,8 @@ const initialState = {
     isAuthenticated: false,
     user: {},
     users: [],
-    updated: false
+    updated: false,
+    logs: []
 };
 
 export default function (state = initialState, action) {
@@ -51,7 +52,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 logs: action.payload
-            }
+            };
 
         default:
             return state;

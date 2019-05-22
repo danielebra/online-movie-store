@@ -2,24 +2,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import isEmpty from '../../isEmpty';
-import { getAllAccessLogs } from '../../actions/authActions';
+import { getAllAccessLogs } from '../actions/authActions';
 import update from 'react-addons-update';
 import _ from 'underscore';
-import TableRow from '../UIElements/TableRow';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import M from 'materialize-css';
 
 class AccessLogs extends Component {
 
     constructor() {
         super();
+        this.state={
+            searchDate: new Date()
+        };
 
         
-        this.state = {
-            users: [],
-            isEditing: [],
-            errors: {}
-        }
     }
 
     
@@ -37,23 +35,92 @@ class AccessLogs extends Component {
 
     }
 
-   
+   handleChange=(date)=>{
+       this.setState({
+           searchDate: date
+       })
+       console.log(this.reformatDate(this.state.searchDate))
+   }
+   reformatDate=(date)=>{
+       let year = date.getFullYear()
+       let month = date.getMonth()
+       let day = date.getDate()
+       let dateFormat = month + "/" + day + "/" + year
+       return dateFormat
+   }
+   isFilter=()=>{
+       return this.state.searchDate===null ? false:true
+   }
+   filtering=(logs, filterDate)=>{
+       return logs.filter(log => this.reformatDate(new Date(new Date(log.time_stamp).toLocaleString())) === this.reformatDate(filterDate))
+   }
+   logTable=(logs, user)=>{
+       if(this.isFilter()){
+           logs = this.filtering(logs, this.state.searchDate)
+       }
+       return( logs.length > 0 ? logs.map((log, index) => {
+           let logTime = new Date(log.time_stamp).toLocaleString()
+        return (
+            (
+               <tr>
+                   <td>
+                       {log.id}
+                   </td>
+                   <td>
+                       {user.id}
+                   </td>
+                   <td>
+                       {user.first_name}
+                   </td>
+
+                   <td>
+                       {user.last_name}
+                   </td>
+
+                   <td>
+                       {user.email}
+                   </td>
+                   <td>
+                       {log.status}
+                   </td>
+                   <td>
+                       {logTime}
+                   </td>
+                   <td>
+                       <i  className="material-icons ">delete</i>
+                   </td>
+
+               </tr>
+           )
+       )
+    }) : <tr> <td colspan="7" className="center"> No access log available. </td></tr>)
+   }
 
 
     deleteLog(index) {
         
     }
 
+    
+
     render() {
-        const { logs } = this.state;
-        const currentUser = JSON.parse(localStorage.user);
+        const { logs, user } = this.props.auth;
+        const { searchDate } =this.state;
+
+        console.log(this.props.auth)
 
         return (
             <div className="center top-padding account-details">
                 <div className="container">
                     <div className="row">
                         <div className="col s12 center">
-                            <h3> User Management </h3>
+                            <h3> Access Logs </h3>
+                            
+                            <DatePicker className="white-text" 
+                            placeholderText="Click to select a date"
+                            selected={this.state.searchDate}
+                            onChange={this.handleChange}
+                            />
                             
                             <form noValidate>
                                 <table className="table bordered highlight centered responsive-table management-table">
@@ -70,44 +137,7 @@ class AccessLogs extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        { logs.length > 0 ? logs.map((log, index) => {
-                                            return (
-
-                                               
-
-                                                 (
-                                                    <tr>
-                                                        <td>
-                                                            {log.id}
-                                                        </td>
-                                                        <td>
-                                                            {currentUser.id}
-                                                        </td>
-                                                        <td>
-                                                            {currentUser.first_name}
-                                                        </td>
-
-                                                        <td>
-                                                            {currentUser.last_name}
-                                                        </td>
-
-                                                        <td>
-                                                            {currentUser.email}
-                                                        </td>
-                                                        <td>
-                                                            {log.status}
-                                                        </td>
-                                                        <td>
-                                                            {currentUser.time_stamp}
-                                                        </td>
-                                                        <td>
-                                                            <i onClick={() => this.deleteUser(index)} className="material-icons ">delete</i>
-                                                        </td>
-
-                                                    </tr>
-                                                )
-                                            )
-                                        }) : <tr> <td colspan="7" className="center"> No access log available. </td></tr>}
+                                        {this.logTable(logs, user) }
                                     </tbody>
                                 </table>
                             </form>
