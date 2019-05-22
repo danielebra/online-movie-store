@@ -3,7 +3,7 @@ import "../styles/_addmovie.scss";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
-import { addMovie } from "../actions/movieActions";
+import { addMovie, getMovies } from "../actions/movieActions";
 
 import Loading from "../components/Templates/loading";
 import M from "materialize-css";
@@ -24,6 +24,10 @@ class AddMovie extends Component {
             stock: 0,
             selectedGenreId:""
         }; 
+    }
+
+    componentWillMount() {
+      this.props.getMovies();
     }
 
     getGenreId(index){
@@ -48,6 +52,7 @@ class AddMovie extends Component {
     }
   
   render() {
+    console.log(this.props.movies);
     return (
       <div className="top-padding">
         <div className="container">
@@ -212,4 +217,4 @@ const mapStateToProps = state => ({
   movies: state.movies
 });
 
-export default connect(mapStateToProps,{addMovie})(AddMovie);
+export default connect(mapStateToProps,{addMovie, getMovies})(AddMovie);
