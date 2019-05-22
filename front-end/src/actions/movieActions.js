@@ -8,13 +8,16 @@ export const getMovies = () => dispatch => {
     // Here we make an API call or whatever that you need to do
     api.get("movie/").then(res =>  {
         let movies = res.data;
-        let payload = {
-            movies,
-            collections: []
-        };
+        
 
         api.get("genre/").then(res => {
             let genres = res.data;
+
+            let payload = {
+                movies,
+                collections: [],
+                genres
+            };
             
             genres.forEach(genre => {
                 var collection = {
@@ -29,7 +32,7 @@ export const getMovies = () => dispatch => {
                 dispatch({
                     type: GET_MOVIES,
                     payload
-                })
+                })  
             else
                 dispatch({
                     type: NO_MOVIES_FOUND
@@ -112,12 +115,17 @@ export const clearSearchList = () => {
     return {
         type: CLEAR_SEARCH_LIST
     }
-}
+};
 
-export const addMovie = () => dispatch => {
-    return{
-        type: ADD_MOVIE
-    }
+export const addMovie = (movieDetails) => dispatch => {
+    api.post('movie/', movieDetails)
+        .then(res => {
+            console.log("ADDED: ", res.data)
+            dispatch(getMovies())
+        })
+        .catch(error =>{
+            console.log(error.response);
+        })
 };
 
 // Set profile loading

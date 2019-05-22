@@ -233,12 +233,63 @@ img.moviesBackground {
     width: 35%;
 }
 
+.movieList{
+    background-color: white !important;
+}
+
 .fav a {
     color: white !important;
 }
 
+i.modal-close-red{
+    color: white;
+}
+
 span.badge.new {
     background-color: #b32b00 !important;
+}
+
+.addUserBtn {
+    margin-bottom: 15px !important;
+    background-color: #b32b00 !important;
+}
+
+i.add {
+    font-size: 25px !important;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.add-user-modal-title {
+    font-size: 30px !important;
+}
+
+.search-users {
+
+    .input-field {
+        width: 100% !important;
+        margin-left: 0px !important;
+    }
+    background-color: #252525;
+    color: white;
+    .input-field input[type=search]:focus:not(.browser-default) {
+        background-color: #252525;
+        color: rgb(218, 218, 218);
+    }
+
+    input[type=search]:not(.browser-default):focus:not([readonly]) {
+        border-bottom: green !important;
+        box-shadow: green !important;
+    }
+}
+
+
+
+
+.addUserBtn:hover {
+    background-color: #c96243 !important;
 }
 
 .material-icons {

@@ -2,7 +2,7 @@
 //import jwt_decode from 'jwt-decode';
 
 // Action types
-import { LOGIN_USER, LOGOUT_USER, GET_ERRORS, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE } from "./types";
+import { LOGIN_USER, LOGOUT_USER, CLEAR_SEARCH_USER, GET_ERRORS, SEARCH_USER, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS } from "./types";
 
 import api from "../api";
 
@@ -33,12 +33,23 @@ export const loginUser = userData => dispatch => {
             console.log(res.data);
 
             if (res.data['user']) {
+
+                
+
+               
                 // set localstorage
                 localStorage.setItem('user', JSON.stringify(res.data['user']));
+                let logStatus = {
+                    status: "Logged In"
+                }
+                api.post(`user/${JSON.parse(localStorage.user).id}/log/`, logStatus) 
 
                 dispatch({
                     type: LOGIN_USER,
                     payload: res.data['user']
+                })
+                dispatch({
+                    type: CLEAR_FEEDBACK
                 })
             } else {
                 dispatch({
@@ -66,6 +77,10 @@ export const setCurrentUser = userData => {
 
 // Log user out
 export const logoutUser = message => dispatch => {
+    let logStatus = {
+        status: "Logged Out"
+    }
+    api.post(`user/${JSON.parse(localStorage.user).id}/log/`, logStatus) 
     localStorage.removeItem('user');
     dispatch({
         type: GET_FEEDBACK,
@@ -125,9 +140,24 @@ export const editUser = updatedData => dispatch => {
     );
 }
 
+export const searchUser = query => dispatch => {
+    dispatch({
+        type: SEARCH_USER,
+        payload: query
+    })
+};
+
+
+export const clearSearch = () => dispatch => {
+    dispatch({
+        type: CLEAR_SEARCH_USER
+    })
+};
+
 export const addUserAsAdmin = userData => dispatch => {
     api.post('user/', userData)
         .then(res => {
+            dispatch(getAllUsers());
 
             dispatch({
                 type: CLEAR_ERRORS
@@ -139,7 +169,6 @@ export const addUserAsAdmin = userData => dispatch => {
             })
         }) 
         .catch(err => {
-            dispatch(getAllUsers());
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
@@ -153,7 +182,8 @@ export const editUserAsAdmin = updatedData => dispatch => {
     api
         .patch(`user/${updatedData.id}/change/`, updatedData)
         .then(res => {
-            
+            dispatch(getAllUsers());
+
             dispatch({
                 type: CLEAR_ERRORS
             })
@@ -164,7 +194,6 @@ export const editUserAsAdmin = updatedData => dispatch => {
             })
         })
         .catch(err => {
-            dispatch(getAllUsers());
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
@@ -232,4 +261,18 @@ export const getAllUsers = () => dispatch => {
         .catch(err => {
             console.log(err.response.data);
         });
+};
+
+export const getAllAccessLogs = () => dispatch => {
+    api.get(`user/${JSON.parse(localStorage.user).id}/logs/`)
+       .then(res => {
+           dispatch({
+               type: GET_ALL_ACCESSLOGS,
+               payload: res.data
+           })
+           
+       })
+       .catch(err => {
+        console.log(err.response.data);
+       });
 };

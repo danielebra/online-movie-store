@@ -177,9 +177,15 @@ table.centered thead tr th, table.centered tbody tr td {
     font-size: 14px !important;
 }
 
-.modal {
+.delete-modal {
     background-color: #222 !important;
-    margin-top: 150px !important;
+    margin-top: 125px !important;
+}
+
+.add-user-modal {
+    background-color: #222 !important;
+    width: 75% !important;
+    max-height: 100% !important;
 }
 
 .modal-title {

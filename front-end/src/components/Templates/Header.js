@@ -81,15 +81,18 @@ class Header extends Component {
               <div className="right-margin">
                 <ul className="right">
                   <li> 
-                    <a onClick={this.openNav} href="#!" >Hi, {user.first_name}<i className="material-icons right">menu</i></a>
+                    <a onClick={this.openNav} href="#!"> Hi, {user.first_name}<i className="material-icons right">menu</i></a>
                     <div onClick={this.closeNav} id="mySidenav" className="newsidenav">
-                      <a href="javascript:void(0)" className="closebtn">&times;</a>
+                      <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
                       <Link to="/account_details">Account Details</Link>
                       <Link to="/orders">My Orders</Link> 
-                      <Link to="/wishlist">Wish List {wishList.length > 0 ? (<div class="wishListBadge"> <span class="new badge">{wishList.length}</span> </div>) : null}</Link> 
+                      <Link to="/wishlist">Wish List</Link>
+                      <Link to="/add_movie">Add Movies</Link>
+                      <Link to="/update_movie">Update Movies </Link>
+                      <Link to="/access_logs">Access Logs </Link>
+
                       { user.is_admin === 'true' ? (
                         <div>
-                          <Link to="/add_movie">Add Movies</Link>
                           <Link to="/user_management"> User Management </Link>
                         </div>
                       ) : null }
