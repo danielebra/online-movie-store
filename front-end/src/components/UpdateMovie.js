@@ -25,8 +25,8 @@ class UpdateMovie extends Component{
         }
       }*/
 
-      onSubmit(){
 
+      onSubmit(){
       }
 
       render() {
@@ -55,8 +55,8 @@ class UpdateMovie extends Component{
                   <div className="movieList">
                     <select>
                         <option value="Error"> Select Movie to view or change </option>
-                        <option value={collections.movie}> Option 1 </option>
-                        <option value={collections[1]}> Option 2 </option>
+                        <option value="1"> Option 1 </option>
+                        <option value="2"> Option 2 </option>
                     </select>
                   </div>
                 </div>

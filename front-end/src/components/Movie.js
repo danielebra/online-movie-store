@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { getMovies, getMovieById, favouriteMovie, unFavouriteMovie, addReview } from '../actions/movieActions';
+import { getMovies, getMovieById} from '../actions/movieActions';
 import Loading from './Templates/loading';
 
 import M from "materialize-css";
@@ -122,7 +122,7 @@ class Movie extends Component {
               <h2 className="movieTitleDetail">
                 {movie.title}
                 <span className="year"> ({movie.year})</span>
-                <i onClick={() => this.toggleFavourite()} className="small material-icons right favIcon">{ favourite ? 'favorite' : 'favorite_border'}</i>
+                <i onClick={() => this.toggleFavourite()} className="small material-icons right favIcon fav">{ favourite ? 'favorite' : 'favorite_border'}</i>
                 <br />
                 <span className="price">${movie.price}</span>
               </h2>
@@ -221,4 +221,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getMovies, getMovieById, favouriteMovie, unFavouriteMovie, addReview })(withRouter(Movie));
+export default connect(mapStateToProps, { getMovies, getMovieById})(withRouter(Movie));

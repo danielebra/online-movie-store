@@ -82,7 +82,7 @@ class Header extends Component {
                 <ul className="right">
                   <li> 
                     <a onClick={this.openNav} href="#!"> Hi, {user.first_name}<i className="material-icons right">menu</i></a>
-                    <div id="mySidenav" className="newsidenav">
+                    <div onClick={this.closeNav} id="mySidenav" className="newsidenav">
                       <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
                       <Link to="/account_details">Account Details</Link>
                       <Link to="/orders">My Orders</Link> 

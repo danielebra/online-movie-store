@@ -2,7 +2,7 @@
 //import jwt_decode from 'jwt-decode';
 
 // Action types
-import { LOGIN_USER, LOGOUT_USER, GET_ERRORS, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS } from "./types";
+import { LOGIN_USER, LOGOUT_USER, CLEAR_SEARCH_USER, GET_ERRORS, SEARCH_USER, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS } from "./types";
 
 import api from "../api";
 
@@ -47,6 +47,9 @@ export const loginUser = userData => dispatch => {
                 dispatch({
                     type: LOGIN_USER,
                     payload: res.data['user']
+                })
+                dispatch({
+                    type: CLEAR_FEEDBACK
                 })
             } else {
                 dispatch({
@@ -137,9 +140,24 @@ export const editUser = updatedData => dispatch => {
     );
 }
 
+export const searchUser = query => dispatch => {
+    dispatch({
+        type: SEARCH_USER,
+        payload: query
+    })
+};
+
+
+export const clearSearch = () => dispatch => {
+    dispatch({
+        type: CLEAR_SEARCH_USER
+    })
+};
+
 export const addUserAsAdmin = userData => dispatch => {
     api.post('user/', userData)
         .then(res => {
+            dispatch(getAllUsers());
 
             dispatch({
                 type: CLEAR_ERRORS
@@ -151,7 +169,6 @@ export const addUserAsAdmin = userData => dispatch => {
             })
         }) 
         .catch(err => {
-            dispatch(getAllUsers());
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
@@ -165,7 +182,8 @@ export const editUserAsAdmin = updatedData => dispatch => {
     api
         .patch(`user/${updatedData.id}/change/`, updatedData)
         .then(res => {
-            
+            dispatch(getAllUsers());
+
             dispatch({
                 type: CLEAR_ERRORS
             })
@@ -176,7 +194,6 @@ export const editUserAsAdmin = updatedData => dispatch => {
             })
         })
         .catch(err => {
-            dispatch(getAllUsers());
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
