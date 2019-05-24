@@ -32,7 +32,7 @@ class LoginSerializer(serializers.ModelSerializer):
 class LogSerializer(serializers.ModelSerializer):
     class Meta:
         model = LogModel
-        fields = ['user', 'status']
+        fields = ['user', 'status', 'id']
 
 
 class GenreSerializer(serializers.ModelSerializer):
