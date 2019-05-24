@@ -123,6 +123,7 @@ class AccessLogs extends Component {
                             placeholderText="Click to select a date"
                             selected={this.state.searchDate}
                             onChange={this.handleChange}
+                            dateFormat="dd/MM/yyyy"
                             />
                             
                             <form noValidate>
