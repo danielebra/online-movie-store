@@ -2,7 +2,7 @@
 //import jwt_decode from 'jwt-decode';
 
 // Action types
-import { LOGIN_USER, LOGOUT_USER, CLEAR_SEARCH_USER, GET_ERRORS, SEARCH_USER, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS } from "./types";
+import { LOGIN_USER, LOGOUT_USER, CLEAR_SEARCH_USER, GET_ERRORS, SEARCH_USER, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS, DELETE_LOG} from "./types";
 
 import api from "../api";
 
@@ -240,6 +240,12 @@ export const deleteLog = log => dispatch => {
     api
     .delete(`logs/${log.id}/`)
     .then(res=>{
+        dispatch(
+            {
+                type:DELETE_LOG,
+                payload: log
+            }
+        )
         console.log(res.data)
     })
     .catch(err => {

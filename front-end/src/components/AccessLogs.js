@@ -11,14 +11,12 @@ import M from 'materialize-css';
 
 class AccessLogs extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state={
             searchDate: new Date(),
-            logs: [],
-            user: {}
-
         };
+        
 
         
     }
@@ -32,11 +30,12 @@ class AccessLogs extends Component {
     componentDidMount() {
         var elems = document.querySelectorAll('.modal');
         M.Modal.init(elems, {});
+        console.log(this.state.logs)
     }
 
     // Called when the component receives props
     componentWillReceiveProps(nextProps) {
-        this.setState({logs: nextProps.auth.logs, user: nextProps.auth.user})
+        
 
     }
     
@@ -103,8 +102,7 @@ class AccessLogs extends Component {
     deleteLog(log) {
         if (window.confirm("Are you sure you want to delete this log?")) {
             this.props.deleteLog(log);
-            let logs = this.state.logs.filter(logToDisplay => logToDisplay !== log)
-            this.setState({logs: logs})
+            
             console.log(this.state)
         }
     }
@@ -113,7 +111,7 @@ class AccessLogs extends Component {
 
     render() {
         
-        const { logs, user } = this.state;
+        const { logs, user } = this.props.auth;
         
 
         
