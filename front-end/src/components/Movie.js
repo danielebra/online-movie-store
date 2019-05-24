@@ -89,6 +89,10 @@ class Movie extends Component {
     }
 
     this.props.addReview(movies.movie.id, review);
+    this.setState({
+      rating: 0,
+      text: ''
+    });
   }
 
   render() {
@@ -175,8 +179,8 @@ class Movie extends Component {
                   <input 
                     type="number" 
                     id="rating"
-                    value={this.state.rating}
-                    min="0" max="10"
+                    value={this.state.rating == 0 ? '' : this.state.rating}
+                    min="1" max="10"
                     onChange={event =>
                       this.setState({ rating: parseInt(event.target.value) })
                     } 
