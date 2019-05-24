@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import { getAllAccessLogs } from '../actions/authActions';
+import { getAllAccessLogs, deleteLog } from '../actions/authActions';
 import update from 'react-addons-update';
 import _ from 'underscore';
 import DatePicker from 'react-datepicker';
@@ -14,11 +14,15 @@ class AccessLogs extends Component {
     constructor() {
         super();
         this.state={
-            searchDate: new Date()
+            searchDate: new Date(),
+            logs: [],
+            user: {}
+
         };
 
         
     }
+    
 
     
     componentWillMount() {
@@ -32,8 +36,10 @@ class AccessLogs extends Component {
 
     // Called when the component receives props
     componentWillReceiveProps(nextProps) {
+        this.setState({logs: nextProps.auth.logs, user: nextProps.auth.user})
 
     }
+    
 
    handleChange=(date)=>{
        this.setState({
@@ -64,9 +70,6 @@ class AccessLogs extends Component {
             (
                <tr>
                    <td>
-                       {log.id}
-                   </td>
-                   <td>
                        {user.id}
                    </td>
                    <td>
@@ -87,7 +90,7 @@ class AccessLogs extends Component {
                        {logTime}
                    </td>
                    <td>
-                       <i  className="material-icons ">delete</i>
+                       <i  onClick={() => this.deleteLog(log)} className="material-icons pointer">delete</i>
                    </td>
 
                </tr>
@@ -97,17 +100,23 @@ class AccessLogs extends Component {
    }
 
 
-    deleteLog(index) {
-        
+    deleteLog(log) {
+        if (window.confirm("Are you sure you want to delete this log?")) {
+            this.props.deleteLog(log);
+            let logs = this.state.logs.filter(logToDisplay => logToDisplay !== log)
+            this.setState({logs: logs})
+            console.log(this.state)
+        }
     }
 
     
 
     render() {
-        const { logs, user } = this.props.auth;
-        const { searchDate } =this.state;
+        
+        const { logs, user } = this.state;
+        
 
-        console.log(this.props.auth)
+        
 
         return (
             <div className="center top-padding account-details">
@@ -126,7 +135,6 @@ class AccessLogs extends Component {
                                 <table className="table bordered highlight centered responsive-table management-table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Log ID</th>
                                             <th scope="col">User ID</th>
                                             <th scope="col">First Name</th>
                                             <th scope="col">Last Name</th>
@@ -153,4 +161,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, { getAllAccessLogs })(AccessLogs);
+export default connect(mapStateToProps, { getAllAccessLogs, deleteLog })(AccessLogs);

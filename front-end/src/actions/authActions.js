@@ -236,6 +236,22 @@ export const deleteUser = user => dispatch => {
         }
     );
 }
+export const deleteLog = log => dispatch => {
+    api
+    .delete(`logs/${log.id}/`)
+    .then(res=>{
+        console.log(res.data)
+    })
+    .catch(err => {
+        console.log(err.response.data);
+        dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        })
+    }
+        
+    );
+}
 
 export const clearFeedback = () => {
     return{
