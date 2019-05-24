@@ -9,6 +9,7 @@ import Info from "./UIElements/Info";
 
 class UpdateMovie extends Component{
     componentWillMount() {
+      this.props.getMovies();
       }
       
       componentDidMount() {
@@ -25,8 +26,12 @@ class UpdateMovie extends Component{
         }
       }*/
 
-      onSubmit(){
+      getMovieList(){
+        let { collections, searchList, loading, wishList, moviesList } = this.props.movies;}
+        //console.log(this.props.movies);
 
+
+      onSubmit(){
       }
 
       render() {
@@ -55,8 +60,8 @@ class UpdateMovie extends Component{
                   <div className="movieList">
                     <select>
                         <option value="Error"> Select Movie to view or change </option>
-                        <option value={collections.movie}> Option 1 </option>
-                        <option value={collections[1]}> Option 2 </option>
+                        <option value="1"> Option 1 </option>
+                        <option value="2"> Option 2 </option>
                     </select>
                   </div>
                 </div>
@@ -91,9 +96,9 @@ class UpdateMovie extends Component{
                     </div>
                 </div>
                 <div className="row">
-                  <div className="col s7">
+                  <div className="col s12">
                       <label htmlFor="description"> <font size="+1">Description</font></label>
-                      <input 
+                      <textarea
                       id="description" 
                       type="text" 
                       placeholder="Movie Description"

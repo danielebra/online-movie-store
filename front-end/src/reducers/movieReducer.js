@@ -13,7 +13,8 @@ const initialState = {
     searchList: null,
     moviesList: null,
     loading: true,
-    wishList: []
+    wishList: [],
+    genres: []
 };
 
 // The state parameter is the movies state that comes from the store
@@ -36,6 +37,7 @@ export default function (state = initialState, action) {
                 ...state,
                 collections: data,
                 moviesList: action.payload.movies,
+                genres: action.payload.genres,
                 searchList: null,
                 movie: null,
                 loading: false

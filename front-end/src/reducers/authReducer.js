@@ -1,12 +1,14 @@
 
 // Action Types
-import { LOGIN_USER, LOGOUT_USER, UPDATE_USER, GET_ALL_USERS, CLEAR_UPDATE } from "../actions/types";
+import { LOGIN_USER, LOGOUT_USER, CLEAR_SEARCH_USER, SEARCH_USER, UPDATE_USER, GET_ALL_USERS, CLEAR_UPDATE, GET_ALL_ACCESSLOGS, DELETE_LOG } from "../actions/types";
 
 const initialState = {
     isAuthenticated: false,
     user: {},
     users: [],
-    updated: false
+    userSearchList: [],
+    updated: false,
+    logs:[]
 };
 
 export default function (state = initialState, action) {
@@ -27,6 +29,33 @@ export default function (state = initialState, action) {
                 updated: true
             };
 
+        case SEARCH_USER:
+            
+            let query = action.payload;
+            let user;
+
+            if (isNaN(query)) {
+                query = query.toLowerCase().trim();
+                
+                user = state.users.filter(user => {
+                    if (user.first_name.toLowerCase().includes(query) || user.last_name.toLowerCase().includes(query))
+                        return user;
+                });
+
+            } else {
+                user = state.users.filter(user => user.mobile_number.includes(query));
+            }
+
+            return {
+                ...state,
+                userSearchList: user
+            };
+
+        case CLEAR_SEARCH_USER:
+            return {
+                ...state,
+                userSearchList: []
+            }
         case CLEAR_UPDATE:
             return {
                 ...state,
@@ -46,6 +75,17 @@ export default function (state = initialState, action) {
                 ...state,
                 users: action.payload
             };
+
+        case GET_ALL_ACCESSLOGS:
+            return {
+                ...state,
+                logs: action.payload
+            };
+        case DELETE_LOG:
+            return {
+                ...state,
+                logs: state.logs.filter(log => log.id !==action.payload.id)
+            }
 
         default:
             return state;
