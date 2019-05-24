@@ -16,12 +16,7 @@ class AccessLogs extends Component {
         this.state={
             searchDate: new Date(),
         };
-        
-
-        
     }
-    
-
     
     componentWillMount() {
         this.props.getAllAccessLogs();
@@ -33,32 +28,39 @@ class AccessLogs extends Component {
         console.log(this.state.logs)
     }
 
-    // Called when the component receives props
-    componentWillReceiveProps(nextProps) {
-        
-
-    }
-    
-
    handleChange=(date)=>{
        this.setState({
            searchDate: date
        })
        
    }
+
    reformatDate=(date)=>{
-       let year = date.getFullYear()
-       let month = date.getMonth()
-       let day = date.getDate()
-       let dateFormat = month + "/" + day + "/" + year
-       return dateFormat
+        let year = date.getFullYear()
+        let month = '' + (date.getMonth() + 1);
+        let day = '' + date.getDate();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        let dateFormat = day + "/" + month + "/" + year
+
+        return dateFormat
    }
+
    isFilter=()=>{
        return this.state.searchDate===null ? false:true
    }
+   
    filtering=(logs, filterDate)=>{
-       return logs.filter(log => this.reformatDate(new Date(new Date(log.time_stamp).toLocaleString())) === this.reformatDate(filterDate))
+       // Debuging code 
+    //    console.log(this.reformatDate(filterDate));
+    //    logs.forEach(log => {
+    //        console.log(this.reformatDate(new Date(log.time_stamp.toLocaleString())));
+    //    })
+       return logs.filter(log => this.reformatDate(new Date(log.time_stamp.toLocaleString())) === this.reformatDate(filterDate))
    }
+
    logTable=(logs, user)=>{
        if(this.isFilter()){
            logs = this.filtering(logs, this.state.searchDate)
@@ -98,7 +100,6 @@ class AccessLogs extends Component {
     }) : <tr> <td colspan="7" className="center"> No access log available. </td></tr>)
    }
 
-
     deleteLog(log) {
         if (window.confirm("Are you sure you want to delete this log?")) {
             this.props.deleteLog(log);
@@ -107,14 +108,9 @@ class AccessLogs extends Component {
         }
     }
 
-    
-
     render() {
         
         const { logs, user } = this.props.auth;
-        
-
-        
 
         return (
             <div className="center top-padding account-details">
