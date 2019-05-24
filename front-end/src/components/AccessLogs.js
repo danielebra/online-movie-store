@@ -11,8 +11,8 @@ import M from 'materialize-css';
 
 class AccessLogs extends Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state={
             searchDate: new Date(),
         };
@@ -44,7 +44,7 @@ class AccessLogs extends Component {
        this.setState({
            searchDate: date
        })
-       console.log(this.reformatDate(this.state.searchDate))
+       
    }
    reformatDate=(date)=>{
        let year = date.getFullYear()
