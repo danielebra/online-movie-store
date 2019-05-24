@@ -47,6 +47,10 @@ class Register extends Component {
     }
   }
 
+  onChange = event => {
+    this.setState({ [event.target.name]: event.target.value })
+  }
+
   onSubmit = event => {
     event.preventDefault();
     
@@ -129,10 +133,9 @@ class Register extends Component {
                       <input
                         type="text"
                         id="first_name"
+                        name="first_name"
                         value={this.state.first_name}
-                        onChange={event =>
-                          this.setState({ first_name: event.target.value })
-                        }
+                        onChange={(event) => this.onChange(event)}
                         className="validate"
                         required
                         aria-required=""
@@ -145,10 +148,9 @@ class Register extends Component {
                       <input
                         type="text"
                         id="last_name"
+                        name="last_name"
                         value={this.state.last_name}
-                        onChange={event =>
-                          this.setState({ last_name: event.target.value })
-                        }
+                        onChange={(event) => this.onChange(event)}
                         className="validate"
                         required
                         aria-required=""
@@ -162,10 +164,9 @@ class Register extends Component {
                     <input
                       type="email"
                       id="email"
+                      name="email"
                       value={this.state.email}
-                      onChange={event =>
-                        this.setState({ email: event.target.value })
-                      }
+                      onChange={(event) => this.onChange(event)}
                       className="validate"
                       required
                       aria-required=""
@@ -178,11 +179,10 @@ class Register extends Component {
                     <div className="input-field col s6">
                       <input
                         type="text"
-                        id="mobile"
+                        id="mobile_number"
+                        name="mobile_number"
                         value={this.state.mobile_number}
-                        onChange={event =>
-                          this.setState({ mobile_number: event.target.value })
-                        }
+                        onChange={(event) => this.onChange(event)}
                         className="validate"
                         required
                         aria-required=""
@@ -194,16 +194,16 @@ class Register extends Component {
                     <div className="input-field col s6">
                       <input
                         type="date"
-                        id="dob"
-                        onChange={event =>
-                          this.setState({ date_of_birth: event.target.value })
-                        }
+                        id="date_of_birth"
+                        name="date_of_birth"
+                        value={this.state.date_of_birth}
+                        onChange={(event) => this.onChange(event)}
                         className="validate"
                         required
                         aria-required=""
                       />
                       { errors.date_of_birth ? <span className="helper-text error"> { errors.date_of_birth } </span> : null}
-                      <label htmlFor="dob">Date of Birth</label>
+                      <label className="active" htmlFor="dob">Date of Birth</label>
                     </div>
                   </div>
 
@@ -211,10 +211,9 @@ class Register extends Component {
                     <input
                       type="password"
                       id="password"
+                      name="password"
                       value={this.state.password}
-                      onChange={event =>
-                        this.setState({ password: event.target.value })
-                      }
+                      onChange={(event) => this.onChange(event)}
                       className="validate"
                     />
                     { errors.password ? <span className="helper-text error"> { errors.password } </span> : null}
@@ -224,11 +223,10 @@ class Register extends Component {
                   <div className="input-field col s12">
                     <input
                       type="password"
-                      id="password_confirm"
+                      id="passwordConfirm"
+                      name="passwordConfirm"
                       value={this.state.passwordConfirm}
-                      onChange={event =>
-                        this.setState({ passwordConfirm: event.target.value })
-                      }
+                      onChange={(event) => this.onChange(event)}
                       className="validate"
                     />
                     { errors.passwordConfirm ? <span className="helper-text error"> { errors.passwordConfirm } </span> : null}

@@ -26,8 +26,13 @@ class Login extends Component {
   }
 
   componentDidMount() {
+
     if (this.props.auth.isAuthenticated) {
         this.props.history.push('/');
+    }
+
+    if (!isEmpty(this.state.email)) {
+      document.getElementById('emailLabel').className = "active";
     }
 }
 
@@ -59,6 +64,10 @@ class Login extends Component {
     }
 
     return true;
+  }
+
+  onChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   onSubmit = event => {
@@ -101,26 +110,24 @@ class Login extends Component {
                     <input
                       type="email"
                       id="email"
+                      name="email"
                       className="validate"
                       value={this.state.email}
-                      onChange={event =>
-                        this.setState({ email: event.target.value })
-                      }
+                      onChange={event => this.onChange(event)}
                       required
                       aria-required=""
                     />
                     { errors.email ? <span className="helper-text error"> { errors.email } </span> : null}
-                    <label htmlFor="email">Email</label>
+                    <label id="emailLabel" htmlFor="email">Email</label>
                   </div>
 
                   <div className="input-field col s12">
                     <input
                       type="password"
                       id="password"
+                      name="password"
                       value={this.state.password}
-                      onChange={event =>
-                        this.setState({ password: event.target.value })
-                      }
+                      onChange={event => this.onChange(event)}
                       className="validate"
                     />
                     { errors.password ? <span className="helper-text error"> { errors.password } </span> : null}
