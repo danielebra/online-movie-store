@@ -20,7 +20,6 @@ class AddMovie extends Component {
             trailer_link: "",
             price: 0,
             maturity_rating: 0,
-            purchase_count:"",
             stock: 0,
             selectedGenreId:"",
             selectedGenreIndex: ""
@@ -47,10 +46,14 @@ class AddMovie extends Component {
             trailer_link: this.state.trailer_link,
             price: this.state.price,
             maturity_rating: this.state.maturity_rating,
-            purchase_count: this.state.purchase_count,
+            purchase_count: 0,
             stock: this.state.stock,
         }
-       this.props.addMovie(movieDetails);
+
+        let genreId = this.state.selectedGenreId;
+        console.log(movieDetails);
+
+       this.props.addMovie(movieDetails, genreId, this.props.history);
     }
   
   render() {
@@ -64,7 +67,7 @@ class AddMovie extends Component {
           <h2 className="center-align">Add Movie</h2>
           <hr></hr>
           <br></br>
-          <form>
+          <form onSubmit={this.onSubmit}>
             <ul className="flex-outer">
               <li>
                 <ul class="flex-inner">
@@ -154,7 +157,7 @@ class AddMovie extends Component {
                     type="text"
                     placeholder="Enter a URL for Trailer"
                     className="white-text" 
-                    onChange={event =>this.setState({trailer : event.target.value})}
+                    onChange={event =>this.setState({trailer_link : event.target.value})}
                   />
                 </div>
               </li>
@@ -210,7 +213,7 @@ class AddMovie extends Component {
                 <Link to="/" className="waves-effect waves-light red darken-3 btn">
                   Cancel
                 </Link>
-                <button className="waves-effect waves-light red darken-3 btn" onSubmit={this.onSubmit}>
+                <button className="waves-effect waves-light red darken-3 btn">
                   Submit
                 </button>
               </li>
