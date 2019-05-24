@@ -22,17 +22,19 @@ class AddMovie extends Component {
             maturity_rating: 0,
             purchase_count:"",
             stock: 0,
-            selectedGenreId:""
+            selectedGenreId:"",
+            selectedGenreIndex: ""
         }; 
     }
 
-    componentWillMount() {
+    componentDidMount() {
+      var elems = document.querySelectorAll('.dropdown-trigger');
+      M.Dropdown.init(elems, {});
       this.props.getMovies();
     }
 
-    getGenreId(index){
-      this.setState({selectedGenreId: index})
-      console.log(index);
+    getGenreId(id, index){
+      this.setState({selectedGenreId: id, selectedGenreIndex: index})
     }
     //Sends movie details to movieActions/addMovie
    onSubmit = event => {
@@ -52,7 +54,10 @@ class AddMovie extends Component {
     }
   
   render() {
-    console.log(this.props.movies);
+
+    const { genres } = this.props.movies;
+    const { selectedGenreId, selectedGenreIndex } = this.state;
+
     return (
       <div className="top-padding">
         <div className="container">
@@ -96,11 +101,12 @@ class AddMovie extends Component {
                       <label for="genre">
                         <font size="+1"> Movie Genre(s)</font>
                       </label>
-                      <a className= 'dropdown-trigger btn' href='#' data-target='dropdown1'> Select a Genre</a>
+                      <a className= 'dropdown-trigger btn' href='#' data-target='dropdown1'> { selectedGenreIndex === "" ? 'Select a Genre' : genres[selectedGenreIndex].name } </a>
                       <ul id="dropdown1" className='dropdown-content'>
                         {
-                          this.props.movies.genres.map(genre =>
-                          <li><a onClick={() => this.getGenreId(genre.id)} href="#!">{genre.name}</a></li>
+                          genres.map((genre, index) => {
+                            return <li onClick={() => this.getGenreId(genre.id, index)}><a href="#!">{genre.name}</a></li>
+                          }
                         )}
                       </ul>
                     </div>
@@ -162,6 +168,7 @@ class AddMovie extends Component {
                       <input
                         id="price"
                         type="number"
+                        min="0" max="1000"
                         placeholder="Movie price"
                         className="white-text" 
                         onChange={event =>this.setState({price : event.target.value})}
@@ -175,6 +182,7 @@ class AddMovie extends Component {
                       </label>
                       <input
                         id="number"
+                        min="0" max="1000"
                         placeholder="Avaliable stock"
                         className="white-text" 
                         onChange={event =>this.setState({stock : event.target.value})}
