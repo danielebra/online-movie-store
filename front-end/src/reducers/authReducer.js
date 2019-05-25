@@ -1,6 +1,6 @@
 
 // Action Types
-import { LOGIN_USER, LOGOUT_USER, CLEAR_SEARCH_USER, SEARCH_USER, UPDATE_USER, GET_ALL_USERS, CLEAR_UPDATE, GET_ALL_ACCESSLOGS } from "../actions/types";
+import { LOGIN_USER, LOGOUT_USER, CLEAR_SEARCH_USER, SEARCH_USER, UPDATE_USER, GET_ALL_USERS, CLEAR_UPDATE, GET_ALL_ACCESSLOGS, DELETE_LOG } from "../actions/types";
 
 const initialState = {
     isAuthenticated: false,
@@ -81,6 +81,11 @@ export default function (state = initialState, action) {
                 ...state,
                 logs: action.payload
             };
+        case DELETE_LOG:
+            return {
+                ...state,
+                logs: state.logs.filter(log => log.id !==action.payload.id)
+            }
 
         default:
             return state;
