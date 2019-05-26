@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ERRORS } from './types';
+import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ERRORS, GET_FEEDBACK } from './types';
 import api from "../api";
 
 // Will call this from the view later
@@ -117,16 +117,63 @@ export const clearSearchList = () => {
     }
 };
 
-export const addMovie = (movieDetails) => dispatch => {
+export const addMovie = (movieDetails, selectedGenreId) => dispatch => {
     api.post('movie/', movieDetails)
         .then(res => {
             console.log("ADDED: ", res.data)
-            dispatch(getMovies())
+            let movieId = {
+                movieDetails: res.data.id
+            }
+            console.log(movieId);
+            api.post(`movie/${movieId}/genre/`, selectedGenreId).then(res => {
+                console.log("Added genre to movie");
+                dispatch(getMovies());
+            })
+            .catch(err => {
+                console.log("Error: ", err.response.data);
+            })
         })
         .catch(error =>{
             console.log(error.response);
         })
+    
 };
+
+export const editMovie = updatedData => dispatch => {
+    api
+        .patch(`movie/${updatedData.id}/change/`, updatedData)
+        .then(res => {
+            dispatch(getMovies());
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: `${updatedData.title} details has been updated.`
+            })
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        }
+    );
+}
+
+export const deleteMovie = movie => dispatch => {
+    console.log(movie)
+    api
+        .delete(`movie/${movie.id}/delete/`)
+        .then(res => {
+            dispatch(getMovies());
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: `${movie.title} has been deleted.`
+            })
+        })
+        .catch(err => {
+            console.log(err.response.data);
+        }
+    );
+}
 
 // Set profile loading
 export const setLoading = () => {

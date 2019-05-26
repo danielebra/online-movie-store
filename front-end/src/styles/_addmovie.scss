@@ -12,11 +12,6 @@
   //   max-width: 220px;
 }
 
-.flex-outer > li > label + *,
-
-.flex-inner {
-  //   flex: 1 0 220px;
-}
 .flex-inner > li > div {
   width: 80%;
 }
@@ -25,6 +20,15 @@
 }
 .flex-inner {
   justify-content: space-between;
+}
+
+.min-width > td{
+  min-width: 70px;
+}
+
+.size-inputs{
+  width: 500px !important;
+  justify-content: space-evenly !important;
 }
 
 .btn-style{
