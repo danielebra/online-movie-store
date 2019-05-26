@@ -33,10 +33,18 @@ class UpdateMovie extends Component{
         });
       }
 
+      changeGenre(genres, value){
+        {genres.map((genre, index) => {
+            if(genre.name = value){
+                return(genre.id);
+            }
+          })
+        }
+      } 
+
       editMovie(movie) {
         
         this.props.editMovie(movie);
-
         if (!this.state.errors) {
             this.closeEditingMode();
         }
@@ -80,7 +88,7 @@ class UpdateMovie extends Component{
       }
 
       render() {
-        let { moviesList, searchList } = this.props.movies;
+        let { moviesList, searchList, genres } = this.props.movies;
         let movieList = moviesList;
         if(searchList != null){
           if(searchList.length > 0){
@@ -134,7 +142,7 @@ class UpdateMovie extends Component{
                           <th scope="col">Stock</th>
                           <th scope="col">Purchased Amount</th>
                           <th scope="col">Maturity Rating</th>
-                          <th scope="col" colspan="3"><i class="material-icons previx">settings</i></th>
+                          <th scope="col" colSpan="3"><i class="material-icons previx">settings</i></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -152,7 +160,7 @@ class UpdateMovie extends Component{
                                                         this.forceUpdate();
                                                     }
                                                 } 
-                                                className="validate"
+                                                className="validate white-text"
                                                 required
                                                 aria-required=""
                                             />
@@ -169,7 +177,7 @@ class UpdateMovie extends Component{
                                                         this.forceUpdate();
                                                     }
                                                 } 
-                                                className="validate"
+                                                className="validate white-text"
                                                 required
                                                 aria-required=""
                                             />
@@ -186,7 +194,7 @@ class UpdateMovie extends Component{
                                                         this.forceUpdate();
                                                     }
                                                 } 
-                                                className="validate"
+                                                className="validate white-text"
                                                 required
                                                 aria-required=""
                                             />
@@ -196,14 +204,14 @@ class UpdateMovie extends Component{
                                     <td>
                                         <div className="input-field">
                                             <input 
-                                                type="email" 
+                                                type="genre" 
                                                 value={movie.genre}
                                                 onChange={event => {
-                                                  movieList[index].genre = event.target.value;
-                                                        this.forceUpdate();
-                                                    }
+                                                  movieList[index].genre = this.changeGenre(genres, event.target.value);
+                                                  this.forceUpdate();
+                                                  }
                                                 } 
-                                                className="validate"
+                                                className="validate white-text"
                                                 required
                                                 aria-required=""
                                             />
@@ -220,7 +228,7 @@ class UpdateMovie extends Component{
                                                     this.forceUpdate();
                                                   }
                                                 } 
-                                                className="validate"
+                                                className="validate white-text"
                                                 required
                                                 aria-required=""
                                             />
@@ -237,7 +245,7 @@ class UpdateMovie extends Component{
                                                     this.forceUpdate();
                                                   }
                                                 } 
-                                                className="validate"
+                                                className="validate white-text"
                                                 required
                                                 aria-required=""
                                             />
@@ -254,7 +262,7 @@ class UpdateMovie extends Component{
                                                     this.forceUpdate();
                                                   }
                                                 } 
-                                                className="validate"
+                                                className="validate white-text"
                                                 required
                                                 aria-required=""
                                             />
@@ -292,12 +300,14 @@ class UpdateMovie extends Component{
                                         </div>
                                       </td>
                                      <td>
-                                       
+                                       <div className="size-inputs">
                                         {movie.thumbnail}
-                                       
+                                       </div>
                                      </td>
                                      <td>
-                                       {movie.trailer_link}
+                                       <div width="30px">
+                                          {movie.trailer_link}
+                                        </div>
                                      </td>
                                      <td>
                                        {movie.price}
@@ -322,7 +332,7 @@ class UpdateMovie extends Component{
                           )
                             }   
                           ): <tr> <td colspan="7" className="center"> No movies available. </td></tr>}
-                        } 
+                         
                         
                       </tbody>
                     </table> 

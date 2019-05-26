@@ -90,6 +90,7 @@ export const addReview = (movieId, review) => dispatch => {
    
 };
 
+
 export const searchMovies = query => dispatch => {
     dispatch(setLoading());
     dispatch({
