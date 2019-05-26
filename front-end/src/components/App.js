@@ -30,6 +30,7 @@ import OrderSuccess from './OrderSuccess';
 import UserOrders from './UserOrders';
 import Payment from './Payment';
 import AddMovie from './AddMovie';
+import AddSuccess from './AddSuccess';
 import UpdateMovie from './UpdateMovie';
 import AccountDetails from './Edit/AccountDetails';
 import UserManagement from './Admin/UserManagement';
@@ -62,6 +63,7 @@ class App extends Component {
             <PrivateRoute exact path="/orders" component={UserOrders}/>
             <PrivateRoute exact path="/order/:id" component={PlaceOrder}/>
             <PrivateRoute exact path="/add_movie" component={AddMovie}/>
+            <PrivateRoute exact path="/add_success" component={AddSuccess}/>
             <PrivateRoute exact path="/update_movie" component={UpdateMovie}/>
             <PrivateRoute exact path="/access_logs" component={AccessLogs}/>
             <PrivateRoute exact path="/user_management" component={UserManagement}/>

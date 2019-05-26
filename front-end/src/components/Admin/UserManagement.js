@@ -82,12 +82,12 @@ class UserManagement extends Component {
             const { user, users, userSearchList } = nextProps.auth;
             let usersToDisplay;
             let isEditing;
-
+            
             if (userSearchList.length == 0)
                 usersToDisplay = users.filter(u => u.email !== user.email);
             else
                 usersToDisplay = userSearchList.filter(u => u.email !== user.email);
-
+            
             isEditing = new Array(usersToDisplay.length).fill(false);
             this.setState({ users: usersToDisplay, isEditing, usersCount: usersToDisplay.length });
         }

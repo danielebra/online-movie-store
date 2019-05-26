@@ -1,230 +1,355 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
-import { getMovies, getMovieById } from "../actions/movieActions";
-import Loading from "../components/Templates/loading";
+import { getMovies, searchMovies, editMovie, deleteMovie } from '../actions/movieActions';
+import Loading from '../components/Templates/loading';
 import M from "materialize-css";
-import Info from "./UIElements/Info";
 
-class UpdateMovie extends Component {
-  componentWillMount() {
-    this.props.getMovies();
+class UpdateMovie extends Component{
+  constructor(props){
+    super(props)
+    this.state={
+        moviesCount :0,
+        isEditing: [],
+        search:''
+    }; 
   }
-
-  componentDidMount() {
-    M.AutoInit();
-  }
-
-  /*componentWillReceiveProps(nextProps){
-        if(nextProps.movies){
-          const {movies} = nextProps;
-          let allMovies = new Array(movies.length).fill(false);
-          this.setState({ movies, allMovies });
-          console.log("Movies are ", movies);
-          console.log("Array length is", allMovies);
-        }
-      }*/
-
-  getMovieList() {
-    let {
-      collections,
-      searchList,
-      loading,
-      wishList,
-      moviesList
-    } = this.props.movies;
-  }
-  //console.log(this.props.movies);
-
-  onSubmit() {}
-
-  render() {
-    let { collections, searchList, loading } = this.props.movies;
-    let pageContent;
-
-    if (loading) {
-      pageContent = <Loading />;
-    } else if (!loading && collections == null) {
-      pageContent = <p className="center"> No movies available.</p>;
-    } else {
-      if (searchList != null) {
-        if (searchList.length > 0) {
-          collections = searchList;
-        }
+  
+    componentWillMount() {
+      this.props.getMovies();
       }
+
+      setMovie(index){
+        console.log(this.moviesList[index])
+        this.setState({selectedMovie: index})
+      }
+
+      search = event => {
+        event.preventDefault();
+    
+        this.setState({ search: event.target.value}, () => {
+          let query = this.state.search;
+          this.props.searchMovies(query);
+        });
+      }
+
+      editMovie(movie) {
+        
+        this.props.editMovie(movie);
+
+        if (!this.state.errors) {
+            this.closeEditingMode();
+        }
+
     }
-    return (
-      <div className="top-padding">
-        <div id="movieDetails">
-          <div className="container">
-            <div className="row details">
-              <h1 className="center-align"> Update/Remove Movie </h1>
-              <div className="movieList">
-                <select>
-                  <option value="Error">
-                    {" "}
-                    Select Movie to view or change{" "}
-                  </option>
-                  <option value="1"> Option 1 </option>
-                  <option value="2"> Option 2 </option>
-                </select>
+      deleteMovie(movie) {
+        if (window.confirm("Are you sure you want to delete this movie?")) {
+            this.props.deleteMovie(movie);
+            
+            if (this.state.search.length > 0) {
+                setTimeout(() => {
+                    const { moviesList } = this.props.movies;
+
+                    let isEditing = new Array(moviesList.length).fill(false);
+                    
+                    this.setState({isEditing});
+                }, 300);
+            }
+        }
+    }
+
+      switchToEditingMode(listLength, index) {
+
+        // we create a new array so that there wont be more than one user on editing mode at the same time
+        let arr = new Array(listLength).fill(false);
+        arr[index] = true; 
+
+        this.state.isEditing = arr;
+        this.forceUpdate()
+    }
+    
+    // called when the exit button is pressed, returns to view mode
+    closeEditingMode(listLength) {
+        //this.props.clearFeedback();
+        
+        let arr = new Array(listLength).fill(false);
+        this.state.isEditing = arr;
+        this.forceUpdate()
+    }
+      onSubmit(){
+      }
+
+      render() {
+        let { moviesList, searchList } = this.props.movies;
+        let movieList = moviesList;
+        if(searchList != null){
+          if(searchList.length > 0){
+            movieList = searchList
+            console.log(movieList);
+          }
+        }  
+        let isEditing = this.state.isEditing
+        
+        if(movieList != null){
+          return(
+            <div className="top-padding">
+              <div id="movieDetails">
+                <div className="container">
+                  <div className="row details">
+                    <h1 className="center-align"> Update/Remove Movie </h1>
+                   
+                  </div>
+                  <div className="row center">
+                      <div className="col s12">
+                          <nav className="search-users">
+                              <div className="nav-wrapper">
+                                  <form id="search-form">
+                                      <div className="input-field">
+                                          <input id="search" type="search" onChange={this.search}/>
+                                          <label className="label-icon" htmlFor="search">
+                                              <i className="material-icons">search</i>
+                                          </label>
+                                      </div>
+                                  </form>
+                              </div>
+                          </nav>
+                      </div>
+                  </div>
+                            
+                  <h3> Movie Details</h3>
+                  <form className="col 10" onSubmit={this.onSubmit}>
+
+            
+                    <table className="table bordered highlight centered responsive-table management-table">
+                      <thead>
+                        <tr>
+                          <th scope="col">ID</th>
+                          <th scope="col">Title</th>
+                          <th scope="col">Year</th>
+                          <th scope="col">Genre</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Thumbnail URL</th>
+                          <th scope="col">Trailer Link</th>
+                          <th scope="col">Price</th>
+                          <th scope="col">Stock</th>
+                          <th scope="col">Purchased Amount</th>
+                          <th scope="col">Maturity Rating</th>
+                          <th scope="col" colspan="3"><i class="material-icons previx">settings</i></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        { movieList.length > 0 ? movieList.map((movie, index) => {
+                            return (
+                              isEditing[index] ? (
+                                <tr>
+                                    <td>
+                                        <div className="input-field">
+                                            <input 
+                                                type="text" 
+                                                value={movie.id}
+                                                onChange={event => {
+                                                        movieList[index].id = event.target.value;
+                                                        this.forceUpdate();
+                                                    }
+                                                } 
+                                                className="validate"
+                                                required
+                                                aria-required=""
+                                            />
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div className="input-field">
+                                            <input 
+                                                type="text" 
+                                                value={movie.title}
+                                                onChange={event => {
+                                                        movieList[index].title = event.target.value;
+                                                        this.forceUpdate();
+                                                    }
+                                                } 
+                                                className="validate"
+                                                required
+                                                aria-required=""
+                                            />
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div className="input-field">
+                                            <input 
+                                                type="text" 
+                                                value={movie.year}
+                                                onChange={event => {
+                                                      movieList[index].year = event.target.value;
+                                                        this.forceUpdate();
+                                                    }
+                                                } 
+                                                className="validate"
+                                                required
+                                                aria-required=""
+                                            />
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div className="input-field">
+                                            <input 
+                                                type="email" 
+                                                value={movie.genre}
+                                                onChange={event => {
+                                                  movieList[index].genre = event.target.value;
+                                                        this.forceUpdate();
+                                                    }
+                                                } 
+                                                className="validate"
+                                                required
+                                                aria-required=""
+                                            />
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div className="input-field">
+                                            <input 
+                                                type="text" 
+                                                value={movie.description}
+                                                onChange={event => {
+                                                    movieList[index].description = event.target.value;
+                                                    this.forceUpdate();
+                                                  }
+                                                } 
+                                                className="validate"
+                                                required
+                                                aria-required=""
+                                            />
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div className="input-field">
+                                            <input 
+                                                type="text" 
+                                                value={movie.thumbnail}
+                                                onChange={event => {
+                                                    movieList[index].thumbnail = event.target.value;
+                                                    this.forceUpdate();
+                                                  }
+                                                } 
+                                                className="validate"
+                                                required
+                                                aria-required=""
+                                            />
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div className="input-field">
+                                            <input 
+                                                type="text" 
+                                                value={movie.trailer_link}
+                                                onChange={event => {
+                                                    movieList[index].trailer_link = event.target.value;
+                                                    this.forceUpdate();
+                                                  }
+                                                } 
+                                                className="validate"
+                                                required
+                                                aria-required=""
+                                            />
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <i onClick={() => this.editMovie(movieList[index])} className="material-icons pointer">save</i>
+                                    </td>
+
+                                    <td>
+                                        <i onClick={() => this.closeEditingMode(movieList.length)} className="material-icons pointer">close</i>
+                                    </td>
+
+                                </tr>
+
+                            ) : (
+                                    <tr className="min-width">
+                                      <td>
+                                        {movie.id}
+                                      </td>
+                                      <td>
+                                       {movie.title}
+                                     </td>
+                                     <td>
+                                       {movie.year}
+                                     </td>
+                                     <td>
+                                       {movie.genre}
+                                     </td>
+                                     
+                                      <td>
+                                      <div className="size-inputs">
+                                        {movie.description}
+                                        </div>
+                                      </td>
+                                     <td>
+                                       
+                                        {movie.thumbnail}
+                                       
+                                     </td>
+                                     <td>
+                                       {movie.trailer_link}
+                                     </td>
+                                     <td>
+                                       {movie.price}
+                                     </td>
+                                     <td>
+                                       {movie.stock}
+                                     </td>
+                                     <td>
+                                       0
+                                     </td>
+                                     <td>
+                                       {movie.maturity_rating}
+                                     </td>
+                                     <td>
+                                      <i onClick={() => this.switchToEditingMode(movieList.length, index)} className="material-icons pointer">edit</i>
+                                    </td>
+                                    <td>
+                                        <i onClick={() => this.deleteMovie(movie)} className="material-icons pointer">delete</i>
+                                    </td>
+                                    </tr>
+                            )
+                          )
+                            }   
+                          ): <tr> <td colspan="7" className="center"> No movies available. </td></tr>}
+                        } 
+                        
+                      </tbody>
+                    </table> 
+                  </form>
+                </div>
               </div>
             </div>
-            <hr />
-            <h3> Movie Details</h3>
-            <form className="col 10" onSubmit={this.onSubmit}>
-              <div className="row">
-                <div className="col s4">
-                  <label htmlFor="title">
-                    <font size="+1"> Movie Title </font>
-                  </label>
-                  <input
-                    id="title"
-                    type="text"
-                    placeholder="Movie Title"
-                    className="white-text"
-                    onChange={event =>
-                      this.setState({ title: event.target.value })
-                    }
-                  />
-                </div>
-
-                <div className="col s4 offset-s2">
-                  <label htmlFor="year">
-                    {" "}
-                    <font size="+1">Year</font>
-                  </label>
-                  <input
-                    id="year"
-                    type="text"
-                    placeholder="Movie Year"
-                    className="white-text"
-                    onChange={event =>
-                      this.setState({ year: event.target.value })
-                    }
-                  />
+          )
+      }
+      else{
+        return(
+          <div className="top-padding">
+            <div id="movieDetails">
+              <div className="container">
+                <div className="row details">
+                  <h1 className="center-align"> Update/Remove Movie </h1>
                 </div>
               </div>
-              <div className="row">
-                <div className="col s12">
-                  <label htmlFor="description">
-                    {" "}
-                    <font size="+1">Description</font>
-                  </label>
-                  <textarea
-                    id="description"
-                    type="text"
-                    placeholder="Movie Description"
-                    rows="6"
-                    style={{ height: "100%", resize: "none" }}
-                    className="white-text"
-                    onChange={event =>
-                      this.setState({ year: event.target.value })
-                    }
-                  />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col s4">
-                  <label htmlFor="thumbnail">
-                    {" "}
-                    <font size="+1">Thumbnail URL</font>
-                  </label>
-                  <input
-                    id="thumbnail"
-                    type="text"
-                    placeholder="Movie Thumbnail URL"
-                    className="white-text"
-                    onChange={event =>
-                      this.setState({ year: event.target.value })
-                    }
-                  />
-                </div>
-                <div className="col s4 offset-s2">
-                  <label htmlFor="trailer">
-                    {" "}
-                    <font size="+1">Trailer URL </font>
-                  </label>
-                  <input
-                    id="trailer"
-                    type="text"
-                    placeholder="Movie Trailer URL"
-                    className="white-text"
-                    onChange={event =>
-                      this.setState({ year: event.target.value })
-                    }
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col s3">
-                  <label htmlFor="price">
-                    <font size="+1">Movie Price</font>
-                  </label>
-                  <input
-                    id="price"
-                    type="text"
-                    placeholder="Movie Price"
-                    className="white-text"
-                    onChange={event =>
-                      this.setState({ price: event.target.value })
-                    }
-                  />
-                </div>
-                <div className="col s3 offset-s1">
-                  <label htmlFor="stock">
-                    <font size="+1">Movie Stock</font>
-                  </label>
-                  <input
-                    id="stock"
-                    type="text"
-                    placeholder="Avaliable Stock"
-                    className="white-text"
-                    onChange={event =>
-                      this.setState({ stock: event.target.value })
-                    }
-                  />
-                </div>
-                <div className="col s4 offset-s1">
-                  <label htmlFor="maturity">
-                    <font size="+1">Maturity Rating</font>
-                  </label>
-                  <input
-                    id="maturity"
-                    type="text"
-                    placeholder="Maturity Rating"
-                    onChange={event =>
-                      this.setState({ maturity_rating: event.target.value })
-                    }
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col s12 center-align">
-                  <button
-                    className="waves-effect waves-light red darken-3 btn"
-                    type="submit"
-                    id="update_movies-btn"
-                  >
-                    Save Changes
-                  </button>
-                </div>
-              </div>
-            </form>
+            </div>
           </div>
-        </div>
-      </div>
-    );
-  }
+        )
+      }
+    }
 }
 
 const mapStateToProps = state => ({
-  movies: state.movies
-});
-
-export default connect(
-  mapStateToProps,
-  { getMovies, getMovieById }
-)(UpdateMovie);
+    movies: state.movies
+  });
+  
+  export default connect(mapStateToProps, { getMovies, searchMovies, editMovie, deleteMovie })(UpdateMovie);

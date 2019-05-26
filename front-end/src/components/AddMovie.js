@@ -35,6 +35,8 @@ class AddMovie extends Component {
     getGenreId(id, index){
       this.setState({selectedGenreId: id, selectedGenreIndex: index})
     }
+
+
     //Sends movie details to movieActions/addMovie
    onSubmit = event => {
         event.preventDefault();
@@ -70,10 +72,10 @@ class AddMovie extends Component {
           <form onSubmit={this.onSubmit}>
             <ul className="flex-outer">
               <li>
-                <ul class="flex-inner">
+                <ul className="flex-inner">
                   <li >
                     <div>
-                      <label for="title">
+                      <label htmlFor="title">
                         <font size="+1">Movie Title</font>
                       </label>
                       <input
@@ -87,7 +89,7 @@ class AddMovie extends Component {
                   </li>
                   <li>
                     <div>
-                      <label for="year">
+                      <label htmlFor="year">
                         <font size="+1">Movie Year</font>
                       </label>
                       <input
@@ -101,8 +103,8 @@ class AddMovie extends Component {
                   </li>
                   <li> 
                     <div>
-                      <label for="genre">
-                        <font size="+1"> Movie Genre(s)</font>
+                      <label htmlFor="genre">
+                        <font size="+1">Genre</font>
                       </label>
                       <a className= 'dropdown-trigger btn' href='#' data-target='dropdown1'> { selectedGenreIndex === "" ? 'Select a Genre' : genres[selectedGenreIndex].name } </a>
                       <ul id="dropdown1" className='dropdown-content'>
@@ -118,7 +120,7 @@ class AddMovie extends Component {
               </li>
               <li style={{ height: 150 }}>
                 <div style={{ width: "100%" }}>
-                  <label for="description">
+                  <label htmlFor="description">
                     <font size="+1">Description</font>
                   </label>
                   <textarea
@@ -135,7 +137,7 @@ class AddMovie extends Component {
               </li>
               <li>
                 <div>
-                  <label for="thumbnail">
+                  <label htmlFor="thumbnail">
                     <font size="+1">Thumbnail URL</font>
                   </label>
                   <input
@@ -149,7 +151,7 @@ class AddMovie extends Component {
               </li>
               <li>
                 <div>
-                  <label for="trailer">
+                  <label htmlFor="trailer">
                     <font size="+1">Trailer URL</font>
                   </label>
                   <input
@@ -165,7 +167,7 @@ class AddMovie extends Component {
                 <ul class="flex-inner">
                   <li>
                     <div>
-                      <label for="price">
+                      <label htmlFor="price">
                         <font size="+1">Movie Price</font>
                       </label>
                       <input
@@ -180,7 +182,7 @@ class AddMovie extends Component {
                   </li>
                   <li>
                     <div>
-                      <label for="stock">
+                      <label htmlFor="stock">
                         <font size="+1">Movie Stock</font>
                       </label>
                       <input
@@ -195,7 +197,7 @@ class AddMovie extends Component {
 
                   <li>
                     <div>
-                      <label for="maturity">
+                      <label htmlFor="maturity">
                         <font size="+1">Maturity Rating</font>
                       </label>
                       <input
