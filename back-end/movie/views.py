@@ -177,6 +177,13 @@ class MoviePopulator(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(methods=['get'], detail=True)
+    def genres(self, request, pk=None):
+        genres = MovieGenre.objects.all().filter(movie=pk).values()
+        if not genres:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(genres, status=status.HTTP_200_OK)
+
 
 class LogView(viewsets.ModelViewSet):
     queryset = LogModel.objects.all()
