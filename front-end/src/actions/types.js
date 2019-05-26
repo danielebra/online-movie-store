@@ -1,7 +1,7 @@
 export const GET_MOVIES = 'GET_MOVIES' 
 export const GET_MOVIE = 'GET_MOVIE';
 export const NO_MOVIES_FOUND = 'NO_MOVIES_FOUND'
-
+export const GET_ORDER = 'GET_ORDER'
 export const ADD_REVIEW = 'ADD_REVIEW'
 
 export const SEARCH_MOVIES = 'SEARCH_MOVIES';

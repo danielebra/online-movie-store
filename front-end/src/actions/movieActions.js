@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ERRORS, GET_FEEDBACK } from './types';
+import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ERRORS, GET_FEEDBACK, GET_ORDER } from './types';
 import api from "../api";
 
 // Will call this from the view later
@@ -163,6 +163,8 @@ export const editMovie = updatedData => dispatch => {
     );
 }
 
+
+
 export const deleteMovie = movie => dispatch => {
     console.log(movie)
     api
@@ -179,6 +181,8 @@ export const deleteMovie = movie => dispatch => {
         }
     );
 }
+
+
 
 // Set profile loading
 export const setLoading = () => {

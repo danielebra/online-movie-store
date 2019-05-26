@@ -4,6 +4,11 @@ import success from '../images/success.png';
 
 class OrderSuccess extends Component {
 
+
+    
+
+    
+
     render(){
         return(
             <div className="top-padding">
