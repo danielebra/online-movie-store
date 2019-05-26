@@ -25,6 +25,11 @@ class ReviewView(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
 
 
+class MovieGenreView(viewsets.ModelViewSet):
+    queryset = MovieGenre.objects.all()
+    serializer_class = MovieGenreSerializer
+
+
 class User(viewsets.ModelViewSet):
     queryset = UserModel.objects.all()
     serializer_class = UsersSerializer
@@ -171,6 +176,13 @@ class MoviePopulator(viewsets.ModelViewSet):
             return Response({"status": 'movie updated'})
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['get'], detail=True)
+    def genres(self, request, pk=None):
+        genres = MovieGenre.objects.all().filter(movie=pk).values()
+        if not genres:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(genres, status=status.HTTP_200_OK)
 
 
 class LogView(viewsets.ModelViewSet):

@@ -10,6 +10,7 @@ router = routers.DefaultRouter()
 router.register('api/user', views.User)  # returns all users
 router.register('api/genre', views.Genre)
 router.register('api/movie', views.MoviePopulator)
+router.register('api/movie_genre', views.MovieGenreView)
 router.register('api/review', views.ReviewView)
 router.register('api/order', views.OrderView)
 router.register('api/logs', views.LogView)
