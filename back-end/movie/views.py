@@ -25,6 +25,11 @@ class ReviewView(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
 
 
+class MovieGenreView(viewsets.ModelViewSet):
+    queryset = MovieGenre.objects.all()
+    serializer_class = MovieGenreSerializer
+
+
 class User(viewsets.ModelViewSet):
     queryset = UserModel.objects.all()
     serializer_class = UsersSerializer
