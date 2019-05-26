@@ -66,7 +66,6 @@ class App extends Component {
             <PrivateRoute exact path="/add_success" component={AddSuccess}/>
             <PrivateRoute exact path="/update_movie" component={UpdateMovie}/>
             <PrivateRoute exact path="/access_logs" component={AccessLogs}/>
-
             <PrivateRoute exact path="/user_management" component={UserManagement}/>
             <PrivateRoute exact path="/account_details" component={AccountDetails}/>
           </div>

@@ -117,24 +117,29 @@ export const clearSearchList = () => {
     }
 };
 
-export const addMovie = (movieDetails, selectedGenreId) => dispatch => {
+export const addMovie = (movieDetails, genreId, history) => dispatch => {
     api.post('movie/', movieDetails)
         .then(res => {
-            console.log("ADDED: ", res.data)
-            let movieId = {
-                movieDetails: res.data.id
+
+            let movie = res.data;
+            console.log("ADDED: ", movie);
+
+            let data = {
+                genre: genreId
             }
-            console.log(movieId);
-            api.post(`movie/${movieId}/genre/`, selectedGenreId).then(res => {
-                console.log("Added genre to movie");
-                dispatch(getMovies());
-            })
-            .catch(err => {
-                console.log("Error: ", err.response.data);
-            })
+            // Make a call to add_genre passing movie id and genre id
+            api.post(`/movie/${movie.id}/add_genre/`, data)
+                .then(res => {
+                    console.log(res.data);
+                    history.push('/')
+                })
+                
+                .catch(error => {
+                    console.log(error.response.data);
+                })
         })
         .catch(error =>{
-            console.log(error.response);
+            console.log(error.response.data);
         })
     
 };

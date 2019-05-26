@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import { getAllAccessLogs } from '../actions/authActions';
+import { getAllAccessLogs, deleteLog } from '../actions/authActions';
 import update from 'react-addons-update';
 import _ from 'underscore';
 import DatePicker from 'react-datepicker';
@@ -14,12 +14,9 @@ class AccessLogs extends Component {
     constructor() {
         super();
         this.state={
-            searchDate: new Date()
+            searchDate: new Date(),
         };
-
-        
     }
-
     
     componentWillMount() {
         this.props.getAllAccessLogs();
@@ -28,32 +25,42 @@ class AccessLogs extends Component {
     componentDidMount() {
         var elems = document.querySelectorAll('.modal');
         M.Modal.init(elems, {});
-    }
-
-    // Called when the component receives props
-    componentWillReceiveProps(nextProps) {
-
+        console.log(this.state.logs)
     }
 
    handleChange=(date)=>{
        this.setState({
            searchDate: date
        })
-       console.log(this.reformatDate(this.state.searchDate))
+       
    }
+
    reformatDate=(date)=>{
-       let year = date.getFullYear()
-       let month = date.getMonth()
-       let day = date.getDate()
-       let dateFormat = month + "/" + day + "/" + year
-       return dateFormat
+        let year = date.getFullYear()
+        let month = '' + (date.getMonth() + 1);
+        let day = '' + date.getDate();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        let dateFormat = day + "/" + month + "/" + year
+
+        return dateFormat
    }
+
    isFilter=()=>{
        return this.state.searchDate===null ? false:true
    }
+   
    filtering=(logs, filterDate)=>{
-       return logs.filter(log => this.reformatDate(new Date(new Date(log.time_stamp).toLocaleString())) === this.reformatDate(filterDate))
+       // Debuging code 
+    //    console.log(this.reformatDate(filterDate));
+    //    logs.forEach(log => {
+    //        console.log(this.reformatDate(new Date(log.time_stamp.toLocaleString())));
+    //    })
+       return logs.filter(log => this.reformatDate(new Date(log.time_stamp.toLocaleString())) === this.reformatDate(filterDate))
    }
+
    logTable=(logs, user)=>{
        if(this.isFilter()){
            logs = this.filtering(logs, this.state.searchDate)
@@ -63,9 +70,6 @@ class AccessLogs extends Component {
         return (
             (
                <tr>
-                   <td>
-                       {log.id}
-                   </td>
                    <td>
                        {user.id}
                    </td>
@@ -87,7 +91,7 @@ class AccessLogs extends Component {
                        {logTime}
                    </td>
                    <td>
-                       <i  className="material-icons ">delete</i>
+                       <i  onClick={() => this.deleteLog(log)} className="material-icons pointer">delete</i>
                    </td>
 
                </tr>
@@ -96,18 +100,17 @@ class AccessLogs extends Component {
     }) : <tr> <td colspan="7" className="center"> No access log available. </td></tr>)
    }
 
-
-    deleteLog(index) {
-        
+    deleteLog(log) {
+        if (window.confirm("Are you sure you want to delete this log?")) {
+            this.props.deleteLog(log);
+            
+            console.log(this.state)
+        }
     }
 
-    
-
     render() {
+        
         const { logs, user } = this.props.auth;
-        const { searchDate } =this.state;
-
-        console.log(this.props.auth)
 
         return (
             <div className="center top-padding account-details">
@@ -120,13 +123,13 @@ class AccessLogs extends Component {
                             placeholderText="Click to select a date"
                             selected={this.state.searchDate}
                             onChange={this.handleChange}
+                            dateFormat="dd/MM/yyyy"
                             />
                             
                             <form noValidate>
                                 <table className="table bordered highlight centered responsive-table management-table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Log ID</th>
                                             <th scope="col">User ID</th>
                                             <th scope="col">First Name</th>
                                             <th scope="col">Last Name</th>
@@ -153,4 +156,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, { getAllAccessLogs })(AccessLogs);
+export default connect(mapStateToProps, { getAllAccessLogs, deleteLog })(AccessLogs);
