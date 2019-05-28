@@ -26,6 +26,7 @@ class Movie extends Component {
   }
 
   componentWillMount() {
+    console.log("inside moovie.js");
     if (this.props.match.params.id) {
       this.props.getMovieById(this.props.match.params.id);
     }

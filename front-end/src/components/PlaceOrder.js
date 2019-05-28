@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import { getMovieById } from '../actions/movieActions';
+import { getMovieById, addOrder} from '../actions/movieActions';
 
 import Loading from '../components/Templates/loading';
 import M from "materialize-css";
@@ -13,11 +13,7 @@ class  PlaceOrder extends Component {
     super();
 
     this.state = {
-      orderID: 1000000,
-      date: "10-05-2019",
       quantity: 1,
-      shippingAddress: "",
-      shippingFee: 9,
       totalPrice: 0
     }
   }
@@ -43,14 +39,29 @@ class  PlaceOrder extends Component {
       this.setState({quantity: this.state.quantity-1,  totalPrice: (this.state.quantity-1)*this.props.movies.movie.price+this.state.shippingFee})
     }
   }
+  
+  makeOrder=() => {
+    let order = {
+      quantity: this.state.quantity,
+      discount_modifier: 0,
+      total_cost: this.state.totalPrice,
+      order_type: 't',
+      user: this.props.auth.user.id,
+      movie: this.props.movies.movie.id
+    }
+    this.props.addOrder(order)
+
+
+  }
+
+
 
     render(){
         const { shippingFee, totalPrice } = this.state;
         const { movie, loading } = this.props.movies; // we grab the movie object and loading from movies state
         let content; // display different content depedning when the page is loading
-
-        console.log(movie);
-
+ 
+        console.log(this.props.movies);
         if (movie == null || loading) { // display loading while its fetching
           content = <Loading/>
 
@@ -94,7 +105,7 @@ class  PlaceOrder extends Component {
               <div className="col s4">
               </div>
               <div className="col s4">
-              <Link to="/order_success"><button className="waves-effect waves-light red darken-3 btn tooltipped" data-position="buttom" data-tooltip="Place this Order">Place</button></Link>
+              <Link to="/order_success"><button onClick = {this.makeOrder} className="waves-effect waves-light red darken-3 btn tooltipped" data-position="buttom" data-tooltip="Place this Order">Place</button></Link>
               </div>
             </div>
           </div>
@@ -114,7 +125,8 @@ class  PlaceOrder extends Component {
 
   // we map redux movies state to props so we can access it via this.props.movies
 const mapStateToProps = state => ({
-  movies: state.movies
+  movies: state.movies,
+  auth: state.auth
 });
 
-export default connect(mapStateToProps, { getMovieById })(PlaceOrder);
+export default connect(mapStateToProps, { getMovieById, addOrder})(PlaceOrder);

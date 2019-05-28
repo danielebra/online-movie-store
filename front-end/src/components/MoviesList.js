@@ -18,6 +18,8 @@ class MoviesList extends Component {
   }
 
   componentWillMount() {
+    console.log("called in Movies List ");
+    
     this.props.getMovies();
 
     if (window.location.pathname == '/wishlist')

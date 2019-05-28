@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, ADD_REVIEW, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE } from '../actions/types';
+import { GET_MOVIES, GET_MOVIE, ADD_REVIEW, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ORDER, GET_ALL_ORDER } from '../actions/types';
 
 /* The movies state contains the following:
     - collections: an array  containing a genre and a list of movies in that genre
@@ -14,7 +14,8 @@ const initialState = {
     moviesList: null,
     loading: true,
     wishList: [],
-    genres: []
+    genres: [],
+    orders:[]
 };
 
 // The state parameter is the movies state that comes from the store
@@ -29,7 +30,7 @@ export default function (state = initialState, action) {
 
         case GET_MOVIES:
             let data = null;
-
+            console.log("inside actiontype moviereducer");
             if (action.payload.collections.length > 0)
                 data = action.payload.collections;
             
@@ -44,10 +45,22 @@ export default function (state = initialState, action) {
             };
 
         case GET_MOVIE:
+        console.log("inside actiontype moviereducer");
+        
             return {
                 ...state,
                 movie: action.payload,
                 loading: false
+            };
+
+        case GET_ORDER:
+            console.log("get order map reducer");
+            console.log(action.payload);
+
+            return {
+            ...state,
+            orders: action.payload,
+            loading: false
             };
 
         case ADD_REVIEW:
@@ -132,6 +145,7 @@ export default function (state = initialState, action) {
                 movie: null,
                 loading: false
             }
+        
 
         default:
             return state;
