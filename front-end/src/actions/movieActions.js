@@ -207,9 +207,17 @@ export const addOrder = order  => dispatch =>{
             payload: err.response.data
         })
     )
-
 }
-//export cost deteleOrder = 
+export const deleteOrder = order => dispatch => {
+    api
+    .delete(`order/${order.id}/`)
+    .catch(err =>
+        dispatch({
+            type: DELETE_ORDER,
+            payload: err.response.data
+        }))
+}
+
 
 
 
