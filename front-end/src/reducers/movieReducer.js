@@ -30,7 +30,6 @@ export default function (state = initialState, action) {
 
         case GET_MOVIES:
             let data = null;
-            console.log("inside actiontype moviereducer");
             if (action.payload.collections.length > 0)
                 data = action.payload.collections;
             
@@ -45,8 +44,6 @@ export default function (state = initialState, action) {
             };
 
         case GET_MOVIE:
-        console.log("inside actiontype moviereducer");
-        
             return {
                 ...state,
                 movie: action.payload,

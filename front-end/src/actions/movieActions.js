@@ -4,7 +4,6 @@ import api from "../api";
 // Will call this from the view later
 export const getMovies = () => dispatch => {
     dispatch(setLoading());
-    console.log("in movideaction");
     // Here we make an API call or whatever that you need to do
     api.get("movie/").then(res =>  {
         let movies = res.data;
@@ -46,7 +45,6 @@ export const getMovies = () => dispatch => {
 // Get profile by handle
 export const getMovieById = id => dispatch => {
     dispatch(setLoading());
-    console.log("inside actiontype moviesid");    
     api.get("movie/").then(res =>  {
 
         let movie = res.data.filter(movie => movie.id == id);

@@ -18,12 +18,10 @@ class MoviesList extends Component {
   }
 
   componentWillMount() {
-    console.log("called in Movies List ");
-    
     this.props.getMovies();
-
-    if (window.location.pathname == '/wishlist')
+    if (window.location.pathname == '/wishlist') {
       this.setState({ wishListActive: true });
+    }
   }
 
   render() {
@@ -32,8 +30,7 @@ class MoviesList extends Component {
     let { user } = this.props.auth;
     let { wishListActive } = this.state;
     let pageContent;
-    console.log(this.props.movies);
-    
+
     if (loading) {
       pageContent = <Loading/>
 
@@ -50,8 +47,10 @@ class MoviesList extends Component {
         }
       }
       
-      if ((wishListActive || moviesList) && collections == null) {
+      if (wishListActive || (moviesList && collections == null)) {
         let wishListTitle = `${user.first_name}'s Wish List`;
+        console.log(wishListActive);
+        console.log(wishList);
 
         pageContent = (
           <div className="col s12 category">
