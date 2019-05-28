@@ -76,6 +76,11 @@ class MovieOrderSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    movie_title = serializers.SerializerMethodField()
+
     class Meta:
         model = Order
         fields = '__all__'
+
+    def get_movie_title(self, obj):
+        return obj.movie.title
