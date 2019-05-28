@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { getOrders, getMovieById} from '../actions/movieActions';
 import api from '../api';
+import DatePicker from 'react-datepicker';
 
 import OrderCard from "./UIElements/OrderCard"
 
@@ -16,40 +17,61 @@ import Trailer from "./UIElements/Trailer";
 class UserOrders extends Component{
     constructor() {
         super();
+        this.state={
+            searchDate: new Date()
+        }; 
+    }
+    
+    componentWillMount() {
+        this.props.getOrders();
+    }
+
+    handleChange=(date)=>{
+        this.setState({
+            searchDate: date
+        })
         
     }
-    //state = {
-     //  orders:[]
-    //}
-    componentWillMount() {
-       /* api.get("order/").then(res =>  {
-            console.log("isndie order request");
-            let order = res.data;
-            this.setState({orders:res.data});
-        }); */
-        this.props.getOrders();
 
-      }
-    
+    reformatDate=(date)=>{
+        let year = date.getFullYear()
+        let month = '' + (date.getMonth() + 1);
+        let day = '' + date.getDate();
 
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
 
-    render(){
-        const { orders } = this.props.movies;
-        console.log(this.props.movies)
-        const orderList = (orders.length)?(
-            orders.map(order => {
-                
-                return(
-                <tr>
+        let dateFormat = day + "/" + month + "/" + year
+
+        return dateFormat
+   }
+
+   isFilter=()=>{
+       return this.state.searchDate===null ? false:true
+   }
+   
+   filtering=(orders, filterDate)=>{
+       return orders.filter(order => this.reformatDate(new Date(order.date.toLocaleString())) === this.reformatDate(filterDate))
+   }
+
+   orderTable=(orders)=>{
+    if(this.isFilter()) {
+        orders = this.filtering(orders, this.state.searchDate)
+    }
+    return( orders.length > 0 ? orders.map((order, index) => {
+        let orderDate = new Date(order.date).toLocaleString()
+     return (
+         (
+            <tr>
                 <td>
                     {order.id}
                 </td>
                 <td>
-                    title
+                    {order.title}
                 </td>
 
                 <td>
-                    {order.date}
+                    {orderDate}
                 </td>
 
                 <td>
@@ -59,9 +81,6 @@ class UserOrders extends Component{
                     {order.total_cost}
                 </td>
                 <td>
-                    {order.movie}
-                </td> 
-                <td>
                     <td>
                         <i  className="material-icons pointer">edit</i>
                     </td>
@@ -70,8 +89,16 @@ class UserOrders extends Component{
                     </td>
                 </td>
             </tr>
-            )})
-        ):(<div className="center">No orders</div>);
+        ))
+    }) : (<div className="center">No orders</div>)
+    )
+}
+
+    render(){
+        let { orders } = this.props.movies;
+        let orderList = "";
+        console.log(this.props.movies);
+
         return(
             <div className="center top-padding account-details">
                 <div className="container">
@@ -79,12 +106,14 @@ class UserOrders extends Component{
                         <div className="col s12 center">
                             <h3> Order Management </h3>
                            
-                            <form id="register"  noValidate>
-                <input className="col s4 offset-s4 white" type="text" placeholder="Enter order number"></input>
-                <button className="col s1 waves-effect waves-light btn red darken-3"><i className="material-icons right">search</i></button>
-                <div className="col s3"></div>
-                <div className="col 3s offset-s2">
-                <form noValidate>
+                            <DatePicker className="white-text" 
+                                        placeholderText="Click to select a date"
+                                        selected={this.state.searchDate}
+                                        onChange={this.handleChange}
+                                        dateFormat="dd/MM/yyyy"
+                                        />
+
+                            <form noValidate>
                                 <table className="table bordered highlight centered responsive-table management-table">
                                     <thead>
                                         <tr>
@@ -93,23 +122,19 @@ class UserOrders extends Component{
                                             <th scope="col">Date</th>
                                             <th scope="col">Quantity</th>
                                             <th scope="col">price</th>
-                                            <th scope="col">Movie ID</th>
                                             <th scope="col"><i class="material-icons previx">settings</i></th>
                                             
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {orderList}
+                                            {this.orderTable(orders) }
+
                                     </tbody>
                                 </table>
                             </form>
                  
             <Link to="/"><button className="waves-effect waves-light red darken-3 btn">Add Movies</button></Link>
-            </div>
-            
-            
         
-             </form>
             </div>
           
             </div>
