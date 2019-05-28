@@ -107,14 +107,11 @@ class User(viewsets.ModelViewSet):
         query = LogModel.objects.filter(user=pk).values()
         print(query)
         return Response(query, status=status.HTTP_200_OK)
-        print("in get")
-        # Map the pk to user
-        data = request.data.copy()
-        data['user'] = pk
-        serializer = LogSerializer(data=data)
-        if serializer.is_valid():
-            return Response({"status": "success"}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['get'], detail=True)
+    def orders(self, request, pk=None):
+        query = Order.objects.filter(user=pk).values()
+        return Response(query, status=status.HTTP_200_OK)
 
 
 class MoviePopulator(viewsets.ModelViewSet):

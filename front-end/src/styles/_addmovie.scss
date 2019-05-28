@@ -26,6 +26,15 @@
   min-width: 70px;
 }
 
+.hide{
+  display: none !important;
+}
+
+.show{
+  display: block;
+  color: #FFFFFF !important;
+}
+
 .size-inputs{
   width: 500px !important;
   justify-content: space-evenly !important;

@@ -22,7 +22,8 @@ class AddMovie extends Component {
             maturity_rating: 0,
             stock: 0,
             selectedGenreId:"",
-            selectedGenreIndex: ""
+            selectedGenreIndex: "",
+            genreActive: false
         }; 
     }
 
@@ -32,8 +33,12 @@ class AddMovie extends Component {
       this.props.getMovies();
     }
 
-    getGenreId(id, index){
-      this.setState({selectedGenreId: id, selectedGenreIndex: index})
+    toggle(){
+      this.setState({genreActive : true, selectedGenreIndex: "other"})
+    }
+
+    setGenre(id, index){
+      this.setState({selectedGenreId: id, selectedGenreIndex: index, genreActive: false});
     }
 
 
@@ -50,18 +55,22 @@ class AddMovie extends Component {
             maturity_rating: this.state.maturity_rating,
             purchase_count: 0,
             stock: this.state.stock,
-        }
-
+        }        
         let genreId = this.state.selectedGenreId;
-        console.log(movieDetails);
-
-       this.props.addMovie(movieDetails, genreId, this.props.history);
-    }
+        if(genreId = "other"){
+          //addGenre(this.state.genreName);
+          console.log("Genre Added")
+          
+        }
+        else{
+          this.props.addMovie(movieDetails, genreId, this.props.history);
+        }
+       }
   
   render() {
 
     const { genres } = this.props.movies;
-    const { selectedGenreId, selectedGenreIndex } = this.state;
+    const { selectedGenreIndex } = this.state;
 
     return (
       <div className="top-padding">
@@ -106,14 +115,30 @@ class AddMovie extends Component {
                       <label htmlFor="genre">
                         <font size="+1">Genre</font>
                       </label>
-                      <a className= 'dropdown-trigger btn' href='#' data-target='dropdown1'> { selectedGenreIndex === "" ? 'Select a Genre' : genres[selectedGenreIndex].name } </a>
+                      </div>
+                      <div>
+                      <a className= 'dropdown-trigger btn' href='#' data-target='dropdown1'> { 
+                          selectedGenreIndex === "" ? 'Select a Genre' :  
+                          selectedGenreIndex=== "other"? 'Other' :
+                          genres[selectedGenreIndex].name} </a>
+
                       <ul id="dropdown1" className='dropdown-content'>
                         {
                           genres.map((genre, index) => {
-                            return <li onClick={() => this.getGenreId(genre.id, index)}><a href="#!">{genre.name}</a></li>
+                            return <li onClick={() => this.setGenre(genre.id, index)}><a href="#!">{genre.name}</a></li>
                           }
                         )}
+                        <li onClick={() => this.toggle()}><a href="#!">Other</a></li>
                       </ul>
+                      <div id="genreLine">
+                          <input
+                            id="genreLine"
+                            type="text"
+                            placeholder="Enter new genre"
+                            className={this.state.genreActive ? "show" : "hide"}
+                            onChange={event =>this.setState({genreName : event.target.value})}
+                          />
+                      </div>
                     </div>
                   </li>
                 </ul>

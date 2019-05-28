@@ -109,9 +109,9 @@ class AccessLogs extends Component {
     }
 
     render() {
-        
+       
         const { logs, user } = this.props.auth;
-
+        console.log(logs);
         return (
             <div className="center top-padding account-details">
                 <div className="container">

@@ -1,10 +1,10 @@
-import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ERRORS, GET_FEEDBACK } from './types';
+import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ERRORS, GET_FEEDBACK, GET_ORDER, DELETE_ORDER } from './types';
 import api from "../api";
 
 // Will call this from the view later
 export const getMovies = () => dispatch => {
     dispatch(setLoading());
-
+    console.log("in movideaction");
     // Here we make an API call or whatever that you need to do
     api.get("movie/").then(res =>  {
         let movies = res.data;
@@ -46,7 +46,7 @@ export const getMovies = () => dispatch => {
 // Get profile by handle
 export const getMovieById = id => dispatch => {
     dispatch(setLoading());
-    
+    console.log("inside actiontype moviesid");    
     api.get("movie/").then(res =>  {
 
         let movie = res.data.filter(movie => movie.id == id);
@@ -55,6 +55,22 @@ export const getMovieById = id => dispatch => {
             type: GET_MOVIE,
             payload: movie[0]
         })
+    })
+};
+
+
+export const getOrders = () => dispatch => {
+    console.log("inside getOrders");
+    dispatch(setLoading());
+    
+    api.get("order/").then(res =>  {
+        console.log("isndie order request");
+        
+        dispatch({
+            type: GET_ORDER,
+            payload: res.data
+        })
+        console.log(res.data)
     })
 };
 
@@ -89,6 +105,7 @@ export const addReview = (movieId, review) => dispatch => {
     
    
 };
+
 
 export const searchMovies = query => dispatch => {
     dispatch(setLoading());
@@ -163,6 +180,8 @@ export const editMovie = updatedData => dispatch => {
     );
 }
 
+
+
 export const deleteMovie = movie => dispatch => {
     console.log(movie)
     api
@@ -179,6 +198,29 @@ export const deleteMovie = movie => dispatch => {
         }
     );
 }
+export const addOrder = order  => dispatch =>{
+    api
+    .post('order/', order)
+    .catch(err =>
+        dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        })
+    )
+}
+export const deleteOrder = order => dispatch => {
+    api
+    .delete(`order/${order.id}/`)
+    .catch(err =>
+        dispatch({
+            type: DELETE_ORDER,
+            payload: err.response.data
+        }))
+}
+
+
+
+
 
 // Set profile loading
 export const setLoading = () => {

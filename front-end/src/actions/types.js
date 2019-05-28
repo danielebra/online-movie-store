@@ -1,7 +1,7 @@
 export const GET_MOVIES = 'GET_MOVIES' 
 export const GET_MOVIE = 'GET_MOVIE';
 export const NO_MOVIES_FOUND = 'NO_MOVIES_FOUND'
-
+export const GET_ORDER = 'GET_ORDER'
 export const ADD_REVIEW = 'ADD_REVIEW'
 
 export const SEARCH_MOVIES = 'SEARCH_MOVIES';
@@ -27,3 +27,6 @@ export const MOVIES_LOADING = 'MOVIES_LOADING';
 export const ADD_MOVIE = 'ADD_MOVIE';
 export const GET_ALL_ACCESSLOGS = 'GET_ALL_ACCESSLOGS'
 export const DELETE_LOG = 'DELETE_LOG'
+
+export const ADD_ORDER = 'ADD_ORDER'
+export const DELETE_ORDER = 'DELETE_ORDER'
