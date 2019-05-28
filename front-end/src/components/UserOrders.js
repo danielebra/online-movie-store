@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
-import { getOrders, getMovieById} from '../actions/movieActions';
+import { getOrders, getMovieById, deleteOrder} from '../actions/movieActions';
 import api from '../api';
 import DatePicker from 'react-datepicker';
 
@@ -31,6 +31,9 @@ class UserOrders extends Component{
             searchDate: date
         })
         
+    }
+    deleteOrder=(order)=>{
+        this.props.deleteOrder(order)
     }
 
     reformatDate=(date)=>{
@@ -85,7 +88,7 @@ class UserOrders extends Component{
                         <i  className="material-icons pointer">edit</i>
                     </td>
                     <td>
-                    <i  className="material-icons pointer">delete</i>
+                    <i onClick= {this.deleteOrder(order)}  className="material-icons pointer">delete</i>
                     </td>
                 </td>
             </tr>
@@ -150,4 +153,4 @@ const mapStateToProps = state => ({
 });
 
 // Connect actions to use within react and export component
-export default connect(mapStateToProps, { getOrders,getMovieById })(withRouter(UserOrders));
+export default connect(mapStateToProps, { getOrders,getMovieById, deleteOrder })(withRouter(UserOrders));

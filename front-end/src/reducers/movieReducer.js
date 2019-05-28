@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, ADD_REVIEW, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ORDER, GET_ALL_ORDER } from '../actions/types';
+import { GET_MOVIES, GET_MOVIE, ADD_REVIEW, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ORDER, DELETE_ORDER } from '../actions/types';
 
 /* The movies state contains the following:
     - collections: an array  containing a genre and a list of movies in that genre
@@ -62,6 +62,11 @@ export default function (state = initialState, action) {
             orders: action.payload,
             loading: false
             };
+        case DELETE_ORDER:
+            return{
+                ...state,
+                orders: state.orders.filter(order => order.id !==action.payload.id)
+            }
 
         case ADD_REVIEW:
             state.movie.reviews.push(action.payload);
