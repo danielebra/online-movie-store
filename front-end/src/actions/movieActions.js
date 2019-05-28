@@ -58,6 +58,18 @@ export const getMovieById = id => dispatch => {
     })
 };
 
+export const addGenre = (genreName) => dispatch =>{
+    let data = {
+        name: genreName
+    }
+    api.post('genre/', data). then(res=> {
+        console.log(res.data)   
+    })
+    .catch(error =>{
+        console.log(error.response.data);
+    })
+}
+
 export const addReview = (movieId, review) => dispatch => {
     
     api.post('review/', review).then(res => {

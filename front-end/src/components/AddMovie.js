@@ -3,7 +3,7 @@ import "../styles/_addmovie.scss";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
-import { addMovie, getMovies } from "../actions/movieActions";
+import { addMovie, getMovies, addGenre } from "../actions/movieActions";
 
 import Loading from "../components/Templates/loading";
 import M from "materialize-css";
@@ -58,9 +58,8 @@ class AddMovie extends Component {
         }        
         let genreId = this.state.selectedGenreId;
         if(genreId = "other"){
-          //addGenre(this.state.genreName);
-          console.log("Genre Added")
-          
+          this.props.addGenre(this.state.genreName);
+          //Update ID to fit movie
         }
         else{
           this.props.addMovie(movieDetails, genreId, this.props.history);
@@ -255,4 +254,4 @@ const mapStateToProps = state => ({
   movies: state.movies
 });
 
-export default connect(mapStateToProps,{addMovie, getMovies})(AddMovie);
+export default connect(mapStateToProps,{addMovie, getMovies, addGenre})(AddMovie);

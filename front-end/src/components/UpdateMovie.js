@@ -11,7 +11,10 @@ class UpdateMovie extends Component{
     this.state={
         moviesCount :0,
         isEditing: [],
-        search:''
+        search:'',
+        genreName: '',
+        selectedGenreId:'',
+        selectedGenreName:''
     }; 
   }
   
@@ -19,37 +22,27 @@ class UpdateMovie extends Component{
       this.props.getMovies();
       }
 
-      setMovie(index){
-        console.log(this.moviesList[index])
-        this.setState({selectedMovie: index})
-      }
-
       search = event => {
         event.preventDefault();
-    
         this.setState({ search: event.target.value}, () => {
           let query = this.state.search;
           this.props.searchMovies(query);
         });
       }
 
-      changeGenre(genres, value){
-        {genres.map((genre, index) => {
-            if(genre.name = value){
-                return(genre.id);
-            }
-          })
-        }
-      } 
+      setGenre(genreName, genreId){
+        console.log(genreName);
+        this.setState({selectedGenreName: genreName, selectedGenreId:genreId})
+      }
 
+      //Saves changes to the database and closes editing mode
       editMovie(movie) {
-        
         this.props.editMovie(movie);
         if (!this.state.errors) {
             this.closeEditingMode();
         }
-
     }
+      //Deletes movie from database and refreshes state
       deleteMovie(movie) {
         if (window.confirm("Are you sure you want to delete this movie?")) {
             this.props.deleteMovie(movie);
@@ -76,25 +69,19 @@ class UpdateMovie extends Component{
         this.forceUpdate()
     }
     
-    // called when the exit button is pressed, returns to view mode
+    // Called when the exit button is pressed, Returns to view mode
     closeEditingMode(listLength) {
-        //this.props.clearFeedback();
         
         let arr = new Array(listLength).fill(false);
         this.state.isEditing = arr;
         this.forceUpdate()
     }
-      onSubmit(){
-      }
 
       render() {
         let { moviesList, searchList, genres } = this.props.movies;
         let movieList = moviesList;
         if(searchList != null){
-          if(searchList.length > 0){
-            movieList = searchList
-            console.log(movieList);
-          }
+          movieList = searchList;
         }  
         let isEditing = this.state.isEditing
         
@@ -140,15 +127,16 @@ class UpdateMovie extends Component{
                           <th scope="col">Trailer Link</th>
                           <th scope="col">Price</th>
                           <th scope="col">Stock</th>
-                          <th scope="col">Purchased Amount</th>
                           <th scope="col">Maturity Rating</th>
-                          <th scope="col" colSpan="3"><i class="material-icons previx">settings</i></th>
+                          <th scope="col" colSpan="3"><i className="material-icons previx">settings</i></th>
                         </tr>
                       </thead>
                       <tbody>
                         { movieList.length > 0 ? movieList.map((movie, index) => {
                             return (
-                              isEditing[index] ? (
+                              //Editing Mode
+                              isEditing[index] ? ( 
+                                
                                 <tr>
                                     <td>
                                         <div className="input-field">
@@ -160,13 +148,12 @@ class UpdateMovie extends Component{
                                                         this.forceUpdate();
                                                     }
                                                 } 
-                                                className="validate white-text"
+                                                className="white-text"
                                                 required
                                                 aria-required=""
                                             />
                                         </div>
                                     </td>
-
                                     <td>
                                         <div className="input-field">
                                             <input 
@@ -177,7 +164,7 @@ class UpdateMovie extends Component{
                                                         this.forceUpdate();
                                                     }
                                                 } 
-                                                className="validate white-text"
+                                                className="white-text"
                                                 required
                                                 aria-required=""
                                             />
@@ -191,10 +178,10 @@ class UpdateMovie extends Component{
                                                 value={movie.year}
                                                 onChange={event => {
                                                       movieList[index].year = event.target.value;
-                                                        this.forceUpdate();
+                                                      this.forceUpdate();
                                                     }
                                                 } 
-                                                className="validate white-text"
+                                                className="white-text"
                                                 required
                                                 aria-required=""
                                             />
@@ -202,37 +189,33 @@ class UpdateMovie extends Component{
                                     </td>
 
                                     <td>
-                                        <div className="input-field">
-                                            <input 
-                                                type="genre" 
-                                                value={movie.genre}
-                                                onChange={event => {
-                                                  movieList[index].genre = this.changeGenre(genres, event.target.value);
+                                      <div>
+                                          {selectedGenreName = movie.genre.name}
+                                        <a className= 'dropdown-trigger btn' href='#' data-target='dropdown1'> { this.state.selectedGenreName     ===   "" ? 'Select' : this.state.selectedGenreName} </a>
+                                        <ul id="dropdown1" className='dropdown-content'>
+                                          {
+                                            genres.map((genre) => {
+                                              return <li onClick={() => this.setGenre(genre.name, genre.id)}><a href="#!">{genre.name}</a></li>
+                                            })
+                                          }
+                                        </ul>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="input-field">
+                                          <input 
+                                              type="text" 
+                                              value={movie.description}
+                                              onChange={event => {
+                                                  movieList[index].description = event.target.value;
                                                   this.forceUpdate();
-                                                  }
-                                                } 
-                                                className="validate white-text"
-                                                required
-                                                aria-required=""
-                                            />
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                        <div className="input-field">
-                                            <input 
-                                                type="text" 
-                                                value={movie.description}
-                                                onChange={event => {
-                                                    movieList[index].description = event.target.value;
-                                                    this.forceUpdate();
-                                                  }
-                                                } 
-                                                className="validate white-text"
-                                                required
-                                                aria-required=""
-                                            />
-                                        </div>
+                                                }
+                                              } 
+                                              className="white-text"
+                                              required
+                                              aria-required=""
+                                          />
+                                      </div>
                                     </td>
 
                                     <td>
@@ -245,7 +228,7 @@ class UpdateMovie extends Component{
                                                     this.forceUpdate();
                                                   }
                                                 } 
-                                                className="validate white-text"
+                                                className="white-text"
                                                 required
                                                 aria-required=""
                                             />
@@ -262,13 +245,60 @@ class UpdateMovie extends Component{
                                                     this.forceUpdate();
                                                   }
                                                 } 
-                                                className="validate white-text"
+                                                className="white-text"
                                                 required
                                                 aria-required=""
                                             />
                                         </div>
                                     </td>
-
+                                    <td>
+                                        <div className="input-field">
+                                            <input 
+                                                type="number" 
+                                                value={movie.price}
+                                                onChange={event => {
+                                                      movieList[index].price = event.target.value;
+                                                        this.forceUpdate();
+                                                    }
+                                                } 
+                                                className="white-text"
+                                                required
+                                                aria-required=""
+                                            />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="input-field">
+                                            <input 
+                                                type="number" 
+                                                value={movie.stock}
+                                                onChange={event => {
+                                                      movieList[index].stock = event.target.value;
+                                                        this.forceUpdate();
+                                                    }
+                                                } 
+                                                className="white-text"
+                                                required
+                                                aria-required=""
+                                            />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="input-field">
+                                            <input 
+                                                type="text" 
+                                                value={movie.maturity_rating}
+                                                onChange={event => {
+                                                      movieList[index].maturity_rating = event.target.value;
+                                                        this.forceUpdate();
+                                                    }
+                                                } 
+                                                className="white-text"
+                                                required
+                                                aria-required=""
+                                            />
+                                        </div>
+                                    </td>
                                     <td>
                                         <i onClick={() => this.editMovie(movieList[index])} className="material-icons pointer">save</i>
                                     </td>
@@ -279,7 +309,7 @@ class UpdateMovie extends Component{
 
                                 </tr>
 
-                            ) : (
+                            ) : ( //View Mode
                                     <tr className="min-width">
                                       <td>
                                         {movie.id}
@@ -316,9 +346,6 @@ class UpdateMovie extends Component{
                                        {movie.stock}
                                      </td>
                                      <td>
-                                       0
-                                     </td>
-                                     <td>
                                        {movie.maturity_rating}
                                      </td>
                                      <td>
@@ -330,10 +357,8 @@ class UpdateMovie extends Component{
                                     </tr>
                             )
                           )
-                            }   
-                          ): <tr> <td colspan="7" className="center"> No movies available. </td></tr>}
-                         
-                        
+                            }
+                            ): <tr> <td colspan="7" className="center"> No movies available. </td></tr>}
                       </tbody>
                     </table> 
                   </form>
