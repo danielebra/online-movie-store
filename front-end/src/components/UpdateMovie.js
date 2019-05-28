@@ -172,26 +172,27 @@ class UpdateMovie extends Component{
                                     </td>
 
                                     <td>
-                                        <div className="input-field">
-                                            <input 
-                                                type="text" 
-                                                value={movie.year}
-                                                onChange={event => {
-                                                      movieList[index].year = event.target.value;
-                                                      this.forceUpdate();
-                                                    }
-                                                } 
-                                                className="white-text"
-                                                required
-                                                aria-required=""
-                                            />
-                                        </div>
+                                      <div className="input-field">
+                                          <input 
+                                              type="text" 
+                                              value={movie.year}
+                                              onChange={event => {
+                                                    movieList[index].year = event.target.value;
+                                                    this.forceUpdate();
+                                                  }
+                                              } 
+                                              className="white-text"
+                                              required
+                                              aria-required=""
+                                          />
+                                      </div>
                                     </td>
-
                                     <td>
                                       <div>
-                                          {selectedGenreName = movie.genre.name}
-                                        <a className= 'dropdown-trigger btn' href='#' data-target='dropdown1'> { this.state.selectedGenreName     ===   "" ? 'Select' : this.state.selectedGenreName} </a>
+                                        <a className= 'dropdown-trigger btn' href='#' data-target='dropdown1'> { 
+                                          this.state.selectedGenreName  ===   "" ?    'Select' :  
+                                          movie.genre.id != "" ? movie.genre.id : 
+                                          this.state.selectedGenreName} </a>
                                         <ul id="dropdown1" className='dropdown-content'>
                                           {
                                             genres.map((genre) => {
