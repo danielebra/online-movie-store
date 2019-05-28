@@ -217,7 +217,7 @@ img.moviesBackground {
 
 .videoWrapper iframe {
     position: absolute;
-    top: 100%;
+    top: 102%;
     left: 0;
     width: 100%;
     height: 100%;
@@ -266,6 +266,12 @@ i.add {
     font-size: 30px !important;
 }
 
+.all-btn-d {
+    width: 15%;
+}
+.all-btn-d:hover {
+    background-color: #b32b00 !important;
+}
 .search-users {
 
     .input-field {

@@ -272,7 +272,7 @@ class  PlaceOrder extends Component {
 
                         <div className="input-field col s12">
                           <button
-                            className="waves-effect waves-light red darken-3 btn"
+                            className="waves-light red btn all-btn-d"
                             type="submit"
                             id="register-btn-submit"
                           >

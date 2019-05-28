@@ -19,39 +19,41 @@ class OrderSuccess extends Component {
             <div className="top-padding">
             <div className="container">
             <div className="card gray">
-            <div className="row">
-            <div className="col s1"> 
-            <img src={success} width="85" height="60" />
-            </div>
-
+            <div className="row" style={{marginTop: '100px'}}>
             { anonymousUserAuthenticated ? (
-                <div>
+                <div className="row">
+                    <div className="col s1"> 
+                        <img src={success} width="85" height="60" />
+                    </div>
                     <div className="col s11">
-                    <h5>Your Order is successfully placed. <br/> Please register your account so you can view your order. </h5>
+                    <h5>Your Order is successfully placed. Please register your account so you can view your order. </h5>
                     </div>
                     
-                    <div className="col 3s offset-s2">
+                    <div className="col 3s">
                     <Link to="/"><button className="waves-effect waves-light red darken-3 btn">Home</button></Link>
                     </div>
                     
-                    <div className="col 3s offset-s2">
-                    <a onClick={this.goToRegister} className="waves-effect waves-light red darken-3 btn">Register</a>
+                    <div className="col 3s">
+                    <Link to="/register"> <button className="waves-effect waves-light red darken-3 btn">Register </button></Link>
 
                     </div>
                 </div>
             ) : null }
 
             { isAuthenticated ? (
-                <div>
+                <div className="row">
+                    <div className="col s1"> 
+                        <img src={success} width="85" height="60" />
+                    </div>
                     <div className="col s11">
                     <h5>Your Order is successfully placed, go to 'My Orders' to check orders</h5>
                     </div>
                     
-                    <div className="col 3s offset-s2">
+                    <div className="col 3s">
                     <Link to="/"><button className="waves-effect waves-light red darken-3 btn">Home</button></Link>
                     </div>
                     
-                    <div className="col 3s offset-s2">
+                    <div className="col 3s">
                     <Link to="/orders" className="waves-effect waves-light red darken-3 btn">My Orders</Link>
                     
                     </div>
