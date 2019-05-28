@@ -1,6 +1,6 @@
 
 // Action Types
-import { LOGIN_USER, LOGOUT_USER, CLEAR_SEARCH_USER, SEARCH_USER, UPDATE_USER, GET_ALL_USERS, CLEAR_UPDATE, GET_ALL_ACCESSLOGS, DELETE_LOG, SET_ANONYMOUS_USER } from "../actions/types";
+import { LOGIN_USER, LOGOUT_USER,CLEAR_NEW_USER_ERRORS, NEW_USER_ERRORS, CLEAR_SEARCH_USER, SEARCH_USER, UPDATE_USER, GET_ALL_USERS, CLEAR_UPDATE, GET_ALL_ACCESSLOGS, DELETE_LOG, SET_ANONYMOUS_USER } from "../actions/types";
 
 const initialState = {
     isAuthenticated: false,
@@ -9,7 +9,8 @@ const initialState = {
     users: [],
     userSearchList: [],
     updated: false,
-    logs:[]
+    logs:[],
+    newUserErrors: {}
 };
 
 export default function (state = initialState, action) {
@@ -37,6 +38,18 @@ export default function (state = initialState, action) {
                 anonymousUserAuthenticated: true,
                 user: action.payload
             };
+
+        case NEW_USER_ERRORS:
+            return {
+                ...state,
+                newUserErrors: action.payload
+            };
+
+        case CLEAR_NEW_USER_ERRORS:
+            return {
+                ...state,
+                newUserErrors: {}
+            }
 
         case SEARCH_USER:
             

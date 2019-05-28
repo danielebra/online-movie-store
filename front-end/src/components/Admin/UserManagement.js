@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import isEmpty from '../../isEmpty';
-import { getAllUsers, addUserAsAdmin, searchUser, editUserAsAdmin, deleteUserAsAdmin, clearFeedback } from '../../actions/authActions';
+import { getAllUsers, addUserAsAdmin, searchUser, editUserAsAdmin, deleteUserAsAdmin, clearFeedback, clearErrors } from '../../actions/authActions';
 import _ from 'underscore';
 import M from 'materialize-css';
 import $ from 'jquery';
@@ -17,8 +17,11 @@ class UserManagement extends Component {
             users: [],
             isEditing: [],
             errors: {},
+            newUserErrors: {},
             usersCount: 0,
             search: '',
+            modalClosed: true,
+            removed: false,
             newUser: {
                 first_name: "",
                 last_name: "",
@@ -72,6 +75,7 @@ class UserManagement extends Component {
 
     // Event handler called when modal closed
     modalClosing() {
+        this.props.clearErrors();
         this.setState({ errors: {} });
     }
 
@@ -102,9 +106,23 @@ class UserManagement extends Component {
 
             this.setState({ errors });
         }
+
+        if (nextProps.auth.newUserErrors){
+            let newUserErrors = {};
+  
+              Object.keys(nextProps.auth.newUserErrors) 
+              .forEach(function eachKey(key) {
+                newUserErrors[key] = nextProps.auth.newUserErrors[key][0];
+              });
+  
+              this.setState({ newUserErrors });
+          }
     }
 
-
+    componentWillUnmount() {
+        this.props.clearFeedback();
+        this.props.clearErrors();
+    }
 
 
 
@@ -121,7 +139,8 @@ class UserManagement extends Component {
     addNewUser = event => {
         event.preventDefault();
         this.props.clearFeedback();
-        this.setState({ errors: {} });
+        
+        this.setState({ newUserErrors: {} });
 
         if (!this.validatePassword(this.state.newUser.password, this.state.newUser.passwordConfirm))
           return false;
@@ -167,7 +186,6 @@ class UserManagement extends Component {
             this.setState({ users: usersToDisplay, isEditing, usersCount: usersToDisplay.length });
         }
     }
-
 
 
      // When the edit button is pressed this function takes the index and sets it to true so that it displays the editing mode for that user
@@ -265,7 +283,7 @@ class UserManagement extends Component {
       
 
     render() {
-        const { users, isEditing, errors, usersCount } = this.state;
+        const { users, isEditing, errors, usersCount, newUserErrors } = this.state;
         const { feedback } = this.props;
 
         return (
@@ -303,7 +321,7 @@ class UserManagement extends Component {
                                                     required
                                                     aria-required=""
                                                 />
-                                                { errors.first_name ? <span className="helper-text error"> { errors.first_name } </span> : null}
+                                                { newUserErrors.first_name ? <span className="helper-text error"> { newUserErrors.first_name } </span> : null}
                                                 <label htmlFor="first_name">First Name</label>
                                                 </div>
 
@@ -324,7 +342,7 @@ class UserManagement extends Component {
                                                     required
                                                     aria-required=""
                                                 />
-                                                { errors.last_name ? <span className="helper-text error"> { errors.last_name } </span> : null}
+                                                { newUserErrors.last_name ? <span className="helper-text error"> { newUserErrors.last_name } </span> : null}
                                                 <label htmlFor="last_name">Last Name</label>
                                                 </div>
                                             </div>
@@ -346,7 +364,7 @@ class UserManagement extends Component {
                                                 required
                                                 aria-required=""
                                                 />
-                                                { errors.email ? <span className="helper-text error"> { errors.email } </span> : null}
+                                                { newUserErrors.email ? <span className="helper-text error"> { newUserErrors.email } </span> : null}
                                                 <label htmlFor="email">Email</label>
                                             </div>
 
@@ -368,7 +386,7 @@ class UserManagement extends Component {
                                                     required
                                                     aria-required=""
                                                 />
-                                                { errors.mobile_number ? <span className="helper-text error"> { errors.mobile_number } </span> : null}
+                                                { newUserErrors.mobile_number ? <span className="helper-text error"> { newUserErrors.mobile_number } </span> : null}
                                                 <label htmlFor="mobile">Mobile</label>
                                                 </div>
 
@@ -388,7 +406,7 @@ class UserManagement extends Component {
                                                     required
                                                     aria-required=""
                                                 />
-                                                { errors.date_of_birth ? <span className="helper-text error"> { errors.date_of_birth } </span> : null}
+                                                { newUserErrors.date_of_birth ? <span className="helper-text error"> { newUserErrors.date_of_birth } </span> : null}
                                                 <label htmlFor="dob">Date of Birth</label>
                                                 </div>
                                             </div>
@@ -408,7 +426,7 @@ class UserManagement extends Component {
                                                 } 
                                                 className="validate"
                                                 />
-                                                { errors.password ? <span className="helper-text error"> { errors.password } </span> : null}
+                                                { newUserErrors.password ? <span className="helper-text error"> { newUserErrors.password } </span> : null}
                                                 <label htmlFor="password">Password</label>
                                             </div>
 
@@ -427,7 +445,7 @@ class UserManagement extends Component {
                                                 } 
                                                 className="validate"
                                                 />
-                                                { errors.passwordConfirm ? <span className="helper-text error"> { errors.passwordConfirm } </span> : null}
+                                                { newUserErrors.passwordConfirm ? <span className="helper-text error"> { newUserErrors.passwordConfirm } </span> : null}
                                                 <label htmlFor="password_confirm">Confirm Password</label>
                                             </div>
 
@@ -710,4 +728,4 @@ const mapStateToProps = state => ({
     feedback: state.feedback
 });
 
-export default connect(mapStateToProps, { getAllUsers, searchUser, addUserAsAdmin, editUserAsAdmin, deleteUserAsAdmin, clearFeedback })(UserManagement);
+export default connect(mapStateToProps, { getAllUsers, searchUser, addUserAsAdmin, editUserAsAdmin, clearErrors, deleteUserAsAdmin, clearFeedback })(UserManagement);

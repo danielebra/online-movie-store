@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-import { loginUser, superLoginForDevelopment, clearFeedback } from "../../actions/authActions";
+import { loginUser, superLoginForDevelopment, clearFeedback, clearErrors } from "../../actions/authActions";
 import bg from "../../images/bg2.jpg";
 import isEmpty from "../../isEmpty";
 
@@ -27,6 +27,7 @@ class Login extends Component {
 
   componentWillUnmount() {
     this.props.clearFeedback();
+    this.props.clearErrors();
   }
  
   componentDidMount() {
@@ -174,4 +175,4 @@ const mapStateToProps = state => ({
   feedback: state.feedback
 });
 
-export default connect(mapStateToProps, { loginUser, superLoginForDevelopment, clearFeedback })(withRouter(Login));
+export default connect(mapStateToProps, { loginUser, superLoginForDevelopment, clearFeedback, clearErrors })(withRouter(Login));

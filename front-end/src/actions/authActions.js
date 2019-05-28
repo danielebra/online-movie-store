@@ -2,7 +2,7 @@
 //import jwt_decode from 'jwt-decode';
 
 // Action types
-import { LOGIN_USER, LOGOUT_USER, CLEAR_SEARCH_USER, GET_ERRORS, SEARCH_USER, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS, DELETE_LOG, SET_ANONYMOUS_USER} from "./types";
+import { LOGIN_USER, LOGOUT_USER,NEW_USER_ERRORS, CLEAR_NEW_USER_ERRORS, CLEAR_SEARCH_USER, GET_ERRORS, SEARCH_USER, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS, DELETE_LOG, SET_ANONYMOUS_USER} from "./types";
 
 import api from "../api";
 
@@ -190,7 +190,7 @@ export const addUserAsAdmin = userData => dispatch => {
             dispatch(getAllUsers());
 
             dispatch({
-                type: CLEAR_ERRORS
+                type: CLEAR_NEW_USER_ERRORS
             })
 
             dispatch({
@@ -200,7 +200,7 @@ export const addUserAsAdmin = userData => dispatch => {
         }) 
         .catch(err => {
             dispatch({
-                type: GET_ERRORS,
+                type: NEW_USER_ERRORS,
                 payload: err.response.data
             })
         });
@@ -292,6 +292,12 @@ export const deleteLog = log => dispatch => {
 export const clearFeedback = () => {
     return{
         type: CLEAR_FEEDBACK
+    };
+};
+
+export const clearErrors = () => {
+    return{
+        type: CLEAR_ERRORS
     };
 };
 

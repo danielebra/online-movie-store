@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import isEmpty from '../../isEmpty';
-import { registerUser, registerAnonymousUser } from "../../actions/authActions";
+import { registerUser, registerAnonymousUser, clearErrors } from "../../actions/authActions";
 import bg from "../../images/bg2.jpg";
 
 // Custom react component/class
@@ -52,6 +52,10 @@ class Register extends Component {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/");
     }
+  }
+
+  componentWillUnmount() {
+    this.props.clearErrors();
   }
 
   onChange = event => {
@@ -285,4 +289,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerUser, registerAnonymousUser })(withRouter(Register));
+export default connect(mapStateToProps, { registerUser, registerAnonymousUser, clearErrors })(withRouter(Register));
