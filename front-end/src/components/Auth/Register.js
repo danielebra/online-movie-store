@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import isEmpty from '../../isEmpty';
-import { registerUser } from "../../actions/authActions";
+import { registerUser, registerAnonymousUser } from "../../actions/authActions";
 import bg from "../../images/bg2.jpg";
 
 // Custom react component/class
@@ -19,8 +19,15 @@ class Register extends Component {
       password: "",
       passwordConfirm: "",
       is_admin: false,
-      errors: {}
+      errors: {},
+      flagged: false
     };
+  }
+
+  componentWillMount() {
+    if (this.props.match.params.name && this.props.match.params.email) {
+      //console.log('omg');
+    }
   }
 
   componentDidMount() {
@@ -49,6 +56,7 @@ class Register extends Component {
 
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value })
+    console.log(event.target.value);
   }
 
   onSubmit = event => {
@@ -64,16 +72,27 @@ class Register extends Component {
     let last_name = this.firstUpperLetter(this.state.last_name);
 
     const userData = {
-    first_name,
-    last_name,
-    email: this.state.email,
-    mobile_number: this.state.mobile_number,
-    date_of_birth: this.state.date_of_birth,
-    password: this.state.password,
-    is_admin: String(this.state.is_admin)
-  };
+      first_name,
+      last_name,
+      email: this.state.email,
+      mobile_number: this.state.mobile_number,
+      date_of_birth: this.state.date_of_birth,
+      password: this.state.password,
+      is_admin: String(this.state.is_admin)
+    };
 
-  this.props.registerUser(userData, this.props.history);
+    const { anonymousUserAuthenticated, user } = this.props.auth;
+
+    if (anonymousUserAuthenticated) {
+      userData['id'] = user.id;
+      userData['shipping_address'] = user.shipping_address;
+      
+      console.log(userData);
+      this.props.registerAnonymousUser(userData, this.props.history);
+
+    } else {
+      this.props.registerUser(userData, this.props.history);
+    }
 }
 
   firstUpperLetter(str) {
@@ -113,12 +132,17 @@ class Register extends Component {
   }
   
   render() {
-    
-    const { errors } = this.state;
+    const { anonymousUserAuthenticated, user } = this.props.auth;
+    const { errors, flagged } = this.state;
+
+    // if anouymous user registered, display their email and name
+    if (anonymousUserAuthenticated && !flagged) {
+      this.setState({ first_name: user.first_name, email: user.email, flagged: true });
+    }
 
     return (
       <section className="auth">
-        <img className="backgroundImage" src={bg} />
+        <img className="backgroundImage" alt="bg" src={bg} />
         <div className="container box">
           <div className="row">
             <div className="col s12">
@@ -138,10 +162,9 @@ class Register extends Component {
                         onChange={(event) => this.onChange(event)}
                         className="validate"
                         required
-                        aria-required=""
                       />
                       { errors.first_name ? <span className="helper-text error"> { errors.first_name } </span> : null}
-                      <label htmlFor="first_name">First Name</label>
+                      <label className={this.state.first_name ? "active" : null} id="nameLabel" htmlFor="first_name">First Name</label>
                     </div>
 
                     <div className="input-field col s6">
@@ -153,7 +176,6 @@ class Register extends Component {
                         onChange={(event) => this.onChange(event)}
                         className="validate"
                         required
-                        aria-required=""
                       />
                       { errors.last_name ? <span className="helper-text error"> { errors.last_name } </span> : null}
                       <label htmlFor="last_name">Last Name</label>
@@ -166,13 +188,12 @@ class Register extends Component {
                       id="email"
                       name="email"
                       value={this.state.email}
-                      onChange={(event) => this.onChange(event)}
+                      onChange={ anonymousUserAuthenticated ? null : (event) => this.onChange(event)}
                       className="validate"
                       required
-                      aria-required=""
                       />
                       { errors.email ? <span className="helper-text error"> { errors.email } </span> : null}
-                    <label htmlFor="email">Email</label>
+                    <label className={this.state.email ? "active" : null} id="emailLabel" htmlFor="email">Email</label>
                   </div>
 
                   <div className="col-2">
@@ -185,7 +206,6 @@ class Register extends Component {
                         onChange={(event) => this.onChange(event)}
                         className="validate"
                         required
-                        aria-required=""
                       />
                       { errors.mobile_number ? <span className="helper-text error"> { errors.mobile_number } </span> : null}
                       <label htmlFor="mobile">Mobile</label>
@@ -200,7 +220,6 @@ class Register extends Component {
                         onChange={(event) => this.onChange(event)}
                         className="validate"
                         required
-                        aria-required=""
                       />
                       { errors.date_of_birth ? <span className="helper-text error"> { errors.date_of_birth } </span> : null}
                       <label className="active" htmlFor="dob">Date of Birth</label>
@@ -244,7 +263,7 @@ class Register extends Component {
 
                   <div className="input-field col s12">
                     <button
-                      className="button-primary waves-effect waves-light registerBtn"
+                      className="button-primary waves-light registerBtn"
                       type="submit"
                       id="register-btn-submit"
                     >
@@ -266,4 +285,4 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerUser })(withRouter(Register));
+export default connect(mapStateToProps, { registerUser, registerAnonymousUser })(withRouter(Register));

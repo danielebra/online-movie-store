@@ -7,12 +7,20 @@ import { connect } from 'react-redux';
 import { searchMovies } from '../../actions/movieActions';
 import { logoutUser } from '../../actions/authActions';
 import $ from 'jquery';
+
 class Header extends Component {
   constructor() {
     super();
     this.state = {
-      search: ''
+      search: '',
+      loggedIn: false
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth) {
+      this.setState({ loggedIn: nextProps.auth.isAuthenticated });
+    }
   }
 
   componentDidMount() {
@@ -39,13 +47,13 @@ class Header extends Component {
 
   logoutUser() {
     let message = 'You have been logged out!';
-    this.props.logoutUser(message);
+    this.props.logoutUser(message, this.props.history);
   }
 
   render() {
 
     const { isAuthenticated, user } = this.props.auth;
-    const { wishList } = this.props.movies;
+    const { loggedIn } = this.state;
 
     return (
       <nav id="header">
@@ -54,7 +62,6 @@ class Header extends Component {
             {" "}
             MovieSpot{" "}
           </Link>
-          {isAuthenticated ? (
             <div>
               <ul id="nav-mobile" className="hide-on-med-and-down left-margin">
                 <li>
@@ -78,41 +85,45 @@ class Header extends Component {
                 </li>
               </ul>
 
+              { loggedIn ? (
               <div className="right-margin">
                 <ul className="right">
-                  <li> 
-                    <a onClick={this.openNav} href="#!"> Hi, {user.first_name}<i className="material-icons right">menu</i></a>
-                    <div onClick={this.closeNav} id="mySidenav" className="newsidenav">
-                      <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
-                      <Link to="/account_details">Account Details</Link>
-                      <Link to="/orders">My Orders</Link> 
-                      <Link to="/wishlist">Wish List</Link>
-                      <Link to="/add_movie">Add Movies</Link>
-                      <Link to="/update_movie">Update Movies </Link>
-                      <Link to="/access_logs">Access Logs </Link>
+                      <li> 
+                        <a onClick={this.openNav} href="#!">Hi, {user.first_name}!<i className="material-icons right">menu</i></a>
+                        <div onClick={this.closeNav} id="mySidenav" className="newsidenav">
+                          <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
 
-                      { user.is_admin === 'true' ? (
-                        <div>
-                          <Link to="/user_management"> User Management </Link>
+                            <div>
+                              <Link to="/orders">My Orders</Link> 
+                              <Link to="/wishlist">Wish List</Link>
+                              <Link to="/account_details">Account Details</Link>
+                              <Link to="/access_logs">Access Logs </Link>
+                            </div>
+
+                            { user.is_admin === 'true' ? (
+                              <div>
+                                <Link to="/user_management"> User Management </Link>
+                                <Link to="/add_movie">Add Movies</Link>
+                                <Link to="/update_movie">Update Movies </Link>
+                              </div>
+                            ) : null }
+                          <a onClick={() => this.logoutUser()}>Logout</a>
                         </div>
-                      ) : null }
+                      </li>
+                  </ul>
+              </div>
 
-                      <a onClick={() => this.logoutUser()}>Logout</a>
-                    </div>
+              ) : (
+                <ul id="nav-mobile" className="right right-margin hide-on-med-and-down">
+                  <li>
+                    <Link to="/login">Login</Link>
+                  </li>
+                  <li>
+                    <Link to="/register">Register</Link>
                   </li>
                 </ul>
-              </div>
+              ) }
             </div>
-          ) : (
-            <ul id="nav-mobile" className="right right-margin hide-on-med-and-down">
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-              <li>
-                <Link to="/register">Register</Link>
-              </li>
-            </ul>
-          )}
         </div>
       </nav>
     );

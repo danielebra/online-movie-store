@@ -17,6 +17,7 @@ export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const CLEAR_UPDATE = 'CLEAR_UPDATE';
 export const SEARCH_USER = 'SEARCH_USER';
 export const CLEAR_SEARCH_USER = 'SEARCH_USER';
+export const SET_ANONYMOUS_USER = 'SET_ANONYMOUS_USER';
 
 export const GET_FEEDBACK = 'GET_FEEDBACK';
 export const CLEAR_FEEDBACK = 'CLEAR_FEEDBACK';

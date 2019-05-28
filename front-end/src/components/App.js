@@ -17,10 +17,6 @@ import 'materialize-css/dist/css/materialize.min.css';
 
 // Components
 import Header from './Templates/Header'
-import Footer from './Templates/Footer'
-
-import PrivateRoute from './Templates/PrivateRoute';
-
 import Login from './Auth/Login';
 import Register from './Auth/Register';
 import Movies from './MoviesList';
@@ -28,7 +24,6 @@ import Movie from './Movie';
 import PlaceOrder from './PlaceOrder';
 import OrderSuccess from './OrderSuccess';
 import UserOrders from './UserOrders';
-import Payment from './Payment';
 import AddMovie from './AddMovie';
 import AddSuccess from './AddSuccess';
 import UpdateMovie from './UpdateMovie';
@@ -55,19 +50,19 @@ class App extends Component {
             <Route exact path="/login/:email" component={Login} />
             <Route exact path="/register" component={Register} />
 
-            <PrivateRoute exact path="/" component={Movies} />
-            <PrivateRoute exact path="/wishlist" component={Movies} />
+            <Route exact path="/" component={Movies} />
+            <Route exact path="/wishlist" component={Movies} />
             
-            <PrivateRoute exact path="/movie/:id" component={Movie} />
-            <PrivateRoute exact path="/order_success" component={OrderSuccess}/>
-            <PrivateRoute exact path="/orders" component={UserOrders}/>
-            <PrivateRoute exact path="/order/:id" component={PlaceOrder}/>
-            <PrivateRoute exact path="/add_movie" component={AddMovie}/>
-            <PrivateRoute exact path="/add_success" component={AddSuccess}/>
-            <PrivateRoute exact path="/update_movie" component={UpdateMovie}/>
-            <PrivateRoute exact path="/access_logs" component={AccessLogs}/>
-            <PrivateRoute exact path="/user_management" component={UserManagement}/>
-            <PrivateRoute exact path="/account_details" component={AccountDetails}/>
+            <Route exact path="/movie/:id" component={Movie} />
+            <Route exact path="/order_success" component={OrderSuccess}/>
+            <Route exact path="/orders" component={UserOrders}/>
+            <Route exact path="/order/:id" component={PlaceOrder}/>
+            <Route exact path="/add_movie" component={AddMovie}/>
+            <Route exact path="/add_success" component={AddSuccess}/>
+            <Route exact path="/update_movie" component={UpdateMovie}/>
+            <Route exact path="/access_logs" component={AccessLogs}/>
+            <Route exact path="/user_management" component={UserManagement}/>
+            <Route exact path="/account_details" component={AccountDetails}/>
           </div>
         </Router>
       </Provider>
