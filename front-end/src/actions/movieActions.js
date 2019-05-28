@@ -58,6 +58,17 @@ export const getMovieById = id => dispatch => {
     })
 };
 
+export const addGenre = (genreName) => dispatch =>{
+    let data = {
+        name: genreName
+    }
+    api.post('genre/', data). then(res=> {
+        console.log(res.data)   
+    })
+    .catch(error =>{
+        console.log(error.response.data);
+    })
+}
 
 export const getOrders = () => dispatch => {
     console.log("inside getOrders");
@@ -207,9 +218,17 @@ export const addOrder = order  => dispatch =>{
             payload: err.response.data
         })
     )
-
 }
-//export cost deteleOrder = 
+export const deleteOrder = order => dispatch => {
+    api
+    .delete(`order/${order.id}/`)
+    .catch(err =>
+        dispatch({
+            type: DELETE_ORDER,
+            payload: err.response.data
+        }))
+}
+
 
 
 

@@ -30,3 +30,4 @@ export const GET_ALL_ACCESSLOGS = 'GET_ALL_ACCESSLOGS'
 export const DELETE_LOG = 'DELETE_LOG'
 
 export const ADD_ORDER = 'ADD_ORDER'
+export const DELETE_ORDER = 'DELETE_ORDER'
