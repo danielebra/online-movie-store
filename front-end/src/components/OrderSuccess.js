@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import success from '../images/success.png';
-
+import {getOrder} from '../actions/movieActions';
 class OrderSuccess extends Component {
 
-
     
-
     
 
     render(){

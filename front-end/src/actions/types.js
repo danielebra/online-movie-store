@@ -27,3 +27,5 @@ export const MOVIES_LOADING = 'MOVIES_LOADING';
 export const ADD_MOVIE = 'ADD_MOVIE';
 export const GET_ALL_ACCESSLOGS = 'GET_ALL_ACCESSLOGS'
 export const DELETE_LOG = 'DELETE_LOG'
+
+export const ADD_ORDER = 'ADD_ORDER'
