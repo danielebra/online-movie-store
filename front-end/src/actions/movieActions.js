@@ -209,7 +209,7 @@ export const deleteMovie = movie => dispatch => {
 }
 export const addOrder = order  => dispatch =>{
     api
-    .post('order/', order)
+    .post('/order/', order)
     .catch(err =>
         dispatch({
             type: GET_ERRORS,
@@ -220,9 +220,18 @@ export const addOrder = order  => dispatch =>{
 export const deleteOrder = order => dispatch => {
     api
     .delete(`order/${order.id}/`)
+    .then(res => {
+        dispatch(
+            {
+                type: DELETE_ORDER,
+                payload: order
+            }
+        )
+    }
+    )
     .catch(err =>
         dispatch({
-            type: DELETE_ORDER,
+            type: GET_ERRORS,
             payload: err.response.data
         }))
 }
