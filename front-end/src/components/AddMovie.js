@@ -57,11 +57,18 @@ class AddMovie extends Component {
             stock: this.state.stock,
         }        
         let genreId = this.state.selectedGenreId;
-        if(genreId = "other"){
+        console.log("hello" , genreId);
+        if(genreId == "other"){
           this.props.addGenre(this.state.genreName);
-          //Update ID to fit movie
+          this.props.movies.genres.map(genre => {
+            if(genre.name = this.state.genreName){
+              genreId = genre.id;
+              this.props.addMovie(movieDetails, genreId, this.props.history);
+            }  
+          });
         }
         else{
+          console.log(genreId);
           this.props.addMovie(movieDetails, genreId, this.props.history);
         }
        }

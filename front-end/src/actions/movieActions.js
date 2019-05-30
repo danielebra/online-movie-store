@@ -146,7 +146,6 @@ export const clearSearchList = () => {
 export const addMovie = (movieDetails, genreId, history) => dispatch => {
     api.post('movie/', movieDetails)
         .then(res => {
-
             let movie = res.data;
             console.log("ADDED: ", movie);
 
