@@ -107,10 +107,10 @@ class  PlaceOrder extends Component {
       quantity: this.state.quantity,
       discount_modifier: 0,
       total_cost: this.state.totalPrice,
-      order_type: 'Delivery',
       user: this.props.auth.user.id,
       movie: this.props.movies.movie.id
     }
+    console.log(order.user, order.movie)
     this.props.addOrder(order)
   }
 
