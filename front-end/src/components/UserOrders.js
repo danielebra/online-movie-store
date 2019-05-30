@@ -6,8 +6,6 @@ import { getOrders, getMovieById, deleteOrder} from '../actions/movieActions';
 import api from '../api';
 import DatePicker from 'react-datepicker';
 
-import OrderCard from "./UIElements/OrderCard"
-
 import M from "materialize-css";
 
 import Info from "./UIElements/Info";
@@ -24,6 +22,7 @@ class UserOrders extends Component{
     
     componentWillMount() {
         this.props.getOrders();
+        console.log(this.props.movies.orders)
     }
 
     handleChange=(date)=>{
@@ -32,7 +31,7 @@ class UserOrders extends Component{
         })
         
     }
-    deleteOrder=(order)=>{
+    handleDelete=(order)=>{
         this.props.deleteOrder(order)
     }
 
@@ -90,7 +89,7 @@ class UserOrders extends Component{
                         <i  className="material-icons pointer">edit</i>
                     </td>
                     <td>
-                    <i onClick= {this.deleteOrder(order)}  className="material-icons pointer">delete</i>
+                    <i onClick= {() => this.handleDelete(order)} className="material-icons pointer">delete</i>
                     </td>
                 </td>
             </tr>
