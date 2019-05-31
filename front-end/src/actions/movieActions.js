@@ -216,7 +216,7 @@ export const getOrders = () => dispatch => {
     console.log("inside getOrders");
     dispatch(setLoading());
 
-    api.get("order/").then(res => {
+    api.get(`user/${JSON.parse(localStorage.user).id}/orders`).then(res => {
         console.log("isndie order request");
 
         dispatch({

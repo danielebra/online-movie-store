@@ -111,7 +111,7 @@ class UserOrders extends Component{
                 </td>
                 <td>
                     <td>
-                        <i  onclick = {() => this.refreshEditing(order)} className="material-icons pointer">{(this.state.isEditing)? "save":"edit"}</i>
+                        <i  onClick = {() => this.refreshEditing(order) } className="material-icons pointer">{(this.state.isEditing)? "save":"edit"}</i>
                     </td>
                     <td>
                     <i onClick= {() => this.handleDelete(order)} className="material-icons pointer">delete</i>
