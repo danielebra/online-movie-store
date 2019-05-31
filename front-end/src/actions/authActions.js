@@ -2,9 +2,30 @@
 //import jwt_decode from 'jwt-decode';
 
 // Action types
-import { LOGIN_USER, LOGOUT_USER, CLEAR_SEARCH_USER, GET_ERRORS, SEARCH_USER, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS, DELETE_LOG} from "./types";
+import { LOGIN_USER, LOGOUT_USER,NEW_USER_ERRORS, CLEAR_NEW_USER_ERRORS, CLEAR_SEARCH_USER, GET_ERRORS, SEARCH_USER, UPDATE_USER, CLEAR_ERRORS, GET_ALL_USERS, GET_FEEDBACK, CLEAR_FEEDBACK, CLEAR_UPDATE, GET_ALL_ACCESSLOGS, DELETE_LOG, SET_ANONYMOUS_USER} from "./types";
 
 import api from "../api";
+
+export const storeAnonymousUser = (userData) => dispatch => {
+
+    api.post('user/', userData)
+        .then(res => {
+            dispatch({
+                type: SET_ANONYMOUS_USER,
+                payload: res.data
+            })
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: `Your details has been recorded ${userData.first_name}.`
+            })
+        }) 
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        });
+};
 
 export const registerUser = (userData, history) => dispatch => {
 
@@ -25,6 +46,25 @@ export const registerUser = (userData, history) => dispatch => {
         });
 };
 
+export const registerAnonymousUser = (updatedData, history) => dispatch => {
+    
+    api
+        .patch(`user/${updatedData.id}/change/`, updatedData)
+        .then(res => {
+            history.push(`/login/${updatedData.email}`)
+            dispatch({
+                type: GET_FEEDBACK,
+                payload: 'You have successfully registered. Please login.'
+            })
+        })
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        }
+    );
+}
 
 export const loginUser = userData => dispatch => {
     api
@@ -33,10 +73,6 @@ export const loginUser = userData => dispatch => {
             console.log(res.data);
 
             if (res.data['user']) {
-
-                
-
-               
                 // set localstorage
                 localStorage.setItem('user', JSON.stringify(res.data['user']));
                 let logStatus = {
@@ -76,12 +112,16 @@ export const setCurrentUser = userData => {
 };
 
 // Log user out
-export const logoutUser = message => dispatch => {
+export const logoutUser = (message, history) => dispatch => {
+    
     let logStatus = {
         status: "Logged Out"
     }
+
     api.post(`user/${JSON.parse(localStorage.user).id}/log/`, logStatus) 
     localStorage.removeItem('user');
+    history.push(`/login`);
+
     dispatch({
         type: GET_FEEDBACK,
         payload: message
@@ -93,20 +133,10 @@ export const logoutUser = message => dispatch => {
 
 export const superLoginForDevelopment = () => dispatch =>  {
     let user = {
-        first_name: 'George',
-        last_name: 'Boi',
-        email: 'george_is_god@uts.edu.au',
-        mobile_number: 989898989,
-        date_of_birth: 1999/99/99,
-        password: 'avengersendgamespoilers',
-        is_admin: 'true'
+        email: 'anonymous@email.com',
+        password: 'anonymous',
     };
-    localStorage.setItem('user', JSON.stringify(user));
-
-    dispatch({
-        type: LOGIN_USER,
-        payload: user
-    });
+    dispatch(loginUser(user));
 }
 
 export const editUser = updatedData => dispatch => {
@@ -160,7 +190,7 @@ export const addUserAsAdmin = userData => dispatch => {
             dispatch(getAllUsers());
 
             dispatch({
-                type: CLEAR_ERRORS
+                type: CLEAR_NEW_USER_ERRORS
             })
 
             dispatch({
@@ -170,7 +200,7 @@ export const addUserAsAdmin = userData => dispatch => {
         }) 
         .catch(err => {
             dispatch({
-                type: GET_ERRORS,
+                type: NEW_USER_ERRORS,
                 payload: err.response.data
             })
         });
@@ -262,6 +292,12 @@ export const deleteLog = log => dispatch => {
 export const clearFeedback = () => {
     return{
         type: CLEAR_FEEDBACK
+    };
+};
+
+export const clearErrors = () => {
+    return{
+        type: CLEAR_ERRORS
     };
 };
 

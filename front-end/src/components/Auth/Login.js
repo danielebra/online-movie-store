@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-import { loginUser, superLoginForDevelopment, clearFeedback } from "../../actions/authActions";
+import { loginUser, superLoginForDevelopment, clearFeedback, clearErrors } from "../../actions/authActions";
 import bg from "../../images/bg2.jpg";
 import isEmpty from "../../isEmpty";
 
@@ -25,6 +25,11 @@ class Login extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.clearFeedback();
+    this.props.clearErrors();
+  }
+ 
   componentDidMount() {
 
     if (this.props.auth.isAuthenticated) {
@@ -46,7 +51,6 @@ class Login extends Component {
     if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/");
     }
-
   }
 
   validation() {
@@ -94,7 +98,7 @@ class Login extends Component {
 
     return (
       <section className="auth">
-        <img className="backgroundImage" src={bg} />
+        <img className="backgroundImage" alt='bg' src={bg} />
         <div className="container box">
           <div className="row">
             <div className="col s12">
@@ -115,7 +119,6 @@ class Login extends Component {
                       value={this.state.email}
                       onChange={event => this.onChange(event)}
                       required
-                      aria-required=""
                     />
                     { errors.email ? <span className="helper-text error"> { errors.email } </span> : null}
                     <label id="emailLabel" htmlFor="email">Email</label>
@@ -151,11 +154,11 @@ class Login extends Component {
                   </div>
                 </form>
 
-                <div className="input-field col s12" onClick={this.props.superLoginForDevelopment}>
+                {/* <div className="input-field col s12" onClick={this.props.superLoginForDevelopment}>
                     <button className="button-primary">
-                      <span> Super Login for Development</span>
+                      <span> Visit as Anonymous user </span>
                     </button>
-                  </div>
+                </div> */}
                   
               </div>
             </div>
@@ -172,4 +175,4 @@ const mapStateToProps = state => ({
   feedback: state.feedback
 });
 
-export default connect(mapStateToProps, { loginUser, superLoginForDevelopment, clearFeedback })(withRouter(Login));
+export default connect(mapStateToProps, { loginUser, superLoginForDevelopment, clearFeedback, clearErrors })(withRouter(Login));

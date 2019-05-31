@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import isEmpty from '../../isEmpty';
 import M from 'materialize-css';
-import { editUser, clearUpdate, deleteUser } from '../../actions/authActions';
+import { editUser, clearUpdate, deleteUser, clearFeedback, clearErrors } from '../../actions/authActions';
 
 class AccountDetails extends Component {
 
@@ -23,6 +23,11 @@ class AccountDetails extends Component {
     componentDidMount() {
         var elems = document.querySelector('.modal');
         M.Modal.init(elems, {});
+    }
+
+    componentWillUnmount() {
+        this.props.clearFeedback();
+        this.props.clearErrors();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -343,4 +348,4 @@ const mapStateToProps = state => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, { editUser, clearUpdate, deleteUser })(AccountDetails);
+export default connect(mapStateToProps, { editUser, clearUpdate, deleteUser, clearErrors, clearFeedback })(AccountDetails);

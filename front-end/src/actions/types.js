@@ -5,6 +5,8 @@ export const GET_ORDER = 'GET_ORDER'
 export const ADD_REVIEW = 'ADD_REVIEW'
 
 export const SEARCH_MOVIES = 'SEARCH_MOVIES';
+export const SEARCH_MOVIES_ADMIN = 'SEARCH_MOVIES_ADMIN';
+
 export const CLEAR_SEARCH_LIST = 'CLEAR_SEARCH_LIST';
 export const FAVOURITE_MOVIE = 'FAVOURITE_MOVIE';
 export const UNFAVOURITE_MOVIE = 'UNFAVOURITE_MOVIE';
@@ -17,6 +19,9 @@ export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const CLEAR_UPDATE = 'CLEAR_UPDATE';
 export const SEARCH_USER = 'SEARCH_USER';
 export const CLEAR_SEARCH_USER = 'SEARCH_USER';
+export const SET_ANONYMOUS_USER = 'SET_ANONYMOUS_USER';
+export const NEW_USER_ERRORS = 'NEW_USER_ERRORS'
+export const CLEAR_NEW_USER_ERRORS = 'CLEAR_NEW_USER_ERRORS'
 
 export const GET_FEEDBACK = 'GET_FEEDBACK';
 export const CLEAR_FEEDBACK = 'CLEAR_FEEDBACK';
@@ -30,3 +35,4 @@ export const DELETE_LOG = 'DELETE_LOG'
 
 export const ADD_ORDER = 'ADD_ORDER'
 export const DELETE_ORDER = 'DELETE_ORDER'
+export const UPDATE_ORDER = 'UPDATE_ORDER'
