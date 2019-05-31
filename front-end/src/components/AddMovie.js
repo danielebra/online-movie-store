@@ -29,6 +29,7 @@ class AddMovie extends Component {
 
   componentDidMount() {
     var elems = document.querySelectorAll('.dropdown-trigger');
+    console.log(elems)
     M.Dropdown.init(elems, {});
     this.props.getMovies();
   }

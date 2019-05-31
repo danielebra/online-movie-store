@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { getMovies, searchMovies, editGenre, editMovie, deleteMovie } from '../actions/movieActions';
 import Loading from '../components/Templates/loading';
+// import "../styles/_addmovie.scss";
 import M from "materialize-css";
 
 class UpdateMovie extends Component {
@@ -19,6 +20,9 @@ class UpdateMovie extends Component {
   }
 
   componentWillMount() {
+    // var elems = document.querySelectorAll('.dropdown-trigger');
+    // console.log(elems)
+    // M.Dropdown.init(elems, {});
     this.props.getMovies();
   }
 
@@ -41,6 +45,9 @@ class UpdateMovie extends Component {
     if (!this.state.errors) {
       this.closeEditingMode();
     }
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    M.Dropdown.init(elems, {});
+    console.log(elems)
   }
   //Deletes movie from database and refreshes state
   deleteMovie(movie) {
@@ -64,7 +71,11 @@ class UpdateMovie extends Component {
     // we create a new array so that there wont be more than one user on editing mode at the same time
     let arr = new Array(listLength).fill(false);
     arr[index] = true;
+    console.log("fufkhlasdasdf")
 
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    M.Dropdown.init(elems, {});
+    console.log(elems)
     this.state.isEditing = arr;
     this.forceUpdate()
   }
@@ -110,7 +121,13 @@ class UpdateMovie extends Component {
                   </nav>
                 </div>
               </div>
-
+              <a className='dropdown-trigger btn' href='#' data-target='dropdown1'> {
+                                 "temp"} </a>
+                                <ul id="dropdown1" className='dropdown-content'> 
+                                  
+                                    <li>one</li>
+                                  
+                                </ul>
               <h3> Movie Details</h3>
               <form className="col 10" onSubmit={this.onSubmit}>
                 <table className="table bordered highlight centered responsive-table management-table">
@@ -184,7 +201,7 @@ class UpdateMovie extends Component {
                                 <ul id="dropdown1" className='dropdown-content'> 
                                   {
                                     genres.map((genre, index) => {
-                                      return <li onClick={() => console.log("aaa")/*this.setGenre(movie.id, genre.id)*/}><a href="#!">{genre.name}</a></li>
+                                      return <li key={index} onClick={() => this.setGenre(movie.id, genre.id)}><a href="#!">{genre.name}</a></li>
                                     })
                                   }
                                 </ul>
@@ -286,7 +303,7 @@ class UpdateMovie extends Component {
                           </tr>
 
                         ) : ( //View Mode
-                            <tr className="min-width">
+                            <tr key={index} className="min-width">
                               <td>
                                 {movie.id}
                               </td>
