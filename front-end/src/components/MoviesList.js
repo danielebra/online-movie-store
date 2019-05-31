@@ -11,7 +11,7 @@ class MoviesList extends Component {
 
   constructor() {
     super();
-    
+
     this.state = {
       wishListActive: false
     }
@@ -32,7 +32,7 @@ class MoviesList extends Component {
     let pageContent;
 
     if (loading) {
-      pageContent = <Loading/>
+      pageContent = <Loading />
 
     } else if (wishListActive && wishList.length == 0) {
       pageContent = <p className="center"> You don't have any favourite movies. </p>
@@ -46,7 +46,7 @@ class MoviesList extends Component {
           collections = searchList;
         }
       }
-      
+
       if (wishListActive || (moviesList && collections == null)) {
         let wishListTitle = `${user.first_name}'s Wish List`;
         console.log(wishListActive);
@@ -54,7 +54,7 @@ class MoviesList extends Component {
 
         pageContent = (
           <div className="col s12 category">
-            <div className="movieTitle">{wishListActive ? wishListTitle : 'Movies' } </div>
+            <div className="movieTitle">{wishListActive ? wishListTitle : 'Movies'} </div>
             <ul className="categoryRow clearfix">
               <div
                 style={{
@@ -62,10 +62,10 @@ class MoviesList extends Component {
                   justifyContent: "normal",
                   flexWrap: "wrap"
                 }}>
-                { wishListActive ? wishList.map((item, index) => {
-                  return <MovieCard key={index} movie={item}/>
+                {wishListActive ? wishList.map((item, index) => {
+                  return <MovieCard key={index} movie={item} />
                 }) : moviesList.map((item, index) => {
-                  return <MovieCard key={index} movie={item}/>
+                  return <MovieCard key={index} movie={item} />
                 })}
               </div>
             </ul>
@@ -87,7 +87,7 @@ class MoviesList extends Component {
                     }}
                   >
                     {collections[index].movies.map((item, index) => {
-                      return <MovieCard key={index} movie={item}/>
+                      return <MovieCard key={index} movie={item} />
                     })}
                   </div>
                 </ul>
@@ -113,8 +113,8 @@ class MoviesList extends Component {
 
 // Map state to props so they can be used in this component
 const mapStateToProps = state => ({
-    movies: state.movies,
-    auth: state.auth
+  movies: state.movies,
+  auth: state.auth
 });
 
 // Connect actions to use within react and export component
