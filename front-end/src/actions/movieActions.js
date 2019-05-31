@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ERRORS, GET_FEEDBACK, GET_ORDER, DELETE_ORDER } from './types';
+import { GET_MOVIES, GET_MOVIE,SEARCH_MOVIES_ADMIN, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ERRORS, GET_FEEDBACK, GET_ORDER, DELETE_ORDER } from './types';
 import api from "../api";
 
 // Will call this from the view later
@@ -122,12 +122,19 @@ export const addReview = (movieId, review) => dispatch => {
 };
 
 
-export const searchMovies = query => dispatch => {
+export const searchMovies = (query, admin=false) => dispatch => {
     dispatch(setLoading());
-    dispatch({
-        type: SEARCH_MOVIES,
-        payload: query
-    })
+    if (admin) {
+        dispatch({
+            type: SEARCH_MOVIES_ADMIN,
+            payload: query
+        })
+    } else {
+        dispatch({
+            type: SEARCH_MOVIES,
+            payload: query
+        })
+    }
 };
 
 export const favouriteMovie = () => dispatch => {
