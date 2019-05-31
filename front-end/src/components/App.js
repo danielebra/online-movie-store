@@ -25,7 +25,6 @@ import PlaceOrder from './PlaceOrder';
 import OrderSuccess from './OrderSuccess';
 import UserOrders from './UserOrders';
 import AddMovie from './AddMovie';
-import AddSuccess from './AddSuccess';
 import UpdateMovie from './UpdateMovie';
 import AccountDetails from './Edit/AccountDetails';
 import UserManagement from './Admin/UserManagement';
@@ -58,7 +57,6 @@ class App extends Component {
             <Route exact path="/orders" component={UserOrders}/>
             <Route exact path="/order/:id" component={PlaceOrder}/>
             <Route exact path="/add_movie" component={AddMovie}/>
-            <Route exact path="/add_success" component={AddSuccess}/>
             <Route exact path="/update_movie" component={UpdateMovie}/>
             <Route exact path="/access_logs" component={AccessLogs}/>
             <Route exact path="/user_management" component={UserManagement}/>

@@ -85,7 +85,7 @@ class UserOrders extends Component{
                     {order.id}
                 </td>
                 <td>
-                    {order.title}
+                    {order.movie_title}
                 </td>
 
                 <td>
