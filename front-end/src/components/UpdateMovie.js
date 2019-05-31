@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import { getMovies, searchMovies, editGenre, editMovie, deleteMovie } from '../actions/movieActions';
+import { getMovies, searchMovies, editGenre, editMovie, deleteMovie, clearSearchList } from '../actions/movieActions';
 import Loading from '../components/Templates/loading';
 // import "../styles/_addmovie.scss";
 import M from "materialize-css";
@@ -10,6 +10,7 @@ class UpdateMovie extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      movieList: [],
       moviesCount: 0,
       isEditing: [],
       search: '',
@@ -17,6 +18,27 @@ class UpdateMovie extends Component {
       selectedGenreId: '',
       selectedGenreName: ''
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.movies.moviesList || nextProps.movies.moviesSearchList) {
+      const { moviesList, searchList } = nextProps.movies;
+      console.log(nextProps.movies);
+
+      let movies, isEditing;
+
+      if (searchList != null)
+        movies = searchList;
+      else
+        movies = moviesList;
+      
+      isEditing = new Array(movies.length).fill(false);
+      this.setState({ movieList: movies, isEditing });
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.clearSearchList();
   }
 
   componentWillMount() {
@@ -30,7 +52,8 @@ class UpdateMovie extends Component {
     event.preventDefault();
     this.setState({ search: event.target.value }, () => {
       let query = this.state.search;
-      this.props.searchMovies(query);
+      let admin = true;
+      this.props.searchMovies(query, admin);
     });
   }
 
@@ -89,12 +112,7 @@ class UpdateMovie extends Component {
   }
 
   render() {
-    let { moviesList, searchList, genres } = this.props.movies;
-    let movieList = moviesList;
-    if (searchList != null) {
-      movieList = searchList;
-    }
-    let isEditing = this.state.isEditing
+    const { movieList, isEditing, genres } = this.state;
 
     if (movieList != null) {
       return (
@@ -380,4 +398,4 @@ const mapStateToProps = state => ({
   movies: state.movies
 });
 
-export default connect(mapStateToProps, { getMovies, searchMovies, editGenre, editMovie, deleteMovie })(UpdateMovie);
+export default connect(mapStateToProps, { getMovies, searchMovies, editGenre, editMovie, deleteMovie, clearSearchList })(UpdateMovie);

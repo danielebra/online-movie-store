@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE, ADD_REVIEW, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ORDER, DELETE_ORDER } from '../actions/types';
+import { GET_MOVIES, GET_MOVIE, SEARCH_MOVIES_ADMIN, ADD_REVIEW, MOVIES_LOADING, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ORDER, DELETE_ORDER } from '../actions/types';
 
 /* The movies state contains the following:
     - collections: an array  containing a genre and a list of movies in that genre
@@ -21,7 +21,7 @@ const initialState = {
 // The state parameter is the movies state that comes from the store
 // The action is the object containing a type and payload we dispatched in the action creator
 export default function (state = initialState, action) {
-    let list;
+    let list, movies;
 
     if (localStorage.wishlist)
         state.wishList = JSON.parse(localStorage.wishlist);
@@ -93,6 +93,24 @@ export default function (state = initialState, action) {
                 wishList: list
             };
 
+        case SEARCH_MOVIES_ADMIN:
+            if (state.moviesList == null)
+                return {
+                    ...state,
+                    loading: false
+                };
+
+            movies = state.moviesList.filter(movie => movie.genre[0].toLowerCase().includes(action.payload.toLowerCase()));
+
+            if (movies.length == 0) {
+                movies = state.moviesList.filter(movie => movie.title.toLowerCase().includes(action.payload.toLowerCase()))
+            }
+
+            return {
+                ...state,
+                searchList: movies
+            }
+
         case SEARCH_MOVIES:
 
             if (state.collections == null)
@@ -101,7 +119,7 @@ export default function (state = initialState, action) {
                     loading: false
                 };
 
-            let movies = state.collections.filter(movie => movie.genre.toLowerCase() == action.payload);
+            movies = state.collections.filter(movie => movie.genre.toLowerCase() == action.payload);
             
             if (movies.length == 0) {
                 state.moviesList.forEach(movie => {
