@@ -47,7 +47,7 @@ class UserOrders extends Component{
     handleDelete=(order)=>{
         this.props.deleteOrder(order)
     }
-
+// change date fromat
     reformatDate=(date)=>{
         let year = date.getFullYear()
         let month = '' + (date.getMonth() + 1);
@@ -86,7 +86,7 @@ class UserOrders extends Component{
         this.forceUpdate()
     }
 
-    // passes the user details to redux 
+    // passes the order details to redux 
     editOrder(index) {
         let order = this.state.orders[index];
         console.log('editing order', order);
