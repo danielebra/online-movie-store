@@ -172,11 +172,15 @@ class Login extends Component {
                   </div>
                 </form>
 
-                {/* <div className="input-field col s12" onClick={this.props.superLoginForDevelopment}>
-                    <button className="button-primary">
-                      <span> Visit as Anonymous user </span>
-                    </button>
-                </div> */}
+                {/* Bypass auth button */}
+                <div
+                  className="input-field col s12"
+                  onClick={this.props.superLoginForDevelopment}
+                >
+                  <button className="button-primary">
+                    <span>Continue as George</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
