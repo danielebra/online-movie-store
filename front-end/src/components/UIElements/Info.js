@@ -13,9 +13,7 @@ class Info extends Component {
           </p>
         </div>
 
-        <div className="description">
-          {movie.description}
-        </div>
+        <div className="description">{movie.description}</div>
       </div>
     );
   }

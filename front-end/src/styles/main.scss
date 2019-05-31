@@ -2,7 +2,7 @@
 
 /* Application Styles */
 
-$primary-color: #BADA55;
+$primary-color: #bada55;
 $primary-color-hover: $primary-color * 1.5;
 
 $nav_color: #222;
@@ -12,7 +12,6 @@ $background-color: #262426;
 $text-color: #bdbdbd;
 $focus-text-color: #eeeeee;
 
-
 $btn-primary: #cc1b24;
 
 //@import "variables";
@@ -21,259 +20,288 @@ $btn-primary: #cc1b24;
 @import "movie";
 
 body {
-    background-image: radial-gradient(circle, #1b0809, #000, #000, #111, #222);
-    //background-image: linear-gradient(147deg, #1b1212 0%, #1d1212 75%);
-    font-family: 'Montserrat', sans-serif;
-    color: $text-color;
+  background-image: radial-gradient(circle, #1b0809, #000, #000, #111, #222);
+  //background-image: linear-gradient(147deg, #1b1212 0%, #1d1212 75%);
+  font-family: "Montserrat", sans-serif;
+  color: $text-color;
 }
 
-.box{
-    margin: 150px auto !important;
-    padding: 50px;
-    display: block;
-    background: rgba(0, 0, 0, 0.795);
-    position: relative;
-    -webkit-box-shadow: 0 3px 9px 0 rgba(0,0,0,.1);
-    box-shadow: 0 3px 9px 0 rgba(0, 0, 0, 0.459);
-    -webkit-transition-property: -webkit-box-shadow;
-    transition-property: -webkit-box-shadow;
-    transition-property: box-shadow;
-    transition-property: box-shadow,-webkit-box-shadow;
-    -webkit-transition-duration: .3s;
-    transition-duration: .3s;
-    -webkit-transition-timing-function: ease-out;
-    transition-timing-function: ease-out;
+.box {
+  margin: 150px auto !important;
+  padding: 50px;
+  display: block;
+  background: rgba(0, 0, 0, 0.795);
+  position: relative;
+  -webkit-box-shadow: 0 3px 9px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 9px 0 rgba(0, 0, 0, 0.459);
+  -webkit-transition-property: -webkit-box-shadow;
+  transition-property: -webkit-box-shadow;
+  transition-property: box-shadow;
+  transition-property: box-shadow, -webkit-box-shadow;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
 }
 
-.box:hover{
-    -webkit-transition-property: -webkit-box-shadow;
-    transition-property: -webkit-box-shadow;
-    transition-property: box-shadow;
-    transition-property: box-shadow,-webkit-box-shadow;
-    -webkit-transition-duration: .1s;
-    transition-duration: .1s;
-    -webkit-transition-timing-function: ease-in;
-    transition-timing-function: ease-in;
-    -webkit-box-shadow: 0 14px 42px 0 rgba(0,0,0,.2);
-    box-shadow: 0 14px 42px 0 rgba(0,0,0,.2);
-    text-decoration: none;
+.box:hover {
+  -webkit-transition-property: -webkit-box-shadow;
+  transition-property: -webkit-box-shadow;
+  transition-property: box-shadow;
+  transition-property: box-shadow, -webkit-box-shadow;
+  -webkit-transition-duration: 0.1s;
+  transition-duration: 0.1s;
+  -webkit-transition-timing-function: ease-in;
+  transition-timing-function: ease-in;
+  -webkit-box-shadow: 0 14px 42px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 14px 42px 0 rgba(0, 0, 0, 0.2);
+  text-decoration: none;
 }
 
 .heading {
-    margin-top: -5px;
+  margin-top: -5px;
 }
 
 .loading {
-    padding-top: 200px;
+  padding-top: 200px;
 }
 
 .heading h3 {
-    font-weight: 700;
-    margin-left: 10px;
-    text-transform: uppercase;
-    font-weight: 500;
-    font-size: 40px;
-    color: rgb(231, 231, 231);
+  font-weight: 700;
+  margin-left: 10px;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 40px;
+  color: rgb(231, 231, 231);
 }
 
 button:focus {
-    background-color: $btn-primary !important;
+  background-color: $btn-primary !important;
 }
 
 .button-primary {
-    padding: 20px 35px !important;
-    width: 100%;
-    border-radius: 4px;
-    letter-spacing: 1.3px;
-    background: $btn-primary;    
-    display: inline-block;
-    color: #fff;
-    border: none;
-    box-shadow: 0 2px 3px rgba(0,0,0,.05);
-    letter-spacing: 0;
-    font-size: 16px;
-    transition: all .2s cubic-bezier(.03,1.12,.64,.99);
+  padding: 20px 35px !important;
+  width: 100%;
+  border-radius: 4px;
+  letter-spacing: 1.3px;
+  background: $btn-primary;
+  display: inline-block;
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+  letter-spacing: 0;
+  font-size: 16px;
+  transition: all 0.2s cubic-bezier(0.03, 1.12, 0.64, 0.99);
 }
 
 .button-primary:hover {
-    background: #cc1b24c2;
-    color: #fff;
-    cursor: pointer;
-    -webkit-transform: scale(1.02);
-    transform: scale(1.02);
+  background: #cc1b24c2;
+  color: #fff;
+  cursor: pointer;
+  -webkit-transform: scale(1.02);
+  transform: scale(1.02);
 }
 
 img.backgroundImage {
-    min-height: 100%;
-    min-width: 1024px;
-    width: 100%;
-    height: auto;
-    position: fixed;
-    top: 0;
-    left: 0;
-    opacity: 0.7;
-    width:100%; 
-    height:100%;
-    display:block;
-    object-fit: cover;
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.7;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
-table.striped>tbody>tr:nth-child(odd){
-    background-color :#222 !important;
+table.striped > tbody > tr:nth-child(odd) {
+  background-color: #222 !important;
 }
 
 .management-table {
-    thead {
-        background-color: rgba(100, 18, 18, 0.555);
-    }
-    tbody {
-    }
-    input {
-        font-size: 14px !important;
-        text-align: center;
-    }
-    .input-field {
-        width: 100% !important;
-        margin: 0 !important;
-    }
+  thead {
+    background-color: rgba(100, 18, 18, 0.555);
+  }
+  tbody {
+  }
+  input {
+    font-size: 14px !important;
+    text-align: center;
+  }
+  .input-field {
+    width: 100% !important;
+    margin: 0 !important;
+  }
 }
 
-table.highlight>tbody>tr:hover {
-    background-color: rgba(58, 58, 58, 0.603) !important;
-    color: white;
+table.highlight > tbody > tr:hover {
+  background-color: rgba(58, 58, 58, 0.603) !important;
+  color: white;
 }
 
-table.editDetails{
-    width: 60%;
-    margin-left: 185px;
-    margin-top: 10px;
+table.editDetails {
+  width: 60%;
+  margin-left: 185px;
+  margin-top: 10px;
 }
 
 tbody {
-    display: table-row-group;
-    vertical-align: middle;
-    border-color: inherit;
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit;
 }
 
-td, tr {
-    text-align: center;
-    vertical-align: middle;
-    border-radius: 2px;
+td,
+tr {
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 2px;
 }
 
 tr {
-    border-bottom: 1px solid rgba(0,0,0,0.12)
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-table.centered thead tr th, table.centered tbody tr td {
-    text-align: center;
+table.centered thead tr th,
+table.centered tbody tr td {
+  text-align: center;
 }
 
-.editBtn, .deleteBtn{
-    margin-top: 30px;
-    margin-bottom: -20px;
-    margin-left: 10px;
-    margin-right: 20px;
-    font-size: 14px !important;
+.editBtn,
+.deleteBtn {
+  margin-top: 30px;
+  margin-bottom: -20px;
+  margin-left: 10px;
+  margin-right: 20px;
+  font-size: 14px !important;
 }
 
 .delete-modal {
-    background-color: #222 !important;
-    margin-top: 125px !important;
+  background-color: #222 !important;
+  margin-top: 125px !important;
 }
 
-.right-m { 
-    margin-right: 50px;
+.right-m {
+  margin-right: 50px;
 }
 
 .add-order {
-    input {
-        color: #bdbdbd;
-    }
+  input {
+    color: #bdbdbd;
+  }
 
-    .error {
-        font-size: 13px;
-    }
+  .error {
+    font-size: 13px;
+  }
 
-    input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
-        border-bottom: 1px solid #9a2553;
-        box-shadow: 0 1px 0 0 #630000;
-    }
-
+  input:not([type]):focus:not([readonly]),
+  input[type="text"]:not(.browser-default):focus:not([readonly]),
+  input[type="password"]:not(.browser-default):focus:not([readonly]),
+  input[type="email"]:not(.browser-default):focus:not([readonly]),
+  input[type="url"]:not(.browser-default):focus:not([readonly]),
+  input[type="time"]:not(.browser-default):focus:not([readonly]),
+  input[type="date"]:not(.browser-default):focus:not([readonly]),
+  input[type="datetime"]:not(.browser-default):focus:not([readonly]),
+  input[type="datetime-local"]:not(.browser-default):focus:not([readonly]),
+  input[type="tel"]:not(.browser-default):focus:not([readonly]),
+  input[type="number"]:not(.browser-default):focus:not([readonly]),
+  input[type="search"]:not(.browser-default):focus:not([readonly]),
+  textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #9a2553;
+    box-shadow: 0 1px 0 0 #630000;
+  }
 }
 .add-user-modal {
-    background-color: #222 !important;
-    width: 75% !important;
-    max-height: 100% !important;
+  background-color: #222 !important;
+  width: 75% !important;
+  max-height: 100% !important;
 }
 
 .modal-title {
-    color: rgb(177, 0, 9);
-    font-size: 23px;
-    font-weight: 400;
+  color: rgb(177, 0, 9);
+  font-size: 23px;
+  font-weight: 400;
 }
 
 .modalFooter {
-    background-color: black !important;
-    text-align: center;
-    padding: 15px;
-    margin: 10px;
+  background-color: black !important;
+  text-align: center;
+  padding: 15px;
+  margin: 10px;
 
-    a {
-        color: rgb(184, 184, 184);
-        margin: 0 10px;
-    }
-    a:hover {
-        color: white;
-    }
+  a {
+    color: rgb(184, 184, 184);
+    margin: 0 10px;
+  }
+  a:hover {
+    color: white;
+  }
 }
 
 .editBtn {
-    background: #07b3a4c2 !important;
+  background: #07b3a4c2 !important;
 }
 
 .editBtn:hover {
-    background: #09e7d5c2 !important;
+  background: #09e7d5c2 !important;
 }
 
 .deleteBtn {
-    background: #cc383fc2 !important;
+  background: #cc383fc2 !important;
 }
 
 .deleteBtn:hover {
-    background: #ec242ec2 !important;
+  background: #ec242ec2 !important;
 }
 
 .updateBtns {
-    margin-top: 25px;
+  margin-top: 25px;
 }
 
-.cancelBtn, .cancelBtn:active, .cancelBtn:focus {
-    background: #cc1b24c2 !important;
-    margin-left: 300px;
+.cancelBtn,
+.cancelBtn:active,
+.cancelBtn:focus {
+  background: #cc1b24c2 !important;
+  margin-left: 300px;
 }
-.editSubmitBtn, .editSubmitBtn:active, .editSubmitBtn:focus {
-    background: #2fe929c2 !important;
-    margin-left: 300px;
-}
-
-.account-details, .add-review {
-    .input-field {
-        width: 300px;
-        margin-left: 75px;
-    }
-    input {
-        color: #bdbdbd;
-    }
-
-    .error {
-        font-size: 13px;
-    }
-
-    input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
-        border-bottom: 1px solid #9a2553;
-        box-shadow: 0 1px 0 0 #630000;
-    }
+.editSubmitBtn,
+.editSubmitBtn:active,
+.editSubmitBtn:focus {
+  background: #2fe929c2 !important;
+  margin-left: 300px;
 }
 
+.account-details,
+.add-review {
+  .input-field {
+    width: 300px;
+    margin-left: 75px;
+  }
+  input {
+    color: #bdbdbd;
+  }
 
+  .error {
+    font-size: 13px;
+  }
+
+  input:not([type]):focus:not([readonly]),
+  input[type="text"]:not(.browser-default):focus:not([readonly]),
+  input[type="password"]:not(.browser-default):focus:not([readonly]),
+  input[type="email"]:not(.browser-default):focus:not([readonly]),
+  input[type="url"]:not(.browser-default):focus:not([readonly]),
+  input[type="time"]:not(.browser-default):focus:not([readonly]),
+  input[type="date"]:not(.browser-default):focus:not([readonly]),
+  input[type="datetime"]:not(.browser-default):focus:not([readonly]),
+  input[type="datetime-local"]:not(.browser-default):focus:not([readonly]),
+  input[type="tel"]:not(.browser-default):focus:not([readonly]),
+  input[type="number"]:not(.browser-default):focus:not([readonly]),
+  input[type="search"]:not(.browser-default):focus:not([readonly]),
+  textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #9a2553;
+    box-shadow: 0 1px 0 0 #630000;
+  }
+}

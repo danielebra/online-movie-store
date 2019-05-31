@@ -1,63 +1,64 @@
 .auth {
-    input {
-        color: #eee;
-        font-weight: 100;
-    }
+  input {
+    color: #eee;
+    font-weight: 100;
+  }
 
-    input:focus {
-        border-bottom: 1px solid #000 !important;
-        box-shadow: 0 1px 0 0 #5b8bbb !important;
-    }
+  input:focus {
+    border-bottom: 1px solid #000 !important;
+    box-shadow: 0 1px 0 0 #5b8bbb !important;
+  }
 
-    
-    input[type=text]:not(.browser-default):focus:not([readonly])+label, input[type=email]:not(.browser-default):focus:not([readonly])+label, input[type=password]:not(.browser-default):focus:not([readonly])+label {
-        color: #5b8bbb;
-    }
+  input[type="text"]:not(.browser-default):focus:not([readonly]) + label,
+  input[type="email"]:not(.browser-default):focus:not([readonly]) + label,
+  input[type="password"]:not(.browser-default):focus:not([readonly]) + label {
+    color: #5b8bbb;
+  }
 
-    form {
-        margin-top: 35px;
-    }
+  form {
+    margin-top: 35px;
+  }
 
-    .no-account {
-        margin: 0px 10px 10px 0;
-    }
+  .no-account {
+    margin: 0px 10px 10px 0;
+  }
 
-    .no-account:hover {
-        opacity: 0.8;
-        transition-duration: .3s;
-    }
+  .no-account:hover {
+    opacity: 0.8;
+    transition-duration: 0.3s;
+  }
 }
 
 .registerBtn {
-    margin-top: 35px;
+  margin-top: 35px;
 }
 
 .checkbox-red[type="checkbox"].filled-in:checked + span:not(.lever):after {
-    border: 2px solid #e5424d;  
-    background-color: #e5424d;
+  border: 2px solid #e5424d;
+  background-color: #e5424d;
 }
 
-@media (min-width: 990px){
-    .auth{
-        margin: auto;
-        width: 50%;
-    }
+@media (min-width: 990px) {
+  .auth {
+    margin: auto;
+    width: 50%;
+  }
 }
 
-.error { 
-    color: #e5424d !important;
-    font-size: 0.75rem;
-    letter-spacing: 0.025rem;
-    margin-top: 4px;
-    text-align: left;
-    font-weight: 500;
+.error {
+  color: #e5424d !important;
+  font-size: 0.75rem;
+  letter-spacing: 0.025rem;
+  margin-top: 4px;
+  text-align: left;
+  font-weight: 500;
 }
 
-.success { 
-    color: #32dd57 !important;
-    letter-spacing: 0.025rem;
-    font-size: 14px;
-    margin-top: 4px;
-    text-align: left;
-    font-weight: 500;
+.success {
+  color: #32dd57 !important;
+  letter-spacing: 0.025rem;
+  font-size: 14px;
+  margin-top: 4px;
+  text-align: left;
+  font-weight: 500;
 }

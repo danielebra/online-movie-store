@@ -1,121 +1,124 @@
-  
-#header {    
-    position: fixed;    
-    left: 0;    
-    right: 0;                
-    top: -1px;
-    z-index: 100;
-    background: $nav_color;
-    box-shadow: 0 2px 0px 0 rgba(99, 99, 99, 0.59), 0 3px 0px 0px black, 0 1px 0px 0px rgba(27, 27, 27, 0.72);
+#header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -1px;
+  z-index: 100;
+  background: $nav_color;
+  box-shadow: 0 2px 0px 0 rgba(99, 99, 99, 0.59), 0 3px 0px 0px black,
+    0 1px 0px 0px rgba(27, 27, 27, 0.72);
 
-    .search {
-        background: #222;
-        width: 400px;
-        margin-left: 10px;
-    }
-    .input-field input[type=search] {
-        color: $text_color;
-    }
+  .search {
+    background: #222;
+    width: 400px;
+    margin-left: 10px;
+  }
+  .input-field input[type="search"] {
+    color: $text_color;
+  }
 
-    .input-field input[type=search]:focus:not(.browser-default) {
-        background-color: #222;
-    }
+  .input-field input[type="search"]:focus:not(.browser-default) {
+    background-color: #222;
+  }
 
-    .brand-logo, .brand-logo:focus {
-        font-weight: 700;
-        color: rgb(253, 95, 95);
-        text-transform: uppercase;
-    }
+  .brand-logo,
+  .brand-logo:focus {
+    font-weight: 700;
+    color: rgb(253, 95, 95);
+    text-transform: uppercase;
+  }
 
-    ul {
-        li {
-            margin-top: 1px;
-            nav {
-                box-shadow: none !important;
-            }
-        }
+  ul {
+    li {
+      margin-top: 1px;
+      nav {
+        box-shadow: none !important;
+      }
     }
+  }
 
-    a {
-        font-weight: 100;
-        color: $text_color;
-    }
+  a {
+    font-weight: 100;
+    color: $text_color;
+  }
 
-    a:hover, a:focus, .brand-logo:hover, .current {
-        color: $focus-text-color;
-        transition: 0.3s;
-    }
+  a:hover,
+  a:focus,
+  .brand-logo:hover,
+  .current {
+    color: $focus-text-color;
+    transition: 0.3s;
+  }
 }
 
 .left-margin {
-    margin-left: 300px;
+  margin-left: 300px;
 }
 
 .right-margin {
-    margin-right: 25px;
+  margin-right: 25px;
 }
 
 .newsidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    right: 0;
-    background-color: #111;
-    overflow-x: hidden;
-    padding-top: 60px;
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 60px;
 }
 
 .newsidenav a {
-    margin-left: 35px;
-    margin-bottom: -20px;
-    text-decoration: none;
-    font-size: 16px;
-    color: #818181;
-    display: block;
+  margin-left: 35px;
+  margin-bottom: -20px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #818181;
+  display: block;
 }
 
 .newsidenav a:hover {
-    color: #f1f1f1;
+  color: #f1f1f1;
 }
 
 .newsidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 30px;
-    margin-left: 50px;
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 30px;
+  margin-left: 50px;
 }
 
 #footer {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    padding: 1rem;
-    text-align: center;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
 
-    .ele {
-        z-index: 999;
+  .ele {
+    z-index: 999;
 
-        .logo {
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        p {
-            color: #eee;
-            font-size: 10px;
-            margin-top: 0px;
-            text-transform: lowercase;
-            font-weight: 100
-        }
+    .logo {
+      font-weight: 700;
+      text-transform: uppercase;
     }
+    p {
+      color: #eee;
+      font-size: 10px;
+      margin-top: 0px;
+      text-transform: lowercase;
+      font-weight: 100;
+    }
+  }
 }
 
-@media (min-width: 990px){
-    .brand-logo{
-        margin-left: 100px;
-    }
+@media (min-width: 990px) {
+  .brand-logo {
+    margin-left: 100px;
+  }
 }
-

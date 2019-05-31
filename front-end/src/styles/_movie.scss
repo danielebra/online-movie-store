@@ -1,352 +1,364 @@
-
 #moviesContainer {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
-.movieTitle {    
-    font-size: 25px;
-    padding-left: 15px;
-    //padding-top: 50px;  
-    margin-bottom: 5px;
-    color: $focus-text-color;
-    font-weight: 100;
+.movieTitle {
+  font-size: 25px;
+  padding-left: 15px;
+  //padding-top: 50px;
+  margin-bottom: 5px;
+  color: $focus-text-color;
+  font-weight: 100;
 }
 
 .movies-list {
-    padding: 150px 150px;
+  padding: 150px 150px;
 }
 
 .category {
-    overflow-x: auto;
-    overflow-y: hidden;
-    width: 100%;
-    -webkit-overflow-scrolling: touch;  
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
-.categoryRow {  
-    padding: 5px;    
-    overflow: hidden;
-    list-style-type: none;      
-    -webkit-margin-before: 0;
-    -webkit-margin-after: 0;
-    -webkit-padding-start: 10px;
-    margin-bottom: 25px;
+.update-genre-modal {
+  width: 30% !important;
+  background-color: black !important;
+}
+
+.update-genre-title {
+  color: white !important;
+}
+
+.update-genre-btn {
+  font-size: 15px;
+  background-color: #3c3837 !important;
+  padding: 0;
+}
+
+.categoryRow {
+  padding: 5px;
+  overflow: hidden;
+  list-style-type: none;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-padding-start: 10px;
+  margin-bottom: 25px;
 }
 
 .category li {
-    margin: 10px 5px;
-    float: left;
-    border: none;
-    position: relative;
+  margin: 10px 5px;
+  float: left;
+  border: none;
+  position: relative;
 }
 
 .category li span:active:after {
-    background: #000;
-    display: block;
-    height: 100%;
-    left: 0;
-    opacity: 0.5;
-    position: absolute;
-    top: 0;
-    width: 100%;
+  background: #000;
+  display: block;
+  height: 100%;
+  left: 0;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 
 .movie {
-    -webkit-transition: all 0.4s ease;
-    transition: all 0.4s ease;
-    cursor: pointer;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  cursor: pointer;
 }
 
 .movie-home-image {
-    width: 150px;
+  width: 150px;
 }
 
 .movie:hover {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
-    opacity: .9;
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+  opacity: 0.9;
 }
 
 .movie img {
-    display: inline-block;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -webkit-user-select: none;
+  display: inline-block;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -webkit-user-select: none;
 }
 
-
 .floatRight {
-    float: right;
+  float: right;
 }
 
 .floatLeft {
-    float: left;
+  float: left;
 }
 
 .clearfix:before,
 .clearfix:after {
-    content: "";
-    display: table;
+  content: "";
+  display: table;
 }
 
 .clearfix:after {
-    clear: both;
+  clear: both;
 }
 .mov {
-    margin-top: 75px;
+  margin-top: 75px;
 }
 
-
 img.moviesBackground {
-    min-height: 100%;
-    min-width: 1024px;
-    width: 100%;
-    height: auto;
-    position: fixed;
-    top: 0;
-    left: 0;
-    opacity: 0.1;
-    width:100%; 
-    height:100%;
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.1;
+  width: 100%;
+  height: 100%;
 }
 
 .top-padding {
-    padding-top: 150px;
+  padding-top: 150px;
 }
 
 .movieDetailsImg {
-    height: 450px;
-    margin: 50px;
+  height: 450px;
+  margin: 50px;
 }
 
-.movieTitleDetail {    
-    font-size: 40px;
-    margin-bottom: -20px;
-    font-weight: 100;
-    font-weight: 500;
-    text-transform: uppercase;
-    color: #eee;
+.movieTitleDetail {
+  font-size: 40px;
+  margin-bottom: -20px;
+  font-weight: 100;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #eee;
 
-    span {
-        font-size: 25px;
-    }
+  span {
+    font-size: 25px;
+  }
 }
 
 .details {
-    margin-top: 50px;
+  margin-top: 50px;
 
-    .tabs, .tab a:focus, .tabs .tab a:focus.active {
-        background: transparent;
-    }
+  .tabs,
+  .tab a:focus,
+  .tabs .tab a:focus.active {
+    background: transparent;
+  }
 }
 
 .info {
-    margin-top: 50px;
-    .video-meta {
-        p {
-            font-weight: bold;
-            margin-bottom: -20px;
-            font-size: 16px;
-        }
+  margin-top: 50px;
+  .video-meta {
+    p {
+      font-weight: bold;
+      margin-bottom: -20px;
+      font-size: 16px;
     }
+  }
 }
 .MA {
-    span {
-        border: #eee solid;
-        display: inline;
-        padding: 5px;
-    }
+  span {
+    border: #eee solid;
+    display: inline;
+    padding: 5px;
+  }
 }
 
 .movie-tabs {
-    margin-top: 50px;
+  margin-top: 50px;
 }
 
 .tabs .indicator {
-    background-color: #dc000a !important;
+  background-color: #dc000a !important;
 }
 .description {
-    margin-top: 35px;
-    color: rgb(126, 126, 126);
-    font-size: 15px;
+  margin-top: 35px;
+  color: rgb(126, 126, 126);
+  font-size: 15px;
 }
 
 .card {
-    height: 160px;
-    background-color: #191717 !important;
+  height: 160px;
+  background-color: #191717 !important;
 }
 
 .authorName {
-    font-size: 20px;
-    color: white;
-    margin-left: 20px;
-    font-weight: 500;
+  font-size: 20px;
+  color: white;
+  margin-left: 20px;
+  font-weight: 500;
 }
 
 .card-image {
-    font-size: 50px;
-    padding: 20px;
-    background: #383737;
+  font-size: 50px;
+  padding: 20px;
+  background: #383737;
 }
 
 .card-content {
-    color: rgb(126, 126, 126);
-    margin-top: -35px;
-    margin-left: -5px;
+  color: rgb(126, 126, 126);
+  margin-top: -35px;
+  margin-left: -5px;
 }
 
 .review-stars {
-    padding: 5px;
-    text-align: center;
+  padding: 5px;
+  text-align: center;
 }
 
 .trailer {
-    border: none;
-    width: 100%;
-    height: 500px;
+  border: none;
+  width: 100%;
+  height: 500px;
 }
 
 .videoWrapper {
-    padding-bottom: 56.25%; /* 16:9 */
-    padding-top: 25px;
-    height: 0;
-    overflow:hidden;
-    pointer-events: none;
+  padding-bottom: 56.25%; /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 .videoWrapper iframe {
-    position: absolute;
-    top: 102%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    height: calc(100% + 50px);
+  position: absolute;
+  top: 102%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  height: calc(100% + 50px);
 }
 
 .movieButton {
-    background: #cc1b24c2 !important;
-    margin-top: 30px;
-    margin-bottom: -20px;
-    margin-left: 10px;
-    margin-right: 20px;
-    width: 35%;
+  background: #cc1b24c2 !important;
+  margin-top: 30px;
+  margin-bottom: -20px;
+  margin-left: 10px;
+  margin-right: 20px;
+  width: 35%;
 }
 
-.movieList{
-    background-color: white !important;
+.movieList {
+  background-color: white !important;
 }
 
 .fav a {
-    color: white !important;
+  color: white !important;
 }
 
-i.modal-close-red{
-    color: white;
+i.modal-close-red {
+  color: white;
 }
 
 span.badge.new {
-    background-color: #b32b00 !important;
+  background-color: #b32b00 !important;
 }
 
 .addUserBtn {
-    margin-bottom: 15px !important;
-    background-color: #b32b00 !important;
+  margin-bottom: 15px !important;
+  background-color: #b32b00 !important;
 }
 
 i.add {
-    font-size: 25px !important;
+  font-size: 25px !important;
 }
 
 .pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .add-user-modal-title {
-    font-size: 30px !important;
+  font-size: 30px !important;
 }
 
 .all-btn-d {
-    width: 15%;
+  width: 15%;
 }
 .all-btn-d:hover {
-    background-color: #b32b00 !important;
+  background-color: #b32b00 !important;
 }
 .search-users {
-
-    .input-field {
-        width: 100% !important;
-        margin-left: 0px !important;
-    }
+  .input-field {
+    width: 100% !important;
+    margin-left: 0px !important;
+  }
+  background-color: #252525;
+  color: white;
+  .input-field input[type="search"]:focus:not(.browser-default) {
     background-color: #252525;
-    color: white;
-    .input-field input[type=search]:focus:not(.browser-default) {
-        background-color: #252525;
-        color: rgb(218, 218, 218);
-    }
+    color: rgb(218, 218, 218);
+  }
 
-    input[type=search]:not(.browser-default):focus:not([readonly]) {
-        border-bottom: green !important;
-        box-shadow: green !important;
-    }
+  input[type="search"]:not(.browser-default):focus:not([readonly]) {
+    border-bottom: green !important;
+    box-shadow: green !important;
+  }
 }
 
-
-
-
 .addUserBtn:hover {
-    background-color: #c96243 !important;
+  background-color: #c96243 !important;
 }
 
 .material-icons {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    margin-bottom: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  margin-bottom: 5px;
 }
 
 .movieButton:hover {
-    background: #fff !important;
-    color: #cc1b24c2;
-    transition: 0.3s;
-    -webkit-transform: scale(1.01);
-    transform: scale(1.01);
+  background: #fff !important;
+  color: #cc1b24c2;
+  transition: 0.3s;
+  -webkit-transform: scale(1.01);
+  transform: scale(1.01);
 }
 .starr {
-    padding-top: 1px;
+  padding-top: 1px;
 }
 
 .wishListBadge {
-    float: right;
-    margin-right: 10px;
+  float: right;
+  margin-right: 10px;
 }
 
 .review {
-    padding-right: 10px;
-    font-size: 16px;
+  padding-right: 10px;
+  font-size: 16px;
 }
 
 i.favIcon {
-    margin-top: 5px;
-    margin-right: 20px;
-    cursor: pointer;
+  margin-top: 5px;
+  margin-right: 20px;
+  cursor: pointer;
 }
 
 .addReviewBtn {
-    font-size: 13px !important;
-    background: #c71f27c2 !important;
+  font-size: 13px !important;
+  background: #c71f27c2 !important;
 }
 
 .add-review {
-    margin-left: 150px;
+  margin-left: 150px;
 }
 
 .tab {
-    a {
-        color: $text-color !important;
-    }
-    a:hover, a:active, a:focus {
-        color: $focus-text-color !important;
-    }
+  a {
+    color: $text-color !important;
+  }
+  a:hover,
+  a:active,
+  a:focus {
+    color: $focus-text-color !important;
+  }
 }

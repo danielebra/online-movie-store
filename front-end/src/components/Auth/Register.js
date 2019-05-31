@@ -2,8 +2,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import isEmpty from '../../isEmpty';
-import { registerUser, registerAnonymousUser, clearErrors } from "../../actions/authActions";
+import isEmpty from "../../isEmpty";
+import {
+  registerUser,
+  registerAnonymousUser,
+  clearErrors
+} from "../../actions/authActions";
 import bg from "../../images/bg2.jpg";
 
 // Custom react component/class
@@ -32,21 +36,19 @@ class Register extends Component {
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-        this.props.history.push('/');
+      this.props.history.push("/");
     }
-}
+  }
 
   componentWillReceiveProps(nextProps) {
-    
-    if(nextProps.errors){
+    if (nextProps.errors) {
       let errors = {};
 
-      Object.keys(nextProps.errors) 
-        .forEach(function eachKey(key) { 
-          errors[key] = nextProps.errors[key][0];
-        });
-      
-        this.setState({ errors });
+      Object.keys(nextProps.errors).forEach(function eachKey(key) {
+        errors[key] = nextProps.errors[key][0];
+      });
+
+      this.setState({ errors });
     }
 
     if (nextProps.auth.isAuthenticated) {
@@ -59,13 +61,13 @@ class Register extends Component {
   }
 
   onChange = event => {
-    this.setState({ [event.target.name]: event.target.value })
+    this.setState({ [event.target.name]: event.target.value });
     console.log(event.target.value);
-  }
+  };
 
   onSubmit = event => {
     event.preventDefault();
-    
+
     if (!this.validatePassword(this.state.password, this.state.passwordConfirm))
       return false;
 
@@ -88,16 +90,15 @@ class Register extends Component {
     const { anonymousUserAuthenticated, user } = this.props.auth;
 
     if (anonymousUserAuthenticated) {
-      userData['id'] = user.id;
-      userData['shipping_address'] = user.shipping_address;
-      
+      userData["id"] = user.id;
+      userData["shipping_address"] = user.shipping_address;
+
       console.log(userData);
       this.props.registerAnonymousUser(userData, this.props.history);
-
     } else {
       this.props.registerUser(userData, this.props.history);
     }
-}
+  };
 
   firstUpperLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -110,10 +111,10 @@ class Register extends Component {
       password = password.trim();
 
       if (password.length < 6)
-        errors.password = 'Password must be atleast 6 characters';
+        errors.password = "Password must be atleast 6 characters";
 
       if (password !== passwordConfirm.trim())
-        errors.passwordConfirm = 'Password must match';
+        errors.passwordConfirm = "Password must match";
 
       if (errors.password || errors.passwordConfirm) {
         this.setState({ errors });
@@ -125,23 +126,27 @@ class Register extends Component {
 
   formatDOB(date) {
     let d = new Date(date);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
+    let month = "" + (d.getMonth() + 1);
+    let day = "" + d.getDate();
     let year = d.getFullYear();
 
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
 
-    return [year, month, day].join('-');
+    return [year, month, day].join("-");
   }
-  
+
   render() {
     const { anonymousUserAuthenticated, user } = this.props.auth;
     const { errors, flagged } = this.state;
 
     // if anouymous user registered, display their email and name
     if (anonymousUserAuthenticated && !flagged) {
-      this.setState({ first_name: user.first_name, email: user.email, flagged: true });
+      this.setState({
+        first_name: user.first_name,
+        email: user.email,
+        flagged: true
+      });
     }
 
     return (
@@ -163,12 +168,23 @@ class Register extends Component {
                         id="first_name"
                         name="first_name"
                         value={this.state.first_name}
-                        onChange={(event) => this.onChange(event)}
+                        onChange={event => this.onChange(event)}
                         className="validate"
                         required
                       />
-                      { errors.first_name ? <span className="helper-text error"> { errors.first_name } </span> : null}
-                      <label className={this.state.first_name ? "active" : null} id="nameLabel" htmlFor="first_name">First Name</label>
+                      {errors.first_name ? (
+                        <span className="helper-text error">
+                          {" "}
+                          {errors.first_name}{" "}
+                        </span>
+                      ) : null}
+                      <label
+                        className={this.state.first_name ? "active" : null}
+                        id="nameLabel"
+                        htmlFor="first_name"
+                      >
+                        First Name
+                      </label>
                     </div>
 
                     <div className="input-field col s6">
@@ -177,11 +193,16 @@ class Register extends Component {
                         id="last_name"
                         name="last_name"
                         value={this.state.last_name}
-                        onChange={(event) => this.onChange(event)}
+                        onChange={event => this.onChange(event)}
                         className="validate"
                         required
                       />
-                      { errors.last_name ? <span className="helper-text error"> { errors.last_name } </span> : null}
+                      {errors.last_name ? (
+                        <span className="helper-text error">
+                          {" "}
+                          {errors.last_name}{" "}
+                        </span>
+                      ) : null}
                       <label htmlFor="last_name">Last Name</label>
                     </div>
                   </div>
@@ -192,12 +213,27 @@ class Register extends Component {
                       id="email"
                       name="email"
                       value={this.state.email}
-                      onChange={ anonymousUserAuthenticated ? null : (event) => this.onChange(event)}
+                      onChange={
+                        anonymousUserAuthenticated
+                          ? null
+                          : event => this.onChange(event)
+                      }
                       className="validate"
                       required
-                      />
-                      { errors.email ? <span className="helper-text error"> { errors.email } </span> : null}
-                    <label className={this.state.email ? "active" : null} id="emailLabel" htmlFor="email">Email</label>
+                    />
+                    {errors.email ? (
+                      <span className="helper-text error">
+                        {" "}
+                        {errors.email}{" "}
+                      </span>
+                    ) : null}
+                    <label
+                      className={this.state.email ? "active" : null}
+                      id="emailLabel"
+                      htmlFor="email"
+                    >
+                      Email
+                    </label>
                   </div>
 
                   <div className="col-2">
@@ -207,11 +243,16 @@ class Register extends Component {
                         id="mobile_number"
                         name="mobile_number"
                         value={this.state.mobile_number}
-                        onChange={(event) => this.onChange(event)}
+                        onChange={event => this.onChange(event)}
                         className="validate"
                         required
                       />
-                      { errors.mobile_number ? <span className="helper-text error"> { errors.mobile_number } </span> : null}
+                      {errors.mobile_number ? (
+                        <span className="helper-text error">
+                          {" "}
+                          {errors.mobile_number}{" "}
+                        </span>
+                      ) : null}
                       <label htmlFor="mobile">Mobile</label>
                     </div>
 
@@ -221,12 +262,19 @@ class Register extends Component {
                         id="date_of_birth"
                         name="date_of_birth"
                         value={this.state.date_of_birth}
-                        onChange={(event) => this.onChange(event)}
+                        onChange={event => this.onChange(event)}
                         className="validate"
                         required
                       />
-                      { errors.date_of_birth ? <span className="helper-text error"> { errors.date_of_birth } </span> : null}
-                      <label className="active" htmlFor="dob">Date of Birth</label>
+                      {errors.date_of_birth ? (
+                        <span className="helper-text error">
+                          {" "}
+                          {errors.date_of_birth}{" "}
+                        </span>
+                      ) : null}
+                      <label className="active" htmlFor="dob">
+                        Date of Birth
+                      </label>
                     </div>
                   </div>
 
@@ -236,10 +284,15 @@ class Register extends Component {
                       id="password"
                       name="password"
                       value={this.state.password}
-                      onChange={(event) => this.onChange(event)}
+                      onChange={event => this.onChange(event)}
                       className="validate"
                     />
-                    { errors.password ? <span className="helper-text error"> { errors.password } </span> : null}
+                    {errors.password ? (
+                      <span className="helper-text error">
+                        {" "}
+                        {errors.password}{" "}
+                      </span>
+                    ) : null}
                     <label htmlFor="password">Password</label>
                   </div>
 
@@ -249,18 +302,27 @@ class Register extends Component {
                       id="passwordConfirm"
                       name="passwordConfirm"
                       value={this.state.passwordConfirm}
-                      onChange={(event) => this.onChange(event)}
+                      onChange={event => this.onChange(event)}
                       className="validate"
                     />
-                    { errors.passwordConfirm ? <span className="helper-text error"> { errors.passwordConfirm } </span> : null}
+                    {errors.passwordConfirm ? (
+                      <span className="helper-text error">
+                        {" "}
+                        {errors.passwordConfirm}{" "}
+                      </span>
+                    ) : null}
                     <label htmlFor="password_confirm">Confirm Password</label>
                   </div>
 
                   <div className="input-field col s12">
                     <label>
-                      <input type="checkbox" className="filled-in checkbox-red" onChange={event =>
+                      <input
+                        type="checkbox"
+                        className="filled-in checkbox-red"
+                        onChange={event =>
                           this.setState({ is_admin: !this.state.is_admin })
-                        }/>
+                        }
+                      />
                       <span>Admin</span>
                     </label>
                   </div>
@@ -289,4 +351,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerUser, registerAnonymousUser, clearErrors })(withRouter(Register));
+export default connect(
+  mapStateToProps,
+  { registerUser, registerAnonymousUser, clearErrors }
+)(withRouter(Register));

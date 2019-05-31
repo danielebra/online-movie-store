@@ -13,9 +13,8 @@ class UpdateMovie extends Component {
       movieList: [],
       isEditing: [],
       search: '',
-      genreName: '',
-      selectedGenreId: '',
-      selectedGenreName: ''
+      genre: '',
+      movie: ''
     };
   }
 
@@ -47,6 +46,11 @@ class UpdateMovie extends Component {
     this.props.getMovies();
   }
 
+  componentDidMount() {
+    var elems = document.querySelectorAll('.modal');
+     M.Modal.init(elems, {});
+  }
+
   search = event => {
     event.preventDefault();
     this.setState({ search: event.target.value }, () => {
@@ -56,20 +60,24 @@ class UpdateMovie extends Component {
     });
   }
 
-  setGenre(movieId, genreId) {
-    console.log(genreId);
-    editGenre(movieId, genreId);
+  setGenre(genre) {
+    if (this.state.movie) {
+      this.props.editGenre(this.state.movie.id, genre.id);
+      this.setState({ movie: '', genre: ''});
+    }
+
+    var elem = document.querySelector('.modal');
+    var instance = M.Modal.getInstance(elem);
+    instance.close();
   }
 
   //Saves changes to the database and closes editing mode
   editMovie(movie) {
     this.props.editMovie(movie);
+
     if (!this.state.errors) {
       this.closeEditingMode();
     }
-    var elems = document.querySelectorAll('.dropdown-trigger');
-    M.Dropdown.init(elems, {});
-    console.log(elems)
   }
   //Deletes movie from database and refreshes state
   deleteMovie(movie) {
@@ -93,11 +101,7 @@ class UpdateMovie extends Component {
     // we create a new array so that there wont be more than one user on editing mode at the same time
     let arr = new Array(listLength).fill(false);
     arr[index] = true;
-    console.log("fufkhlasdasdf")
 
-    var elems = document.querySelectorAll('.dropdown-trigger');
-    M.Dropdown.init(elems, {});
-    console.log(elems)
     this.state.isEditing = arr;
     this.forceUpdate()
   }
@@ -111,7 +115,10 @@ class UpdateMovie extends Component {
   }
 
   render() {
-    const { movieList, isEditing, genres } = this.state;
+    const { movieList, isEditing } = this.state;
+    const { genres } = this.props.movies;
+
+    console.log(this.state.genre.name);
 
     if (movieList != null) {
       return (
@@ -138,14 +145,19 @@ class UpdateMovie extends Component {
                   </nav>
                 </div>
               </div>
-              <a className='dropdown-trigger btn' href='#' data-target='dropdown1'> {
-                                 "temp"} </a>
-                                <ul id="dropdown1" className='dropdown-content'> 
-                                  
-                                    <li>one</li>
-                                  
-                                </ul>
-                                
+
+              <div id="modal-add-user" class="modal update-genre-modal">
+                <div class="modal-content">
+                    <a href="#!" class="modal-action modal-close">
+                        <i class="material-icons right modal-close-red">close</i>
+                    </a>
+                    <h3 className="modal-title update-genre-title ">Update genre</h3>
+                    <div className="collection">
+                      { this.state.movie ? genres.map((genre, index) => <a key={index} onClick={() => this.setGenre(genre)} href="#!" className={this.state.movie.genre[0] === genre.name ? "collection-item active" : "collection-item"}>{genre.name}</a>) : null}
+                    </div>
+                </div>
+              </div>         
+
               <h3> Movie Details</h3>
               <form className="col 10" onSubmit={this.onSubmit}>
                 <table className="table bordered highlight centered responsive-table management-table">
@@ -202,17 +214,7 @@ class UpdateMovie extends Component {
                               </div>
                             </td>
                             <td>
-                              <div>
-                              <a className='dropdown-trigger btn' href='#' data-target='dropdown1'> {
-                                  movie.genre.length == 0 ? 'Select' : movie.genre} </a>
-                                <ul id="dropdown1" className='dropdown-content'> 
-                                  {
-                                    genres.map((genre, index) => {
-                                      return <li key={index} onClick={() => this.setGenre(movie.id, genre.id)}><a href="#!">{genre.name}</a></li>
-                                    })
-                                  }
-                                </ul>
-                              </div>
+                              <a onClick={() => this.setState({ movie })} className="btn-large modal-trigger update-genre-btn" data-position="left" data-tooltip="Add a user" href="#modal-add-user">{movie.genre}</a>
                             </td>
                             <td>
                               <div className="input-field">
