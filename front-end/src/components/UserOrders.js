@@ -152,4 +152,4 @@ const mapStateToProps = state => ({
 });
 
 // Connect actions to use within react and export component
-export default connect(mapStateToProps, { getOrders,getMovieById, deleteOrder })(withRouter(UserOrders));
+export default connect(mapStateToProps, { getOrders,getMovieById, deleteOrder})(withRouter(UserOrders));
