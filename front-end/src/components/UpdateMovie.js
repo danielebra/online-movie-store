@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import { getMovies, searchMovies, editMovie, deleteMovie } from '../actions/movieActions';
+import { getMovies, searchMovies, editGenre, editMovie, deleteMovie } from '../actions/movieActions';
 import Loading from '../components/Templates/loading';
 import M from "materialize-css";
 
@@ -30,10 +30,9 @@ class UpdateMovie extends Component {
     });
   }
 
-  setGenre(genreName, genreId) {
-    console.log(genreName);
-    this.setState({ selectedGenreName: genreName, selectedGenreId: genreId })
-    
+  setGenre(movieId, genreId) {
+    console.log(genreId);
+    editGenre(movieId, genreId);
   }
 
   //Saves changes to the database and closes editing mode
@@ -180,12 +179,12 @@ class UpdateMovie extends Component {
                             </td>
                             <td>
                               <div>
-                                <a className='dropdown-trigger btn' href='#' data-target='dropdown1'> {
+                              <a className='dropdown-trigger btn' href='#' data-target='dropdown1'> {
                                   movie.genre.length == 0 ? 'Select' : movie.genre} </a>
-                                <ul id="dropdown1" className='dropdown-content'>
+                                <ul id="dropdown1" className='dropdown-content'> 
                                   {
-                                    genres.map((genre) => {
-                                      return <li onClick={() => this.setGenre(genre.name, genre.id)}><a href="#!">{genre.name}</a></li>
+                                    genres.map((genre, index) => {
+                                      return <li onClick={() => console.log("aaa")/*this.setGenre(movie.id, genre.id)*/}><a href="#!">{genre.name}</a></li>
                                     })
                                   }
                                 </ul>
@@ -364,4 +363,4 @@ const mapStateToProps = state => ({
   movies: state.movies
 });
 
-export default connect(mapStateToProps, { getMovies, searchMovies, editMovie, deleteMovie })(UpdateMovie);
+export default connect(mapStateToProps, { getMovies, searchMovies, editGenre, editMovie, deleteMovie })(UpdateMovie);

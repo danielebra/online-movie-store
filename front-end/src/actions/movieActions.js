@@ -69,11 +69,19 @@ export const addGenre = (genreName) => dispatch => {
 
 export const editGenre = (movieId, genreId) => dispatch => {
     let data = {
-        movie_id: movieId,
-        genre_id: genreId
+        movie: movieId,
+        genre: genreId
     }
-    api.patch(`movie/${movieId}/genres/`, data).then(res =>{
-        console.log(res.data, " genre added.");
+    api.get(`movie/${movieId}/genres/`)
+        .then(res =>{
+        console.log(res.data.id, " genre id grabbed.");
+        
+        api.patch(`movie-genre/ ${res.data.id}/`, data)(res => {
+            console.log(res.data.id);
+        })
+        .catch(error => {
+            console.log(error.response.data);
+        })
     })
     .catch(error => {
         console.log(error.response.data);
@@ -82,7 +90,8 @@ export const editGenre = (movieId, genreId) => dispatch => {
 }
 export const addReview = (movieId, review) => dispatch => {
 
-    api.post('review/', review).then(res => {
+    api.post('review/', review)
+        .then(res => {
         console.log(res.data);
 
         let reviewObject = res.data;
@@ -167,11 +176,10 @@ export const addMovie = (movieDetails, genreId, history) => dispatch => {
 };
 
 export const editMovie = updatedData => dispatch => {
-    api
-        .patch(`movie/${updatedData.id}/change/`, updatedData)
+    api.patch(`movie/${updatedData.id}/change/`, updatedData)
         .then(res => {
             dispatch(getMovies());
-            console.log(res.data + " has been edited.");
+            console.log(res.data);
         })
         .catch(error => {
 
@@ -189,7 +197,7 @@ export const deleteMovie = movie => dispatch => {
         .delete(`movie/${movie.id}/delete/`)
         .then(res => {
             dispatch(getMovies());
-            console.log(res.data + " has been deleted.");
+            console.log(res.data);
         })
         .catch(err => {
             console.log(err.response.data);
