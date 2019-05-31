@@ -3,7 +3,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
-import { loginUser, superLoginForDevelopment, clearFeedback, clearErrors } from "../../actions/authActions";
+import {
+  loginUser,
+  superLoginForDevelopment,
+  clearFeedback,
+  clearErrors
+} from "../../actions/authActions";
 import bg from "../../images/bg2.jpg";
 import isEmpty from "../../isEmpty";
 
@@ -12,9 +17,10 @@ class Login extends Component {
   constructor() {
     super();
 
+    // Local storage
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       errors: {}
     };
   }
@@ -29,22 +35,21 @@ class Login extends Component {
     this.props.clearFeedback();
     this.props.clearErrors();
   }
- 
-  componentDidMount() {
 
+  componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-        this.props.history.push('/');
+      this.props.history.push("/");
     }
 
     if (!isEmpty(this.state.email)) {
-      document.getElementById('emailLabel').className = "active";
+      document.getElementById("emailLabel").className = "active";
     }
-}
+  }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.errors){
-      let errors = {}
-      errors['email'] = nextProps.errors['email'];
+    if (nextProps.errors) {
+      let errors = {};
+      errors["email"] = nextProps.errors["email"];
       this.setState({ errors });
     }
 
@@ -56,13 +61,12 @@ class Login extends Component {
   validation() {
     let errors = {};
 
-    if (isEmpty(this.state.email))
-      errors['email'] = 'You must enter an email'
+    if (isEmpty(this.state.email)) errors["email"] = "You must enter an email";
 
     if (isEmpty(this.state.password))
-      errors['password'] = 'You must enter a password'
+      errors["password"] = "You must enter a password";
 
-    if (errors['email'] || errors['password']) {
+    if (errors["email"] || errors["password"]) {
       this.setState({ errors });
       return false;
     }
@@ -72,14 +76,14 @@ class Login extends Component {
 
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
-  }
+  };
 
   onSubmit = event => {
     event.preventDefault();
 
-    this.setState({ errors: {}});
+    this.setState({ errors: {} });
 
-    if (!this.validation()){
+    if (!this.validation()) {
       return false;
     }
 
@@ -92,17 +96,19 @@ class Login extends Component {
   };
 
   render() {
-
     const { errors } = this.state;
     const { feedback } = this.props;
 
     return (
       <section className="auth">
-        <img className="backgroundImage" alt='bg' src={bg} />
+        <img className="backgroundImage" alt="bg" src={bg} />
         <div className="container box">
           <div className="row">
             <div className="col s12">
-            <span className="helper-text success"> { !isEmpty(feedback) ? feedback : null }</span>
+              <span className="helper-text success">
+                {" "}
+                {!isEmpty(feedback) ? feedback : null}
+              </span>
 
               <div className="">
                 <div className="heading">
@@ -120,8 +126,15 @@ class Login extends Component {
                       onChange={event => this.onChange(event)}
                       required
                     />
-                    { errors.email ? <span className="helper-text error"> { errors.email } </span> : null}
-                    <label id="emailLabel" htmlFor="email">Email</label>
+                    {errors.email ? (
+                      <span className="helper-text error">
+                        {" "}
+                        {errors.email}{" "}
+                      </span>
+                    ) : null}
+                    <label id="emailLabel" htmlFor="email">
+                      Email
+                    </label>
                   </div>
 
                   <div className="input-field col s12">
@@ -133,7 +146,12 @@ class Login extends Component {
                       onChange={event => this.onChange(event)}
                       className="validate"
                     />
-                    { errors.password ? <span className="helper-text error"> { errors.password } </span> : null}
+                    {errors.password ? (
+                      <span className="helper-text error">
+                        {" "}
+                        {errors.password}{" "}
+                      </span>
+                    ) : null}
                     <label htmlFor="password">Password</label>
                   </div>
 
@@ -159,7 +177,6 @@ class Login extends Component {
                       <span> Visit as Anonymous user </span>
                     </button>
                 </div> */}
-                  
               </div>
             </div>
           </div>
@@ -175,4 +192,7 @@ const mapStateToProps = state => ({
   feedback: state.feedback
 });
 
-export default connect(mapStateToProps, { loginUser, superLoginForDevelopment, clearFeedback, clearErrors })(withRouter(Login));
+export default connect(
+  mapStateToProps,
+  { loginUser, superLoginForDevelopment, clearFeedback, clearErrors }
+)(withRouter(Login));
