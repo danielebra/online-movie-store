@@ -24,14 +24,16 @@ class UserOrders extends Component{
     
     componentWillMount() {
         this.props.getOrders();
-        console.log('all orders', this.props.movies.orders)
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.movies.orders) {
-            const { orders } = nextProps.movies;
-            let isEditing = new Array(orders.length).fill(false);
+            let userId = JSON.parse(localStorage.user).id;
+            let orders = [];
 
+            orders = nextProps.movies.orders.filter(order => order.user === JSON.parse(localStorage.user).id)
+
+            let isEditing = new Array(orders.length).fill(false);
             this.setState({ orders, isEditing });
         }
     }
@@ -103,7 +105,6 @@ class UserOrders extends Component{
 
     return( orders.length > 0 ? orders.map((order, index) => {
         let orderDate = new Date(order.date).toLocaleString()
-        console.log(order);
         
      return (
          (
@@ -169,7 +170,7 @@ class UserOrders extends Component{
 
     render(){
         let { orders } = this.state;
-        console.log('state', this.state);
+
         return(
             <div className="center top-padding account-details">
                 <div className="container">

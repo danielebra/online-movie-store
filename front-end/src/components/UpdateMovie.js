@@ -11,7 +11,6 @@ class UpdateMovie extends Component {
     super(props)
     this.state = {
       movieList: [],
-      moviesCount: 0,
       isEditing: [],
       search: '',
       genreName: '',
@@ -146,6 +145,7 @@ class UpdateMovie extends Component {
                                     <li>one</li>
                                   
                                 </ul>
+                                
               <h3> Movie Details</h3>
               <form className="col 10" onSubmit={this.onSubmit}>
                 <table className="table bordered highlight centered responsive-table management-table">
@@ -171,18 +171,7 @@ class UpdateMovie extends Component {
                         isEditing[index] ? (
                           <tr>
                             <td>
-                              <div className="input-field">
-                                <input
-                                  type="text"
-                                  value={movie.id}
-                                  onChange={event => {
-                                    movieList[index].id = event.target.value;
-                                    this.forceUpdate();
-                                  }
-                                  }
-                                  className="white-text"
-                                />
-                              </div>
+                              {movie.id}
                             </td>
                             <td>
                               <div className="input-field">

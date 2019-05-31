@@ -541,20 +541,7 @@ class UserManagement extends Component {
                                                     })} */}
 
                                                         <td>
-                                                            <div className="input-field">
-                                                                <input 
-                                                                    type="text" 
-                                                                    value={user.id}
-                                                                    onChange={event => {
-                                                                            users[index].id = event.target.value;
-                                                                            this.forceUpdate();
-                                                                        }
-                                                                    } 
-                                                                    className="validate"
-                                                                    required
-                                                                    aria-required=""
-                                                                />
-                                                            </div>
+                                                            {user.id}
                                                         </td>
 
                                                         <td>

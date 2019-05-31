@@ -213,17 +213,13 @@ export const deleteMovie = movie => dispatch => {
 }
 
 export const getOrders = () => dispatch => {
-    console.log("inside getOrders");
     dispatch(setLoading());
 
-    api.get(`user/${JSON.parse(localStorage.user).id}/orders`).then(res => {
-        console.log("isndie order request");
-
+    api.get(`/order/`).then(res => {
         dispatch({
             type: GET_ORDER,
             payload: res.data
         })
-        console.log(res.data)
     })
 };
 
