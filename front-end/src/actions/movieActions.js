@@ -72,13 +72,15 @@ export const editGenre = (movieId, genreId) => dispatch => {
         movie: movieId,
         genre: genreId
     }
+
     api.get(`movie/${movieId}/genres/`)
         .then(res =>{
-        console.log(res.data.id, " genre id grabbed.");
         
-        api.patch(`movie-genre/ ${res.data.id}/`, data)(res => {
-            console.log(res.data.id);
+        api.patch(`movie_genre/${res.data[0].id}/`, data).then(res => {
+            console.log('success', res.data);
+            dispatch(getMovies());
         })
+        
         .catch(error => {
             console.log(error.response.data);
         })

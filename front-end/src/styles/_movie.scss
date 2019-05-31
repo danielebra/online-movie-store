@@ -24,6 +24,21 @@
     -webkit-overflow-scrolling: touch;  
 }
 
+.update-genre-modal{
+    width: 30% !important;
+    background-color: black !important;
+}
+
+.update-genre-title {
+    color: white !important;
+}
+
+.update-genre-btn {
+    font-size: 15px;
+    background-color: #3c3837 !important;
+    padding: 0;
+}
+
 .categoryRow {  
     padding: 5px;    
     overflow: hidden;
