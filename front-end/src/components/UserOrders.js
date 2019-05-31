@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
-import { getOrders, getMovieById, deleteOrder} from '../actions/movieActions';
+import { getOrders, getMovieById, deleteOrder, updateOrder} from '../actions/movieActions';
 import api from '../api';
 import DatePicker from 'react-datepicker';
 
@@ -16,7 +16,9 @@ class UserOrders extends Component{
     constructor() {
         super();
         this.state={
-            searchDate: new Date()
+            searchDate: new Date(),
+            isEditing: false,
+            updatedQuantity: 0
         }; 
     }
     
@@ -55,6 +57,19 @@ class UserOrders extends Component{
    filtering=(orders, filterDate)=>{
        return orders.filter(order => this.reformatDate(new Date(order.date.toLocaleString())) === this.reformatDate(filterDate))
    }
+   refreshEditing = (order) =>{
+       if (this.state.isEditing === false){
+        this.setState({isEditing: true})
+        
+       }else{
+           order.quantity = this.state.updatedQuantity
+           this.props.updateOrder(order)
+           this.setState({isEditing: false})
+           
+       }
+       
+   }
+   
 
    orderTable=(orders)=>{
     if(this.isFilter()) {
@@ -62,6 +77,7 @@ class UserOrders extends Component{
     }
     return( orders.length > 0 ? orders.map((order, index) => {
         let orderDate = new Date(order.date).toLocaleString()
+        console.log(order.quantity)
      return (
          (
             <tr>
@@ -77,14 +93,25 @@ class UserOrders extends Component{
                 </td>
 
                 <td>
-                    {order.quantity}
+                <input
+                                                    type="text"
+                                                    value = {order.quantity}
+                                                    onChange={event => {
+                                                        this.setState({updatedQuantity: event.target.value})
+                                                    }
+                                                    } 
+                                                    required
+                                                    className="white-text"
+                                                    aria-required=""
+                                                    disabled = {(this.state.isEditing)? "" : "disabled"}
+                                                />
                 </td>
                 <td>
                     {order.total_cost}
                 </td>
                 <td>
                     <td>
-                        <i  className="material-icons pointer">edit</i>
+                        <i  onclick = {() => this.refreshEditing(order)} className="material-icons pointer">{(this.state.isEditing)? "save":"edit"}</i>
                     </td>
                     <td>
                     <i onClick= {() => this.handleDelete(order)} className="material-icons pointer">delete</i>
@@ -100,6 +127,7 @@ class UserOrders extends Component{
         let { orders } = this.props.movies;
         let orderList = "";
         console.log(this.props.movies);
+        console.log(this.state.isEditing);
 
         return(
             <div className="center top-padding account-details">
@@ -152,4 +180,7 @@ const mapStateToProps = state => ({
 });
 
 // Connect actions to use within react and export component
-export default connect(mapStateToProps, { getOrders,getMovieById, deleteOrder})(withRouter(UserOrders));
+
+
+export default connect(mapStateToProps, { getOrders,getMovieById, deleteOrder, updateOrder})(withRouter(UserOrders));
+

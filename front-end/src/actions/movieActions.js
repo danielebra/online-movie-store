@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE,SEARCH_MOVIES_ADMIN, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ERRORS, GET_FEEDBACK, GET_ORDER, DELETE_ORDER } from './types';
+import { GET_MOVIES, GET_MOVIE,SEARCH_MOVIES_ADMIN, MOVIES_LOADING, ADD_REVIEW, NO_MOVIES_FOUND, SEARCH_MOVIES, CLEAR_SEARCH_LIST, ADD_MOVIE, FAVOURITE_MOVIE, UNFAVOURITE_MOVIE, GET_ERRORS, GET_FEEDBACK, GET_ORDER, DELETE_ORDER,UPDATE_ORDER } from './types';
 import api from "../api";
 
 // Will call this from the view later
@@ -254,6 +254,26 @@ export const deleteOrder = order => dispatch => {
                 type: GET_ERRORS,
                 payload: err.response.data
             }))
+}
+export const updateOrder = newOrder => dispatch => {
+    api
+    .patch(`order/${newOrder.id}/`, newOrder)
+    .then(res => {
+        dispatch({
+            type: UPDATE_ORDER,
+            payload: newOrder
+        })
+    } )
+    .catch(err => {
+        dispatch(
+            {
+                type: GET_ERRORS,
+                payload: err.response.data
+            }
+        )
+    }
+
+    )
 }
 
 
