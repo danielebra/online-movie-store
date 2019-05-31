@@ -160,7 +160,6 @@ class UserOrders extends Component{
                             </td>
                         </Fragment>
                     )}
-                    
                 </td>
             </tr>
         ))
