@@ -35,6 +35,8 @@ class UserOrders extends Component{
         this.props.deleteOrder(order)
     }
 
+    
+
     reformatDate=(date)=>{
         let year = date.getFullYear()
         let month = '' + (date.getMonth() + 1);
@@ -95,7 +97,13 @@ class UserOrders extends Component{
     }) : (<div className="center">No orders</div>)
     )
 }
-
+deleteOrder(order) {
+    if (window.confirm("Are you sure you want to delete this order?")) {
+        this.props.deleteOrder(order);
+        
+        console.Order(this.state)
+    }
+}
     render(){
         let { orders } = this.props.movies;
         let orderList = "";
